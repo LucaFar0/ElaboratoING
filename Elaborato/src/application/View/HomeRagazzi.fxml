@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="860.0" prefWidth="1263.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TabPane layoutY="-1.0" mouseTransparent="true" prefHeight="860.0" prefWidth="1264.0" rotateGraphic="true" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab text="Offerta Vacanze">
+               <content>
+                  <AnchorPane prefHeight="739.0" prefWidth="1382.0">
+                     <children>
+                        <HBox layoutX="-1.0" layoutY="1.0" prefHeight="52.0" prefWidth="1263.0" AnchorPane.bottomAnchor="778.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label prefHeight="35.0" prefWidth="134.0" text="Vanze dispinibili" />
+                              <ChoiceBox prefHeight="48.0" prefWidth="1129.0" />
+                           </children>
+                        </HBox>
+                        <ScrollPane hbarPolicy="NEVER" layoutX="1.0" layoutY="51.0" prefHeight="778.0" prefWidth="1263.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="780.0" prefWidth="1263.0" />
+                          </content>
+                        </ScrollPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Vacanze passate">
+               <content>
+                  <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0">
+                     <content>
+                        <AnchorPane prefHeight="837.0" prefWidth="1269.0" />
+                     </content>
+                  </ScrollPane>
+               </content></Tab>
+            <Tab text="Profilo">
+               <content>
+                  <Pane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <VBox layoutX="14.0" layoutY="14.0" prefHeight="276.0" prefWidth="185.0" spacing="20.0">
+                           <children>
+                              <Label text="Nome">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label prefHeight="17.0" prefWidth="65.0" text="Cognome">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Label>
+                              <Label prefHeight="17.0" prefWidth="110.0" text="Codice Fiscale" />
+                              <Label prefHeight="17.0" prefWidth="110.0" text="Data di Nascita" />
+                              <Label prefHeight="17.0" prefWidth="110.0" text="E-mail" />
+                              <Label prefHeight="17.0" prefWidth="110.0" text="nr. telefono" />
+                              <Label prefHeight="17.0" prefWidth="110.0" text="indirizzo" />
+                           </children>
+                        </VBox>
+                        <VBox layoutX="199.0" layoutY="14.0" prefHeight="267.0" prefWidth="188.0" spacing="12.0">
+                           <children>
+                              <TextField fx:id="textNomeProf" editable="false">
+                                 <VBox.margin>
+                                    <Insets top="8.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <TextField fx:id="textCognomeProf" editable="false">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </TextField>
+                              <TextField fx:id="textCFProf" editable="false" />
+                              <TextField fx:id="textDdNProf" editable="false" />
+                              <TextField fx:id="textEmailProf" editable="false" />
+                              <TextField fx:id="textNrTelProf" editable="false" />
+                              <TextField fx:id="textIndirizzoProf" editable="false" />
+                           </children>
+                        </VBox>
+                        <VBox layoutX="387.0" layoutY="14.0" prefHeight="275.0" prefWidth="142.0" spacing="12.0">
+                           <children>
+                              <Button fx:id="buttModNome" mnemonicParsing="false" onAction="#modificaNome" text="Modifica">
+                                 <VBox.margin>
+                                    <Insets top="8.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button fx:id="buttModCognome" mnemonicParsing="false" onAction="#modificaCognome" text="Modifica" />
+                              <Button fx:id="buttModCF" mnemonicParsing="false" onAction="#modificaCF" text="Modifica" />
+                              <Button fx:id="buttModDdN" mnemonicParsing="false" onAction="#modificaDdN" text="Modifica" />
+                              <Button fx:id="buttModEmail" mnemonicParsing="false" onAction="#modificaEmail" text="Modifica" />
+                              <Button fx:id="buttModNrTel" mnemonicParsing="false" onAction="#modificaNrTel" text="Modifica" />
+                              <Button fx:id="buttModIndirizzo" mnemonicParsing="false" onAction="#modificaIndirizzo" text="Modifica" />
+                              <Button fx:id="buttSave" mnemonicParsing="false" onAction="#salvaModifiche" text="Salva modifiche" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </Pane>
+               </content></Tab>
+        </tabs>
+         <effect>
+            <DropShadow />
+         </effect>
+      </TabPane>
+   </children>
+</AnchorPane>

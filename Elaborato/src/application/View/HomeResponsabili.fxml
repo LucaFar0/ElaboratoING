@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="860.0" prefWidth="1263.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TabPane layoutX="213.0" layoutY="28.0" prefHeight="832.0" prefWidth="1049.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab text="Inserimento nuova vacanza">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane prefHeight="832.0" prefWidth="1263.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TitledPane animated="false" layoutX="14.0" layoutY="16.0" prefHeight="306.0" prefWidth="459.0" text="Vacanza">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="268.0" prefWidth="507.0">
+                                       <children>
+                                          <VBox layoutY="8.0" prefHeight="195.0" prefWidth="185.0" spacing="20.0">
+                                             <children>
+                                                <Label text="Codice">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label prefHeight="17.0" prefWidth="65.0" text="Città">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label prefHeight="17.0" prefWidth="110.0" text="Data di Partenza" />
+                                                <Label prefHeight="17.0" prefWidth="110.0" text="Durata" />
+                                                <Label prefHeight="17.0" prefWidth="110.0" text="Lingua studiata" />
+                                             </children>
+                                          </VBox>
+                                          <VBox layoutX="185.0" layoutY="8.0" prefHeight="212.0" prefWidth="188.0" spacing="12.0">
+                                             <children>
+                                                <TextField fx:id="textNomeProf" editable="false">
+                                                   <VBox.margin>
+                                                      <Insets top="8.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="textCognomeProf" editable="false">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <DatePicker prefHeight="25.0" prefWidth="200.0" />
+                                                <TextField fx:id="textDdNProf" editable="false" />
+                                                <TextField fx:id="textEmailProf" editable="false" />
+                                             </children>
+                                          </VBox>
+                                          <Button layoutX="401.0" layoutY="241.0" mnemonicParsing="false" text="Salva" />
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </TitledPane>
+                              <TitledPane animated="false" layoutX="632.0" layoutY="14.0" prefHeight="311.0" prefWidth="510.0" text="Gita">
+                                 <content>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                       <children>
+                                          <VBox layoutX="185.0" layoutY="14.0" prefHeight="212.0" prefWidth="188.0" spacing="12.0">
+                                             <children>
+                                                <TextField fx:id="textNomeProf1" editable="false">
+                                                   <VBox.margin>
+                                                      <Insets top="8.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="textCognomeProf1" editable="false">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="textDdNProf1" editable="false" />
+                                                <TextField fx:id="textEmailProf1" editable="false" />
+                                                <TextField fx:id="textCognomeProf11" editable="false" />
+                                             </children>
+                                          </VBox>
+                                          <VBox layoutY="14.0" prefHeight="195.0" prefWidth="185.0" spacing="20.0">
+                                             <children>
+                                                <Label text="Codice vacanza">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label prefHeight="17.0" prefWidth="105.0" text="Destinazione">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label prefHeight="17.0" prefWidth="110.0" text="costo" />
+                                                <Label prefHeight="17.0" prefWidth="110.0" text="Durata(numero ore)" />
+                                                <Label prefHeight="17.0" prefWidth="110.0" text="Descrizione" />
+                                             </children>
+                                          </VBox>
+                                          <Button layoutX="417.0" layoutY="238.0" mnemonicParsing="false" text="Salva" />
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </TitledPane>
+                              <TitledPane animated="false" layoutX="14.0" layoutY="337.0" prefHeight="180.0" prefWidth="508.0" text="College">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="368.0" prefWidth="495.0">
+                                       <children>
+                                          <VBox layoutX="185.0" layoutY="14.0" prefHeight="116.0" prefWidth="189.0" spacing="12.0">
+                                             <children>
+                                                <TextField fx:id="textNomeProf2" editable="false">
+                                                   <VBox.margin>
+                                                      <Insets top="8.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="textCognomeProf2" editable="false">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="textDdNProf2" editable="false" />
+                                             </children>
+                                          </VBox>
+                                          <VBox layoutY="14.0" prefHeight="126.0" prefWidth="157.0" spacing="20.0">
+                                             <children>
+                                                <Label text="Codice vacanza">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label prefHeight="17.0" prefWidth="112.0" text="Nome college">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label prefHeight="17.0" prefWidth="110.0" text="Indirizzo" />
+                                             </children>
+                                          </VBox>
+                                          <Button layoutX="401.0" layoutY="118.0" mnemonicParsing="false" text="Salva" />
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </TitledPane>
+                              <TitledPane animated="false" layoutX="14.0" layoutY="539.0" prefHeight="206.0" prefWidth="508.0" text="Attività College">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="483.0">
+                                       <children>
+                                          <VBox layoutY="14.0" prefHeight="126.0" prefWidth="157.0" spacing="20.0">
+                                             <children>
+                                                <Label text="Codice vacanza">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label prefHeight="17.0" prefWidth="112.0" text="Nome college">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label prefHeight="17.0" prefWidth="110.0" text="Nome" />
+                                                <Label prefHeight="17.0" prefWidth="110.0" text="Descrizione" />
+                                             </children>
+                                          </VBox>
+                                          <VBox layoutX="185.0" layoutY="14.0" prefHeight="116.0" prefWidth="189.0" spacing="12.0">
+                                             <children>
+                                                <TextField fx:id="textNomeProf21" editable="false">
+                                                   <VBox.margin>
+                                                      <Insets top="8.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="textCognomeProf21" editable="false">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="textDdNProf21" editable="false" />
+                                                <TextField fx:id="textDdNProf211" editable="false" />
+                                             </children>
+                                          </VBox>
+                                          <Button layoutX="403.0" layoutY="146.0" mnemonicParsing="false" text="Salva" />
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </TitledPane>
+                              <TitledPane animated="false" layoutX="632.0" layoutY="337.0" prefHeight="492.0" prefWidth="511.0" text="Famiglia">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="452.0" prefWidth="509.0">
+                                       <children>
+                                          <VBox layoutX="199.0" layoutY="14.0" prefHeight="191.0" prefWidth="188.0" spacing="12.0">
+                                             <children>
+                                                <TextField fx:id="textNomeProf3" editable="false">
+                                                   <VBox.margin>
+                                                      <Insets top="8.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="textCognomeProf3" editable="false">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="textCFProf" editable="false" />
+                                                <DatePicker prefHeight="25.0" prefWidth="195.0" />
+                                                <TextField fx:id="textEmailProf2" editable="false" />
+                                             </children>
+                                          </VBox>
+                                          <VBox layoutX="14.0" layoutY="14.0" prefHeight="189.0" prefWidth="185.0" spacing="20.0">
+                                             <children>
+                                                <Label text="Nome">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label prefHeight="17.0" prefWidth="65.0" text="Cognome">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label prefHeight="17.0" prefWidth="110.0" text="Codice Fiscale" />
+                                                <Label prefHeight="17.0" prefWidth="110.0" text="Data di Nascita" />
+                                                <Label prefHeight="17.0" prefWidth="110.0" text="E-mail" />
+                                             </children>
+                                          </VBox>
+                                          <VBox layoutX="12.0" layoutY="219.0" prefHeight="218.0" prefWidth="157.0" spacing="20.0">
+                                             <children>
+                                                <Label text="Codice vacanza">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label prefHeight="17.0" prefWidth="112.0" text="nr componenti">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label prefHeight="17.0" prefWidth="110.0" text="animali" />
+                                                <Label prefHeight="17.0" prefWidth="110.0" text="nr camere" />
+                                                <Label prefHeight="17.0" prefWidth="110.0" text="nr bagni" />
+                                                <Label prefHeight="17.0" prefWidth="110.0" text="distanza dal centro" />
+                                             </children>
+                                          </VBox>
+                                          <VBox layoutX="197.0" layoutY="219.0" prefHeight="116.0" prefWidth="189.0" spacing="12.0">
+                                             <children>
+                                                <TextField fx:id="textNomeProf22" editable="false">
+                                                   <VBox.margin>
+                                                      <Insets top="8.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="textCognomeProf22" editable="false">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <CheckBox mnemonicParsing="false" />
+                                                <TextField fx:id="textCognomeProf221" editable="false" />
+                                                <TextField fx:id="textCognomeProf222" editable="false" />
+                                                <TextField fx:id="textCognomeProf223" editable="false" />
+                                             </children>
+                                          </VBox>
+                                          <Button layoutX="421.0" layoutY="425.0" mnemonicParsing="false" text="Salva" />
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </TitledPane>
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Vacanze ">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
