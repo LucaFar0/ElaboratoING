@@ -39,22 +39,22 @@
                                           </VBox>
                                           <VBox layoutX="185.0" layoutY="8.0" prefHeight="212.0" prefWidth="188.0" spacing="12.0">
                                              <children>
-                                                <TextField fx:id="textNomeProf" editable="false">
+                                                <TextField fx:id="textCodiceVacanza" editable="false">
                                                    <VBox.margin>
                                                       <Insets top="8.0" />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="textCognomeProf" editable="false">
+                                                <TextField fx:id="textCittaVacanza" editable="false">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <DatePicker prefHeight="25.0" prefWidth="200.0" />
-                                                <TextField fx:id="textDdNProf" editable="false" />
-                                                <TextField fx:id="textEmailProf" editable="false" />
+                                                <DatePicker fx:id="dateDataVacanza" prefHeight="25.0" prefWidth="200.0" />
+                                                <TextField fx:id="textDurataVacanza" editable="false" />
+                                                <TextField fx:id="textLinguaVacanza" editable="false" />
                                              </children>
                                           </VBox>
-                                          <Button layoutX="401.0" layoutY="241.0" mnemonicParsing="false" text="Salva" />
+                                          <Button fx:id="buttSalvaVacanza" layoutX="401.0" layoutY="241.0" mnemonicParsing="false" onAction="#salvaVacanza" text="Salva" />
                                        </children>
                                     </AnchorPane>
                                 </content>
@@ -65,19 +65,19 @@
                                        <children>
                                           <VBox layoutX="185.0" layoutY="14.0" prefHeight="212.0" prefWidth="188.0" spacing="12.0">
                                              <children>
-                                                <TextField fx:id="textNomeProf1" editable="false">
+                                                <TextField fx:id="textCodiceVacanzaGita" editable="false">
                                                    <VBox.margin>
                                                       <Insets top="8.0" />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="textCognomeProf1" editable="false">
+                                                <TextField fx:id="textDestinazioneGita" editable="false">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="textDdNProf1" editable="false" />
-                                                <TextField fx:id="textEmailProf1" editable="false" />
-                                                <TextField fx:id="textCognomeProf11" editable="false" />
+                                                <TextField fx:id="textCostoGita" editable="false" />
+                                                <TextField fx:id="textDurataGita" editable="false" />
+                                                <TextField fx:id="textDescrizioneGita" editable="false" />
                                              </children>
                                           </VBox>
                                           <VBox layoutY="14.0" prefHeight="195.0" prefWidth="185.0" spacing="20.0">
@@ -97,7 +97,7 @@
                                                 <Label prefHeight="17.0" prefWidth="110.0" text="Descrizione" />
                                              </children>
                                           </VBox>
-                                          <Button layoutX="417.0" layoutY="238.0" mnemonicParsing="false" text="Salva" />
+                                          <Button fx:id="buttSalvaGita" layoutX="417.0" layoutY="238.0" mnemonicParsing="false" onAction="#salvaGita" text="Salva" />
                                        </children>
                                     </AnchorPane>
                                  </content>
@@ -108,17 +108,17 @@
                                        <children>
                                           <VBox layoutX="185.0" layoutY="14.0" prefHeight="116.0" prefWidth="189.0" spacing="12.0">
                                              <children>
-                                                <TextField fx:id="textNomeProf2" editable="false">
+                                                <TextField fx:id="textCodiceVacanzaCollege" editable="false">
                                                    <VBox.margin>
                                                       <Insets top="8.0" />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="textCognomeProf2" editable="false">
+                                                <TextField fx:id="textNomeCollege" editable="false">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="textDdNProf2" editable="false" />
+                                                <TextField fx:id="textIndirizzoCollege" editable="false" />
                                              </children>
                                           </VBox>
                                           <VBox layoutY="14.0" prefHeight="126.0" prefWidth="157.0" spacing="20.0">
@@ -136,7 +136,7 @@
                                                 <Label prefHeight="17.0" prefWidth="110.0" text="Indirizzo" />
                                              </children>
                                           </VBox>
-                                          <Button layoutX="401.0" layoutY="118.0" mnemonicParsing="false" text="Salva" />
+                                          <Button fx:id="buttSalvaCollege" layoutX="401.0" layoutY="118.0" mnemonicParsing="false" onAction="#salvaCollege" text="Salva" />
                                        </children>
                                     </AnchorPane>
                                 </content>
@@ -163,44 +163,44 @@
                                           </VBox>
                                           <VBox layoutX="185.0" layoutY="14.0" prefHeight="116.0" prefWidth="189.0" spacing="12.0">
                                              <children>
-                                                <TextField fx:id="textNomeProf21" editable="false">
+                                                <TextField fx:id="textCodiceVacanzaCollege_A" editable="false">
                                                    <VBox.margin>
                                                       <Insets top="8.0" />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="textCognomeProf21" editable="false">
+                                                <TextField fx:id="textNomeCollege_A" editable="false">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="textDdNProf21" editable="false" />
-                                                <TextField fx:id="textDdNProf211" editable="false" />
+                                                <TextField fx:id="textNomeAttivita" editable="false" />
+                                                <TextField fx:id="textDescrizioneAttivita" editable="false" />
                                              </children>
                                           </VBox>
-                                          <Button layoutX="403.0" layoutY="146.0" mnemonicParsing="false" text="Salva" />
+                                          <Button fx:id="buttSalvaAttività" layoutX="403.0" layoutY="146.0" mnemonicParsing="false" onAction="#salvaAttività" text="Salva" />
                                        </children>
                                     </AnchorPane>
                                 </content>
                               </TitledPane>
-                              <TitledPane animated="false" layoutX="632.0" layoutY="337.0" prefHeight="492.0" prefWidth="511.0" text="Famiglia">
+                              <TitledPane animated="false" layoutX="632.0" layoutY="337.0" prefHeight="483.0" prefWidth="500.0" text="Famiglia">
                                 <content>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="452.0" prefWidth="509.0">
                                        <children>
                                           <VBox layoutX="199.0" layoutY="14.0" prefHeight="191.0" prefWidth="188.0" spacing="12.0">
                                              <children>
-                                                <TextField fx:id="textNomeProf3" editable="false">
+                                                <TextField fx:id="textNomeCapoFam" editable="false">
                                                    <VBox.margin>
                                                       <Insets top="8.0" />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="textCognomeProf3" editable="false">
+                                                <TextField fx:id="textCognomeCapoFam" editable="false">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="textCFProf" editable="false" />
-                                                <DatePicker prefHeight="25.0" prefWidth="195.0" />
-                                                <TextField fx:id="textEmailProf2" editable="false" />
+                                                <TextField fx:id="textCFCapoFam" editable="false" />
+                                                <DatePicker fx:id="dateDdNCapoFam" prefHeight="25.0" prefWidth="195.0" />
+                                                <TextField fx:id="textEmailCapoFam" editable="false" />
                                              </children>
                                           </VBox>
                                           <VBox layoutX="14.0" layoutY="14.0" prefHeight="189.0" prefWidth="185.0" spacing="20.0">
@@ -240,23 +240,23 @@
                                           </VBox>
                                           <VBox layoutX="197.0" layoutY="219.0" prefHeight="116.0" prefWidth="189.0" spacing="12.0">
                                              <children>
-                                                <TextField fx:id="textNomeProf22" editable="false">
+                                                <TextField fx:id="textCodiceVacanzaFam" editable="false">
                                                    <VBox.margin>
                                                       <Insets top="8.0" />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="textCognomeProf22" editable="false">
+                                                <TextField fx:id="textNrComponentiFam" editable="false">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <CheckBox mnemonicParsing="false" />
-                                                <TextField fx:id="textCognomeProf221" editable="false" />
-                                                <TextField fx:id="textCognomeProf222" editable="false" />
-                                                <TextField fx:id="textCognomeProf223" editable="false" />
+                                                <CheckBox fx:id="checkAnimaliFam" mnemonicParsing="false" />
+                                                <TextField fx:id="textNrCamereFam" editable="false" />
+                                                <TextField fx:id="textNrBagniFam" editable="false" />
+                                                <TextField fx:id="textDistanzaFam" editable="false" />
                                              </children>
                                           </VBox>
-                                          <Button layoutX="421.0" layoutY="425.0" mnemonicParsing="false" text="Salva" />
+                                          <Button fx:id="buttSalvaFamiglia" layoutX="421.0" layoutY="425.0" mnemonicParsing="false" onAction="#salvaFamiglia" text="Salva" />
                                        </children>
                                     </AnchorPane>
                                 </content>

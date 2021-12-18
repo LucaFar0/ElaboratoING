@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.effect.*?>
 <?import java.lang.*?>
@@ -17,13 +18,16 @@
                      <children>
                         <HBox layoutX="-1.0" layoutY="1.0" prefHeight="52.0" prefWidth="1263.0" AnchorPane.bottomAnchor="778.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label prefHeight="35.0" prefWidth="134.0" text="Vanze dispinibili" />
-                              <ChoiceBox prefHeight="48.0" prefWidth="1129.0" />
+                              <Label prefHeight="51.0" prefWidth="129.0" text="Vanze disponibili" />
+                              <ChoiceBox prefHeight="53.0" prefWidth="1138.0" />
                            </children>
                         </HBox>
                         <ScrollPane hbarPolicy="NEVER" layoutX="1.0" layoutY="51.0" prefHeight="778.0" prefWidth="1263.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="780.0" prefWidth="1263.0" />
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="780.0" prefWidth="1263.0">
+                                 <children>
+                                    <VBox layoutX="516.0" layoutY="94.0" prefHeight="293.0" prefWidth="166.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children></AnchorPane>
                           </content>
                         </ScrollPane>
                      </children>
@@ -32,11 +36,29 @@
             </Tab>
             <Tab text="Vacanze passate">
                <content>
-                  <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0">
-                     <content>
-                        <AnchorPane prefHeight="837.0" prefWidth="1269.0" />
-                     </content>
-                  </ScrollPane>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <HBox prefHeight="52.0" prefWidth="1263.0">
+                           <children>
+                              <Label prefHeight="51.0" prefWidth="129.0" text="Ordina per:" />
+                              <ChoiceBox prefHeight="52.0" prefWidth="1134.0" />
+                           </children>
+                        </HBox>
+                        <ScrollPane hbarPolicy="NEVER" layoutY="52.0" prefHeight="779.0" prefWidth="1263.0">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="782.0" prefWidth="1264.0">
+                                 <children>
+                                    <AnchorPane layoutX="-1.0" layoutY="2.0" prefHeight="777.0" prefWidth="1251.0">
+                                       <children>
+                                          <VBox layoutX="14.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                     </children>
+                  </AnchorPane>
                </content></Tab>
             <Tab text="Profilo">
                <content>
@@ -74,7 +96,7 @@
                                  </VBox.margin>
                               </TextField>
                               <TextField fx:id="textCFProf" editable="false" />
-                              <TextField fx:id="textDdNProf" editable="false" />
+                              <DatePicker fx:id="dateDdNprof" prefHeight="25.0" prefWidth="189.0" />
                               <TextField fx:id="textEmailProf" editable="false" />
                               <TextField fx:id="textNrTelProf" editable="false" />
                               <TextField fx:id="textIndirizzoProf" editable="false" />
@@ -100,9 +122,6 @@
                   </Pane>
                </content></Tab>
         </tabs>
-         <effect>
-            <DropShadow />
-         </effect>
       </TabPane>
    </children>
 </AnchorPane>
