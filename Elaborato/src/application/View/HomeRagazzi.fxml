@@ -28,7 +28,7 @@
                                  <children>
                                     <VBox layoutX="516.0" layoutY="94.0" prefHeight="293.0" prefWidth="166.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children></AnchorPane>
-                          </content>
+                          </content> 
                         </ScrollPane>
                      </children>
                   </AnchorPane>
