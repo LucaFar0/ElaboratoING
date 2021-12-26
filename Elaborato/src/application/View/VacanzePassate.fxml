@@ -11,7 +11,7 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="565.0" prefWidth="585.0">
                <children>
-                  <VBox layoutX="14.0" layoutY="14.0" prefHeight="194.0" prefWidth="167.0" spacing="17.0">
+                  <VBox layoutX="14.0" layoutY="14.0" prefHeight="194.0" prefWidth="167.0" spacing="15.0">
                      <children>
                         <Label text="Codice Vacanza" />
                         <Label text="Città" />
@@ -20,16 +20,16 @@
                         <Label text="Lingua Studiata" />
                      </children>
                   </VBox>
-                  <VBox layoutX="181.0" layoutY="14.0" prefHeight="183.0" prefWidth="167.0" spacing="8.0">
+                  <VBox layoutX="181.0" layoutY="14.0" prefHeight="183.0" prefWidth="167.0" spacing="11.0">
                      <children>
-                        <TextField fx:id="textCodiceVacanza" editable="false" />
-                        <TextField fx:id="textCittaVacanza" editable="false" />
-                        <TextField fx:id="textDataVacanza" editable="false" />
-                        <TextField fx:id="textDurataVacanza" editable="false" />
-                        <TextField fx:id="textLinguaVacanza" editable="false" />
+                        <TextField fx:id="textCodiceVacanza" editable="false" minHeight="-Infinity" prefHeight="30.0" />
+                        <TextField fx:id="textCittaVacanza" editable="false" minHeight="-Infinity" prefHeight="30.0" />
+                        <TextField fx:id="textDataVacanza" editable="false" minHeight="-Infinity" prefHeight="30.0" />
+                        <TextField fx:id="textDurataVacanza" editable="false" minHeight="-Infinity" prefHeight="30.0" />
+                        <TextField fx:id="textLinguaVacanza" editable="false" minHeight="-Infinity" prefHeight="30.0" />
                      </children>
                   </VBox>
-                  <VBox layoutX="14.0" layoutY="208.0" spacing="20.0">
+                  <VBox layoutX="14.0" layoutY="252.0" spacing="20.0">
                      <children>
                         <TitledPane animated="false" layoutX="14.0" layoutY="208.0" prefHeight="159.0" prefWidth="477.0" text="Questionario">
                           <content>
@@ -44,7 +44,7 @@
                                     <HBox layoutX="25.0" layoutY="57.0" prefHeight="43.0" prefWidth="433.0" spacing="65.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                        <children>
                                           <Label text="Commento" />
-                                          <TextArea fx:id="areaCommentoQuestionario" prefHeight="200.0" prefWidth="200.0" />
+                                          <TextArea fx:id="areaCommentoQuestionario" prefHeight="43.0" prefWidth="207.0" />
                                        </children>
                                     </HBox>
                                  </children>

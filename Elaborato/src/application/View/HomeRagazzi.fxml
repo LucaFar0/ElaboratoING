@@ -16,10 +16,10 @@
                <content>
                   <AnchorPane prefHeight="739.0" prefWidth="1382.0">
                      <children>
-                        <HBox layoutX="-1.0" layoutY="1.0" prefHeight="52.0" prefWidth="1263.0" AnchorPane.bottomAnchor="778.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <HBox layoutX="-1.0" layoutY="1.0" prefHeight="50.0" prefWidth="1263.0" AnchorPane.bottomAnchor="765.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label prefHeight="51.0" prefWidth="129.0" text="Vanze disponibili" />
-                              <ChoiceBox prefHeight="53.0" prefWidth="1138.0" />
+                              <Label prefHeight="39.0" prefWidth="190.0" text="Vanze disponibili" />
+                              <ChoiceBox prefHeight="56.0" prefWidth="1106.0" />
                            </children>
                         </HBox>
                         <ScrollPane hbarPolicy="NEVER" layoutX="1.0" layoutY="51.0" prefHeight="778.0" prefWidth="1263.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0">
