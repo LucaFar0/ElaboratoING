@@ -11,7 +11,7 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="565.0" prefWidth="585.0">
                <children>
-                  <VBox layoutX="14.0" layoutY="14.0" prefHeight="324.0" prefWidth="167.0" spacing="22.0">
+                  <VBox layoutX="14.0" layoutY="14.0" prefHeight="324.0" prefWidth="229.0" spacing="22.0">
                      <children>
                         <Label text="Codice Vacanza" />
                         <Label text="Città" />
@@ -22,7 +22,7 @@
                         <Label text="Commenti" />
                      </children>
                   </VBox>
-                  <VBox layoutX="181.0" layoutY="14.0" prefHeight="420.0" prefWidth="269.0" spacing="8.0">
+                  <VBox layoutX="247.0" layoutY="14.0" prefHeight="420.0" prefWidth="269.0" spacing="8.0">
                      <children>
                         <TextField fx:id="textCodiceVacanza" editable="false" />
                         <TextField fx:id="textCittaVacanza" editable="false" />
