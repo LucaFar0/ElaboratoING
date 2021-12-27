@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="860.0" prefWidth="1263.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="860.0" prefWidth="1263.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller.homeResponsabiliController">
    <children>
       <TabPane layoutX="213.0" layoutY="28.0" prefHeight="832.0" prefWidth="1049.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -40,12 +40,12 @@
                                           </VBox>
                                           <VBox layoutX="185.0" layoutY="8.0" prefHeight="212.0" prefWidth="188.0" spacing="17.0">
                                              <children>
-                                                <TextField fx:id="textCodiceVacanza" editable="false" minHeight="-Infinity" prefHeight="30.0">
+                                                <TextField fx:id="textCodiceVacanza" minHeight="-Infinity" prefHeight="30.0">
                                                    <VBox.margin>
                                                       <Insets top="8.0" />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="textCittaVacanza" editable="false" minHeight="-Infinity" prefHeight="30.0">
+                                                <TextField fx:id="textCittaVacanza" minHeight="-Infinity" prefHeight="30.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -69,19 +69,19 @@
                                        <children>
                                           <VBox layoutX="185.0" layoutY="41.0" prefHeight="212.0" prefWidth="188.0" spacing="17.0">
                                              <children>
-                                                <TextField fx:id="textCodiceVacanzaGita" editable="false" minHeight="-Infinity" prefHeight="30.0">
+                                                <TextField fx:id="textCodiceVacanzaGita" minHeight="-Infinity" prefHeight="30.0">
                                                    <VBox.margin>
                                                       <Insets top="8.0" />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="textDestinazioneGita" editable="false" minHeight="-Infinity" prefHeight="30.0">
+                                                <TextField fx:id="textDestinazioneGita" minHeight="-Infinity" prefHeight="30.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="textCostoGita" editable="false" minHeight="-Infinity" prefHeight="30.0" />
-                                                <TextField fx:id="textDurataGita" editable="false" minHeight="-Infinity" prefHeight="30.0" />
-                                                <TextField fx:id="textDescrizioneGita" editable="false" minHeight="-Infinity" prefHeight="30.0" />
+                                                <TextField fx:id="textCostoGita" minHeight="-Infinity" prefHeight="30.0" />
+                                                <TextField fx:id="textDurataGita" minHeight="-Infinity" prefHeight="30.0" />
+                                                <TextField fx:id="textDescrizioneGita" minHeight="-Infinity" prefHeight="30.0" />
                                              </children>
                                           </VBox>
                                           <VBox layoutY="41.0" prefHeight="195.0" prefWidth="185.0" spacing="20.0">
@@ -115,17 +115,17 @@
                                        <children>
                                           <VBox layoutX="185.0" layoutY="14.0" prefHeight="116.0" prefWidth="189.0" spacing="17.0">
                                              <children>
-                                                <TextField fx:id="textCodiceVacanzaCollege" editable="false" minHeight="-Infinity" prefHeight="30.0">
+                                                <TextField fx:id="textCodiceVacanzaCollege" minHeight="-Infinity" prefHeight="30.0">
                                                    <VBox.margin>
                                                       <Insets top="8.0" />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="textNomeCollege" editable="false" minHeight="-Infinity" prefHeight="30.0">
+                                                <TextField fx:id="textNomeCollege" minHeight="-Infinity" prefHeight="30.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="textIndirizzoCollege" editable="false" minHeight="-Infinity" prefHeight="30.0" />
+                                                <TextField fx:id="textIndirizzoCollege" minHeight="-Infinity" prefHeight="30.0" />
                                              </children>
                                           </VBox>
                                           <VBox layoutY="14.0" prefHeight="126.0" prefWidth="157.0" spacing="20.0">
@@ -151,7 +151,7 @@
                                     </AnchorPane>
                                 </content>
                               </TitledPane>
-                              <TitledPane animated="false" layoutX="14.0" layoutY="559.0" prefHeight="248.0" prefWidth="503.0" text="Attività College">
+                              <TitledPane animated="false" layoutX="14.0" layoutY="559.0" prefHeight="248.0" prefWidth="511.0" text="Attività College">
                                 <content>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="483.0">
                                        <children>
@@ -173,21 +173,21 @@
                                           </VBox>
                                           <VBox layoutX="185.0" layoutY="14.0" prefHeight="116.0" prefWidth="189.0" spacing="17.0">
                                              <children>
-                                                <TextField fx:id="textCodiceVacanzaCollege_A" editable="false" minHeight="-Infinity" prefHeight="30.0">
+                                                <TextField fx:id="textCodiceVacanzaCollege_A" minHeight="-Infinity" prefHeight="30.0">
                                                    <VBox.margin>
                                                       <Insets top="8.0" />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="textNomeCollege_A" editable="false" minHeight="-Infinity" prefHeight="30.0">
+                                                <TextField fx:id="textNomeCollege_A" minHeight="-Infinity" prefHeight="30.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="textNomeAttivita" editable="false" minHeight="-Infinity" prefHeight="30.0" />
-                                                <TextField fx:id="textDescrizioneAttivita" editable="false" minHeight="-Infinity" prefHeight="30.0" />
+                                                <TextField fx:id="textNomeAttivita" minHeight="-Infinity" prefHeight="30.0" />
+                                                <TextField fx:id="textDescrizioneAttivita" minHeight="-Infinity" prefHeight="30.0" />
                                              </children>
                                           </VBox>
-                                          <Button fx:id="buttSalvaAttività" layoutX="403.0" layoutY="146.0" mnemonicParsing="false" onAction="#salvaAttività" text="Salva">
+                                          <Button fx:id="buttSalvaAttivita" layoutX="403.0" layoutY="146.0" mnemonicParsing="false" onAction="#salvaAttivita" text="Salva">
                                              <font>
                                                 <Font size="15.0" />
                                              </font>
@@ -202,19 +202,19 @@
                                        <children>
                                           <VBox layoutX="198.0" prefHeight="191.0" prefWidth="188.0" spacing="8.0">
                                              <children>
-                                                <TextField fx:id="textNomeCapoFam" editable="false" minHeight="-Infinity" prefHeight="30.0">
+                                                <TextField fx:id="textNomeCapoFam" minHeight="-Infinity" prefHeight="30.0">
                                                    <VBox.margin>
                                                       <Insets top="8.0" />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="textCognomeCapoFam" editable="false" minHeight="-Infinity" prefHeight="30.0">
+                                                <TextField fx:id="textCognomeCapoFam" minHeight="-Infinity" prefHeight="30.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="textCFCapoFam" editable="false" minHeight="-Infinity" prefHeight="30.0" />
+                                                <TextField fx:id="textCFCapoFam" minHeight="-Infinity" prefHeight="30.0" />
                                                 <DatePicker fx:id="dateDdNCapoFam" minHeight="-Infinity" prefHeight="30.0" prefWidth="195.0" />
-                                                <TextField fx:id="textEmailCapoFam" editable="false" minHeight="-Infinity" prefHeight="30.0" />
+                                                <TextField fx:id="textEmailCapoFam" minHeight="-Infinity" prefHeight="30.0" />
                                              </children>
                                           </VBox>
                                           <VBox layoutX="13.0" prefHeight="189.0" prefWidth="185.0" spacing="12.0">
@@ -258,20 +258,20 @@
                                              </font></Button>
                                           <VBox layoutX="196.0" layoutY="195.0" prefHeight="116.0" prefWidth="189.0" spacing="8.0">
                                              <children>
-                                                <TextField fx:id="textCodiceVacanzaFam" editable="false" minHeight="-Infinity" prefHeight="30.0">
+                                                <TextField fx:id="textCodiceVacanzaFam" minHeight="-Infinity" prefHeight="30.0">
                                                    <VBox.margin>
                                                       <Insets top="8.0" />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="textNrComponentiFam" editable="false" minHeight="-Infinity" prefHeight="30.0">
+                                                <TextField fx:id="textNrComponentiFam" minHeight="-Infinity" prefHeight="30.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </TextField>
                                                 <CheckBox fx:id="checkAnimaliFam" minHeight="-Infinity" mnemonicParsing="false" prefHeight="30.0" />
-                                                <TextField fx:id="textNrCamereFam" editable="false" minHeight="-Infinity" prefHeight="30.0" />
-                                                <TextField fx:id="textNrBagniFam" editable="false" minHeight="-Infinity" prefHeight="30.0" />
-                                                <TextField fx:id="textDistanzaFam" editable="false" minHeight="-Infinity" prefHeight="30.0" />
+                                                <TextField fx:id="textNrCamereFam" minHeight="-Infinity" prefHeight="30.0" />
+                                                <TextField fx:id="textNrBagniFam" minHeight="-Infinity" prefHeight="30.0" />
+                                                <TextField fx:id="textDistanzaFam" minHeight="-Infinity" prefHeight="30.0" />
                                              </children>
                                           </VBox>
                                        </children>
@@ -292,4 +292,4 @@
         </tabs>
       </TabPane>
    </children>
-</AnchorPane>
+</fx:root>
