@@ -17,9 +17,9 @@ import javafx.scene.control.Alert.AlertType;
 public class loginController {
 	@FXML
 	private TextField textEmail;
-	private PasswordField textPasswd;
-	private Button logButton;
-	private Button logIscrivi;
+	@FXML private PasswordField textPasswd;
+	@FXML private Button logButton;
+	@FXML private Button logIscrivi;
 
 	//controllo credenziali e correttezza campi inseriti
 	public void login(ActionEvent e) {
@@ -42,8 +42,7 @@ public class loginController {
 
 
 
-		model.setEmail(textEmail.getText());
-		model.setPassword(textPasswd.getText());
+		
 		resetTextFields();
 	}
 	

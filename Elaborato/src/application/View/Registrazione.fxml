@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="818.0" prefWidth="1210.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller.registrationController.java">
+<AnchorPane prefHeight="818.0" prefWidth="1210.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller.registrationController">
    <children>
       <Pane layoutY="14.0" prefHeight="825.0" prefWidth="1248.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -29,7 +29,7 @@
                </font>
             </Label>
             <TextField fx:id="textRegPrecauzioniAllergene" layoutX="334.0" layoutY="401.0" minHeight="-Infinity" prefHeight="25.0" prefWidth="96.0" />
-            <Button fx:id="butAggiuntaAllergene" layoutX="227.0" layoutY="443.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#allergene" prefHeight="39.0" prefWidth="177.0" text="Aggiungi allergene">
+            <Button fx:id="butAggiuntaAllergene" layoutX="227.0" layoutY="443.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#aggiungiAllergene" prefHeight="39.0" prefWidth="177.0" text="Aggiungi allergene">
                <font>
                   <Font size="16.0" />
                </font>

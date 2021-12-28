@@ -23,7 +23,7 @@ public class homeResponsabiliController {
 	@FXML private TextField textLinguaVacanza;
 	@FXML private Button buttSalvaVacanza;
 	
-	public void salvaVacanza() {
+	public void salvaVacanza(ActionEvent e) {
 		
 	}
 	
@@ -36,7 +36,7 @@ public class homeResponsabiliController {
 	@FXML private TextField textDescrizioneGita;
 	@FXML private Button buttSalvaGita;
 	
-	public void salvaGita() {
+	public void salvaGita(ActionEvent e) {
 		
 	}
 	
@@ -59,7 +59,7 @@ public class homeResponsabiliController {
 	@FXML private TextField textDescrizioneAttivita;
 	@FXML private Button buttSalvaAttivita;
 	
-	public void salvaAttivita() {
+	public void salvaAttivita(ActionEvent e) {
 		
 	}
 	
@@ -77,7 +77,7 @@ public class homeResponsabiliController {
 	@FXML private TextField textDistanzaFam;
 	@FXML private Button buttSalvaFamiglia;
 		
-	public void salvaFamiglia() {
+	public void salvaFamiglia(ActionEvent e) {
 			
 	}
 

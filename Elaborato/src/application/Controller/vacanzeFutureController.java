@@ -27,7 +27,7 @@ public class vacanzeFutureController {
 	@FXML private Button buttPrenotaVacanza;
 	
 	
-	public void prenotazioneVacanza() {
+	public void prenotazioneVacanza(ActionEvent e) {
 		
 	}
 }

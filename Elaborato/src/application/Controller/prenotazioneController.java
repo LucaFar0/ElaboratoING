@@ -22,7 +22,7 @@ public class prenotazioneController {
 	@FXML private Button buttPrenotaCollege;
 	
 	
-	public void prenotazioneVacanzaCollege() {
+	public void prenotazioneVacanzaCollege(ActionEvent e) {
 		
 	}
 	
@@ -35,7 +35,7 @@ public class prenotazioneController {
 	@FXML private Button buttPrenotaFam;
 		
 		
-	public void prenotazioneVacanzaFam() {
+	public void prenotazioneVacanzaFam(ActionEvent e) {
 			
 	}
 }
