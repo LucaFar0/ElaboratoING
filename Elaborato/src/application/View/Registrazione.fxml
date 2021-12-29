@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="818.0" prefWidth="1210.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller.registrationController">
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller.registrationController">
    <children>
       <Pane layoutY="14.0" prefHeight="825.0" prefWidth="1248.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -112,13 +112,13 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <Button fx:id="butSaveRegistration" layoutX="974.0" layoutY="744.0" mnemonicParsing="false" onAction="#saveRegistration" text="Salva Registrazione" />
+            <Button fx:id="butSaveRegistration" layoutX="803.0" layoutY="537.0" mnemonicParsing="false" onAction="#saveRegistration" text="Salva Registrazione" />
             <Label layoutX="582.0" layoutY="125.0" text="Nome">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Button fx:id="butAddGen" layoutX="955.0" layoutY="299.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#aggiungiGenitore" text="Aggiungi secondo genitore">
+            <Button fx:id="butAddGen" layoutX="755.0" layoutY="301.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#aggiungiGenitore" text="Aggiungi secondo genitore">
                <font>
                   <Font size="16.0" />
                </font>

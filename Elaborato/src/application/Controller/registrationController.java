@@ -1,8 +1,11 @@
 package application.Controller;
 
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle ;
+
+import application.Main;
 import javafx.event.ActionEvent ;
 import javafx.fxml.FXML ;
 import javafx.fxml.Initializable ;
@@ -46,8 +49,8 @@ public class registrationController {
 		
 	}
 	
-	public void saveRegistration(ActionEvent e) {
-		
+	public void saveRegistration(ActionEvent e) throws IOException {
+		Main.changeScene("View/Accesso.fxml");
 	}
 	
 	public void aggiungiGenitore(ActionEvent e) {
