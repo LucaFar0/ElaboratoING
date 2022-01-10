@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<fx:root prefHeight="632.0" prefWidth="746.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller.prenotazioneController">
+<AnchorPane prefHeight="632.0" prefWidth="746.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller.prenotazioneController">
    <children>
       <TabPane prefHeight="573.0" prefWidth="699.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -73,4 +73,4 @@
         </tabs>
       </TabPane>
    </children>
-</fx:root>
+</AnchorPane>

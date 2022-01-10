@@ -3,5 +3,5 @@ module Elaborato {
 	requires javafx.fxml;
 	requires javafx.graphics;
 	
-	opens application to javafx.graphics,javafx.fxml;
+	opens Elaborato to javafx.graphics, javafx.fxml;
 }

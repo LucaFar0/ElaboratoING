@@ -137,7 +137,7 @@
             </Label>
             <TextField fx:id="textRegEmailGen" layoutX="753.0" layoutY="202.0" minHeight="-Infinity" prefHeight="25.0" prefWidth="219.0" />
             <TextField fx:id="textRegCognomeGen" layoutX="753.0" layoutY="148.0" minHeight="-Infinity" prefHeight="25.0" prefWidth="219.0" />
-            <Label layoutX="498.0" prefHeight="69.0" prefWidth="169.0" text="Registrazione" underline="true">
+            <Label layoutX="404.0" prefHeight="69.0" prefWidth="169.0" text="Registrazione" underline="true">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>

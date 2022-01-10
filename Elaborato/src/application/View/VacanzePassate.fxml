@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<fx:root prefHeight="684.0" prefWidth="629.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller.vacanzePassateController">
+<AnchorPane prefHeight="684.0" prefWidth="629.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller.vacanzePassateController">
    <children>
       <TitledPane animated="false" prefHeight="593.0" prefWidth="589.0" text="Vacanza" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <content>
@@ -67,4 +67,4 @@
         </content>
       </TitledPane>
    </children>
-</fx:root>
+</AnchorPane>

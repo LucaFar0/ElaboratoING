@@ -32,6 +32,8 @@ public class loginController {
 		Main.changeScene("View/HomeRagazzi.fxml");
 		
 
+		
+
 		if (textEmail.getText().isEmpty()) {
 			showAlert(Alert.AlertType.ERROR, owner, "Form Error!",
 					"Please enter your email id");

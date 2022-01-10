@@ -23,13 +23,7 @@ public class Main extends Application {
 		
 		Scene scene = new Scene(root, 1000, 600);
 	
-		/*ScreenController screenController = new ScreenController(scene); 
-		screenController.addScreen("registrazione", FXMLLoader.load(getClass().getResource( "View/Registrazione.fxml" )));
-		screenController.addScreen("homeRagazzi", FXMLLoader.load(getClass().getResource( "View/HomeRagazzi.fxml" )));
-		screenController.addScreen("homeRagazzi", FXMLLoader.load(getClass().getResource( "View/HomeResponsabili.fxml" )));
-		screenController.addScreen("prenotazione", FXMLLoader.load(getClass().getResource( "View/Prenotazione.fxml" )));
 		
-		*/
 		stage.setScene(scene);
 		stage.show();
 		
@@ -42,10 +36,10 @@ public class Main extends Application {
 	   Scene scene = new Scene(pane, 1000, 600);
 	   try {
 		stage.setScene(scene);
-	} catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+	   } catch (Exception e) {
+		   // TODO Auto-generated catch block
+		   e.printStackTrace();
+	   }
 	}
 	
 	public static void main(String[] args) {
