@@ -1,12 +1,15 @@
 package application.Model;
 
+import java.time.LocalDate;
 import java.util.Date;
+
+import javafx.scene.control.Alert;
 
 public class Persona {
 	private String Nome = new String();
 	private String Cognome = new String();
 	private String CF = new String();
-	private Date DdN = new Date();
+	private LocalDate DdN;
 	private String Email = new String();
 
 	
@@ -28,10 +31,10 @@ public class Persona {
 	public void setCF(String cF) {
 		this.CF = cF;
 	}
-	public Date getDdN() {
+	public LocalDate getDdN() {
 		return this.DdN;
 	}
-	public void setDdN(Date ddN) {
+	public void setDdN(LocalDate ddN) {
 		this.DdN = ddN;
 	}
 	public String getEmail() {
@@ -41,12 +44,12 @@ public class Persona {
 		this.Email = email;
 	}
 	
-	public Persona(String nome, String cognome, String CF, String Email, Date DdN) {
+	public Persona(String nome, String cognome, String CF, String Email, LocalDate localDate) {
 		setNome(nome);
 		setCognome(cognome);
 		setCF(CF);
 		setEmail(Email);
-		setDdN(DdN);
+		setDdN(localDate);
 	}
 	
 }

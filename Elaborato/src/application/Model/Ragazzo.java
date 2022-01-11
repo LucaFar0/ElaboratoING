@@ -1,23 +1,24 @@
 package application.Model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Ragazzo extends Persona {
 	
-	private String[] Hobby;	
+	private String Hobby;	
 	private String password = new String();
-	private long  NrTelefono;
+	private String  NrTelefono;
 	private String Indirizzo = new String();
-	private Allergene[] allergie;
 	
-	public Ragazzo(String nome, String cognome, String CF, String Email, Date DdN, long nrTelefono, String[] hobby, String password, String Indirizzo, Allergene[] allergie) {
+	
+	public Ragazzo(String nome, String cognome, String CF, String Email, LocalDate DdN, String nrTelefono, String hobby, String password, String Indirizzo) {
 		super(nome, cognome, CF, Email, DdN);
 
 		this.setHobby(hobby);
 		this.setIndirizzo(Indirizzo);
 		this.setPassword(password);
 		this.setNrTelefono(nrTelefono);
-		this.setAllergie(allergie);
+	
 		
 	}
 
@@ -32,12 +33,12 @@ public class Ragazzo extends Persona {
 	}
 
 
-	public long getNrTelefono() {
+	public String getNrTelefono() {
 		return this.NrTelefono;
 	}
 
 
-	public void setNrTelefono(long nrTelefono) {
+	public void setNrTelefono(String nrTelefono) {
 		this.NrTelefono = nrTelefono;
 	}
 
@@ -52,24 +53,17 @@ public class Ragazzo extends Persona {
 	}
 
 
-	public String[] getHobby() {
+	public String getHobby() {
 		return this.Hobby;
 	}
 
 
-	public void setHobby(String[] hobby) {
+	public void setHobby(String hobby) {
 		this.Hobby = hobby;
 	}
 
 
-	public Allergene[] getAllergie() {
-		return allergie;
-	}
-
-
-	public void setAllergie(Allergene[] allergie) {
-		this.allergie = allergie;
-	}
+	
 
 
 	

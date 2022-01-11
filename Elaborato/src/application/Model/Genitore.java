@@ -1,24 +1,25 @@
 package application.Model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Genitore extends Persona {
 	
-	private long  NrTelefono;
+	private String  NrTelefono;
 
 	
-	public Genitore(String nome, String cognome, String CF, String Email, Date DdN,  long  NrTelefono) {
+	public Genitore(String nome, String cognome, String CF, String Email, LocalDate DdN,  String  NrTelefono) {
 		super(nome, cognome, CF, Email, DdN);
 		this.setNrTelefono(NrTelefono);
 	}
 
 
-	public long getNrTelefono() {
+	public String getNrTelefono() {
 		return NrTelefono;
 	}
 
 
-	public void setNrTelefono(long nrTelefono) {
+	public void setNrTelefono(String nrTelefono) {
 		NrTelefono = nrTelefono;
 	}
 
