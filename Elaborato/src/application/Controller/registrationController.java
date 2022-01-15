@@ -3,6 +3,8 @@ package application.Controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle ;
 
@@ -10,6 +12,7 @@ import application.Main;
 import application.Model.Allergene;
 import application.Model.Genitore;
 import application.Model.Persona;
+import application.Model.PostreSQLJDBC;
 import application.Model.Ragazzo;
 import javafx.event.ActionEvent ;
 import javafx.fxml.FXML ;
@@ -53,9 +56,10 @@ public class registrationController {
 	
 	private ArrayList <Allergene> A = new ArrayList<Allergene>();
 	private ArrayList <Genitore> G = new ArrayList<Genitore>();
-	private Window owner = butSaveRegistration.getScene().getWindow();
+	
 	
 	public void aggiungiAllergene(ActionEvent e) {
+		Window owner = butAggiuntaAllergene.getScene().getWindow();
 		//controllo che i campi siano stati riempiti
 		if (textRegNomeAllergene.getText().isEmpty()) {
 			showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire un Nome");
@@ -73,7 +77,7 @@ public class registrationController {
 	}
 
 	public void saveRegistration(ActionEvent e) throws IOException {
-		
+		Window owner = butSaveRegistration.getScene().getWindow();
 		//controllo che i campi siano stati compilati correttamente 
 
 		if (textRegNomeRag.getText().isEmpty()) {
@@ -92,7 +96,7 @@ public class registrationController {
 			showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire una E-mail");
 			return;
 		}
-		if (textRegTelRag.getText().isEmpty() || textRegCFRag.getText().length() > 10) {
+		if (textRegTelRag.getText().isEmpty() || textRegCFRag.getText().length() < 10) {
 			showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire un numero di telefono valido ");
 			return;
 		}
@@ -106,21 +110,77 @@ public class registrationController {
 		}
 
 		//Persona Ragazzo = new Persona(textRegNomeRag.getText(), textRegCognomeRag.getText(), textRegCFRag.getText(), textRegEmailRag.getText(), dateRegRag.getValue());
-		Ragazzo Ragazzo = new Ragazzo(textRegNomeRag.getText(), textRegCognomeRag.getText(), textRegCFRag.getText(), textRegEmailRag.getText(), dateRegRag.getValue(), textRegTelRag.getText(), textRegHobby.getText(), passwdReg.getText(), textRegIndirizzoRag.getText());
+		Ragazzo Ragazzo = new Ragazzo(textRegNomeRag.getText(), textRegCognomeRag.getText(), textRegCFRag.getText(), textRegEmailRag.getText(), dateRegRag.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), textRegTelRag.getText(), textRegHobby.getText(), passwdReg.getText(), textRegIndirizzoRag.getText());
 		
+		//Campi allergia
+		if (textRegNomeAllergene.getText().isEmpty() && textRegPrecauzioniAllergene.getText().isEmpty());
+		else A.add(new Allergene(textRegNomeAllergene.getText(), textRegPrecauzioniAllergene.getText()));
 		
+		//campi Genitore
+		if(G.size() < 2) {
+			
+			if(		textRegNomeGen.getText().isEmpty() &&
+					textRegCognomeGen.getText().isEmpty()	&&
+					textRegCFGen.getText().isEmpty() &&
+					textRegEmailGen.getText().isEmpty() &&	
+					textRegTelGen.getText().isEmpty());
+			else {
+			
+			//controllo che i campi siano stati compilati correttamente 
+			if (textRegNomeGen.getText().isEmpty()) {
+				showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire un Nome");
+				return;
+			}
+			if (textRegCognomeGen.getText().isEmpty()) {
+				showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire un Cognome");
+				return;
+			}
+			if (textRegCFGen.getText().isEmpty() || CFCheck(textRegCFRag.getText()) == false) {
+				showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire un Cf Valido");
+				return;
+			}
+			if (textRegEmailGen.getText().isEmpty()) {
+				showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire una E-mail");
+				return;
+			}
+			if (textRegTelGen.getText().isEmpty() || textRegCFRag.getText().length() < 10) {
+				showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire un numero di telefono valido ");
+				return;
+			}
+			
+			
+			G.add(new Genitore(textRegNomeGen.getText(), textRegCognomeGen.getText(), textRegCFGen.getText(), textRegEmailGen.getText(), dateRegGen.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), textRegTelGen.getText()));
+			}
+		}
+		
+		System.out.println(Ragazzo.toString());
+		for(Genitore g: G) {
+			System.out.println(g.toString());
+		}
+		for(Allergene a: A) {
+			System.out.println(a.toString());
+		}
 		//controllo che sia stato messo almeno un genitore
 		if(G.size() == 0 );
 		
 		//connessione Db + Insert Statement
 		
 		
+		try {
+			PostreSQLJDBC.Registrazione(A, G, Ragazzo);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		Main.changeScene("View/Accesso.fxml");
 	}
 
 
 	public void aggiungiGenitore(ActionEvent e) {
+		
+		Window owner = butAddGen.getScene().getWindow();
+		
 		if(G.size() < 2) {
 			
 			//controllo che i campi siano stati compilati correttamente 
@@ -140,13 +200,13 @@ public class registrationController {
 				showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire una E-mail");
 				return;
 			}
-			if (textRegTelGen.getText().isEmpty() || textRegCFRag.getText().length() > 10) {
+			if (textRegTelGen.getText().isEmpty() || textRegCFRag.getText().length() < 10) {
 				showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire un numero di telefono valido ");
 				return;
 			}
 			
 			
-			G.add(new Genitore(textRegNomeGen.getText(), textRegCognomeGen.getText(), textRegCFGen.getText(), textRegEmailGen.getText(), dateRegGen.getValue(), textRegTelGen.getText()));
+			G.add(new Genitore(textRegNomeGen.getText(), textRegCognomeGen.getText(), textRegCFGen.getText(), textRegEmailGen.getText(), dateRegGen.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), textRegTelGen.getText()));
 			resetGenitoreFields();
 		}else {
 			showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Sono già stati inseriti 2 genitori!");

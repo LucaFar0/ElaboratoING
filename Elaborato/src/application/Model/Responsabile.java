@@ -7,7 +7,7 @@ public class Responsabile extends Persona {
 	private long  NrTelefono;
 	private String password = new String();
 	
-	public Responsabile(String nome, String cognome, String CF, String Email, Date DdN, long  NrTelefono, String password ) {
+	public Responsabile(String nome, String cognome, String CF, String Email, String DdN, long  NrTelefono, String password ) {
 		super(nome, cognome, CF, Email, DdN);
 		this.setPassword(password);
 		this.setNrTelefono(NrTelefono);

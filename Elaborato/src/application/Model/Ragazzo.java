@@ -11,7 +11,7 @@ public class Ragazzo extends Persona {
 	private String Indirizzo = new String();
 	
 	
-	public Ragazzo(String nome, String cognome, String CF, String Email, LocalDate DdN, String nrTelefono, String hobby, String password, String Indirizzo) {
+	public Ragazzo(String nome, String cognome, String CF, String Email, String DdN, String nrTelefono, String hobby, String password, String Indirizzo) {
 		super(nome, cognome, CF, Email, DdN);
 
 		this.setHobby(hobby);
@@ -64,7 +64,10 @@ public class Ragazzo extends Persona {
 
 
 	
-
+	public String toString() {
+		String p = super.toString() + " | " + this.getNrTelefono() + " | " + this.getIndirizzo() + " | " + this.getHobby() ;
+		return p;
+	}
 
 	
 

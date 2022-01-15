@@ -9,7 +9,7 @@ public class Persona {
 	private String Nome = new String();
 	private String Cognome = new String();
 	private String CF = new String();
-	private LocalDate DdN;
+	private String DdN = new String();;
 	private String Email = new String();
 
 	
@@ -31,10 +31,10 @@ public class Persona {
 	public void setCF(String cF) {
 		this.CF = cF;
 	}
-	public LocalDate getDdN() {
+	public String getDdN() {
 		return this.DdN;
 	}
-	public void setDdN(LocalDate ddN) {
+	public void setDdN(String ddN) {
 		this.DdN = ddN;
 	}
 	public String getEmail() {
@@ -44,7 +44,7 @@ public class Persona {
 		this.Email = email;
 	}
 	
-	public Persona(String nome, String cognome, String CF, String Email, LocalDate localDate) {
+	public Persona(String nome, String cognome, String CF, String Email, String localDate) {
 		setNome(nome);
 		setCognome(cognome);
 		setCF(CF);
@@ -52,4 +52,9 @@ public class Persona {
 		setDdN(localDate);
 	}
 	
+	
+	public String toString() {
+		String p = "\n" + this.getNome() + " | " + this.getCognome() + " | " + this.getCF() + " | " + this.getDdN() + " | " + this.getEmail();
+		return p;
+	}
 }

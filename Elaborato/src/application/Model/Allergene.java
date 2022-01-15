@@ -29,5 +29,10 @@ public class Allergene {
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
 	}
-
+	
+	
+	public String toString() {
+		String p = "\n" + this.getNome() + " | " + this.getDescrizione();
+		return p;
+	}
 }
