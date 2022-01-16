@@ -3,6 +3,7 @@ package application;
 import java.io.IOException;
 
 import application.Controller.ScreenController;
+import application.Model.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -22,7 +23,7 @@ public class Main extends Application {
 		
 		
 		Scene scene = new Scene(root, 1000, 600);
-	
+		
 		
 		stage.setScene(scene);
 		stage.show();

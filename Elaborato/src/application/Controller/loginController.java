@@ -2,9 +2,12 @@ package application.Controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle ;
 
 import application.Main;
+import application.Model.PostreSQLJDBC;
+import application.Model.*;
 import javafx.event.ActionEvent ;
 import javafx.fxml.FXML ;
 import javafx.fxml.Initializable ;
@@ -29,11 +32,6 @@ public class loginController {
 	public void login(ActionEvent e) throws IOException {
 		Window owner = logButton.getScene().getWindow();
 		
-		Main.changeScene("View/HomeRagazzi.fxml");
-		
-
-		
-
 		if (textEmail.getText().isEmpty()) {
 			showAlert(Alert.AlertType.ERROR, owner, "Form Error!",
 					"Please enter your email id");
@@ -47,8 +45,31 @@ public class loginController {
 
 		System.out.println(textEmail.getText());
 		System.out.println(textPasswd.getText());
+		
+		Ragazzo rag = new Ragazzo(null, null, null, null, null, null, null, null, null);
+		Responsabile resp = new Responsabile(null, null, null, null, null, null, null);
+		
 
-
+		try {
+			if(PostreSQLJDBC.ValidateUser(textEmail.getText(), textPasswd.getText(), rag) == true ) {
+				
+					Main.changeScene("View/HomeRagazzi.fxml");
+			
+			}else if(PostreSQLJDBC.ValidateResp(textEmail.getText(), textPasswd.getText(), resp) == true ) {
+			
+					Main.changeScene("View/HomeResponsabili.fxml");
+			
+			}else {
+				showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Credenziali errate ");
+				resetTextFields();
+				return;
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
 		
 		
 		resetTextFields();

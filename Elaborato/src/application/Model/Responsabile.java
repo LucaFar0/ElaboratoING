@@ -4,22 +4,22 @@ import java.util.Date;
 
 public class Responsabile extends Persona {
 	
-	private long  NrTelefono;
+	private String  NrTelefono;
 	private String password = new String();
 	
-	public Responsabile(String nome, String cognome, String CF, String Email, String DdN, long  NrTelefono, String password ) {
+	public Responsabile(String nome, String cognome, String CF, String Email, String DdN, String  NrTelefono, String password ) {
 		super(nome, cognome, CF, Email, DdN);
 		this.setPassword(password);
 		this.setNrTelefono(NrTelefono);
 	}
 	
 
-	public long getNrTelefono() {
+	public String getNrTelefono() {
 		return this.NrTelefono;
 	}
 
 
-	public void setNrTelefono(long nrTelefono) {
+	public void setNrTelefono(String nrTelefono) {
 		this.NrTelefono = nrTelefono;
 	}
 
