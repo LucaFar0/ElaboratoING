@@ -3,17 +3,17 @@ package application.Model;
 import java.util.Date;
 
 public class Vacanza {
-	private int Codice;
+	private String Codice;
 	private String Citta = new String();
-	private Date DataPartenza = new Date();
-	private int Durata;
+	private String DataPartenza = new String();
+	private String Durata;
 	private String Lingua = new String();
 	
 	
-	public int getCodice() {
+	public String getCodice() {
 		return this.Codice;
 	}
-	public void setCodice(int codice) {
+	public void setCodice(String codice) {
 		this.Codice = codice;
 	}
 	public String getCitta() {
@@ -22,16 +22,16 @@ public class Vacanza {
 	public void setCitta(String citta) {
 		this.Citta = citta;
 	}
-	public Date getDataPartenza() {
+	public String getDataPartenza() {
 		return this.DataPartenza;
 	}
-	public void setDataPartenza(Date dataPartenza) {
+	public void setDataPartenza(String dataPartenza) {
 		this.DataPartenza = dataPartenza;
 	}
-	public int getDurata() {
+	public String getDurata() {
 		return this.Durata;
 	}
-	public void setDurata(int durata) {
+	public void setDurata(String durata) {
 		this.Durata = durata;
 	}
 	public String getLingua() {
@@ -41,7 +41,7 @@ public class Vacanza {
 		this.Lingua = lingua;
 	}
 	
-	public Vacanza(int codice, String citta, Date dataPartenza, int durata, String lingua) {
+	public Vacanza(String codice, String citta, String dataPartenza, String durata, String lingua) {
 		this.setCodice(codice);
 		this.setCitta(citta);
 		this.setDataPartenza(dataPartenza);

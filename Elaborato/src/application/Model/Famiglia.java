@@ -2,14 +2,14 @@ package application.Model;
 
 public class Famiglia {
 	private String CapoFamiglia = new String();
-	private int Vacanza;
-	private int nrComponenti;
-	private int nrCamere;
-	private int nrBagni;
+	private String Vacanza = new String();
+	private String nrComponenti = new String();
+	private String nrCamere = new String();
+	private String nrBagni = new String();
 	private boolean Animali;
-	private int Distanza;
+	private String Distanza = new String();
 	
-	public Famiglia(String capoFam, int vacanza, int nrComponenti, int nrCamere, int nrBagni, boolean animali, int distanza) {
+	public Famiglia(String capoFam, String vacanza, String nrComponenti, String nrCamere, String nrBagni, boolean animali, String distanza) {
 		this.setCapoFamiglia(capoFam);
 		this.setVacanza(vacanza);
 		this.setNrComponenti(nrComponenti);
@@ -32,44 +32,44 @@ public class Famiglia {
 	}
 
 
-	public int getVacanza() {
+	public String getVacanza() {
 		return this.Vacanza;
 	}
 
 
-	public void setVacanza(int vacanza) {
+	public void setVacanza(String vacanza) {
 		//@TODO
 		//CONTROLLO VALIDITA' DEL CODICE INSERITO
 		this.Vacanza = vacanza;
 	}
 
 
-	public int getNrComponenti() {
+	public String getNrComponenti() {
 		return this.nrComponenti;
 	}
 
 
-	public void setNrComponenti(int nrComponenti) {
+	public void setNrComponenti(String nrComponenti) {
 		this.nrComponenti = nrComponenti;
 	}
 
 
-	public int getNrCamere() {
+	public String getNrCamere() {
 		return this.nrCamere;
 	}
 
 
-	public void setNrCamere(int nrCamere) {
+	public void setNrCamere(String nrCamere) {
 		this.nrCamere = nrCamere;
 	}
 
 
-	public int getNrBagni() {
+	public String getNrBagni() {
 		return nrBagni;
 	}
 
 
-	public void setNrBagni(int nrBagni) {
+	public void setNrBagni(String nrBagni) {
 		this.nrBagni = nrBagni;
 	}
 
@@ -84,12 +84,12 @@ public class Famiglia {
 	}
 
 
-	public int getDistanza() {
+	public String getDistanza() {
 		return this.Distanza;
 	}
 
 
-	public void setDistanza(int distanza) {
+	public void setDistanza(String distanza) {
 		this.Distanza = distanza;
 	}
 

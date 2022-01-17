@@ -3,7 +3,7 @@ package application.Model;
 public class College {
 	private String Nome = new String();
 	private String Indirizzo = new String();
-	private int Vacanza;
+	private String Vacanza;
 	
 	public String getNome() {
 		return this.Nome;
@@ -17,16 +17,16 @@ public class College {
 	public void setIndirizzo(String indirizzo) {
 		this.Indirizzo = indirizzo;
 	}
-	public int getVacanza() {
+	public String getVacanza() {
 		return this.Vacanza;
 	}
-	public void setVacanza(int vacanza) {
+	public void setVacanza(String vacanza) {
 		//@TODO
 		//CONTROLLO VALIDITA' DEL CODICE INSERITO
 		this.Vacanza = vacanza;
 	}
 	
-	public College(String nome, String indirizzo, int vacanza) {
+	public College(String nome, String indirizzo, String vacanza) {
 		this.setNome(nome);
 		this.setIndirizzo(indirizzo);
 		this.setVacanza(vacanza);

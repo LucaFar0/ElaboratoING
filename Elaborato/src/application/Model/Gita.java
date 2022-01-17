@@ -2,17 +2,17 @@ package application.Model;
 
 public class Gita {
 	
-	private int Vacanza;
+	private String Vacanza;
 	private String Destinazione = new String();
-	private int Costo;
-	private int ore;
+	private String Costo;
+	private String ore;
 	private String Descrizione = new String();
 	
 	
-	public int getVacanza() {
+	public String getVacanza() {
 		return this.Vacanza;
 	}
-	public void setVacanza(int vacanza) {
+	public void setVacanza(String vacanza) {
 		//@TODO
 		//CONTROLLO VALIDITA' DEL CODICE INSERITO
 		this.Vacanza = vacanza;
@@ -23,16 +23,16 @@ public class Gita {
 	public void setDestinazione(String destinazione) {
 		this.Destinazione = destinazione;
 	}
-	public int getCosto() {
+	public String getCosto() {
 		return this.Costo;
 	}
-	public void setCosto(int costo) {
+	public void setCosto(String costo) {
 		this.Costo = costo;
 	}
-	public int getOre() {
+	public String getOre() {
 		return this.ore;
 	}
-	public void setOre(int ore) {
+	public void setOre(String ore) {
 		this.ore = ore;
 	}
 	public String getDescrizione() {
@@ -43,7 +43,7 @@ public class Gita {
 	}
 	
 	
-	public Gita(int vacanza, String destinazione, int costo, int ore, String descrizione) {
+	public Gita(String vacanza, String destinazione, String costo, String ore, String descrizione) {
 		this.setVacanza(vacanza);
 		this.setDestinazione(destinazione);
 		this.setCosto(costo);
