@@ -52,6 +52,10 @@ public class Gita {
 		
 	}
 	
+	public String toString() {
+		String p = "\n" + this.getDestinazione() + " | " + this.getCosto() + " | " + this.getOre() + " | " + this.getDescrizione() + " | " + this.getVacanza();
+		return p;
+	}
 	
 
 }

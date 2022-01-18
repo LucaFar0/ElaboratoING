@@ -1,5 +1,7 @@
 package application.Model;
 
+import java.sql.SQLException;
+
 public class Famiglia {
 	private String CapoFamiglia = new String();
 	private String Vacanza = new String();
@@ -8,6 +10,7 @@ public class Famiglia {
 	private String nrBagni = new String();
 	private boolean Animali;
 	private String Distanza = new String();
+	private String Codice;
 	
 	public Famiglia(String capoFam, String vacanza, String nrComponenti, String nrCamere, String nrBagni, boolean animali, String distanza) {
 		this.setCapoFamiglia(capoFam);
@@ -17,9 +20,27 @@ public class Famiglia {
 		this.setNrBagni(nrBagni);
 		this.setDistanza(distanza);
 		this.setAnimali(animali);
-		
+		this.setCodice();
 	}
-
+	
+	public void setCodice() {
+		try {
+			Codice = PostreSQLJDBC.getMaxCodice("Famiglia", Vacanza);
+			Integer c = Integer.valueOf(Codice) + 1;
+			String zeros = "";
+			for(int i = c.toString().length(); i < 4; i++) {
+				zeros += "0";
+			}
+			zeros += c.toString();
+			Codice = Vacanza+zeros;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public String getCodice() {
+		return Codice;
+	}
 	
 	public String getCapoFamiglia() {
 		return this.CapoFamiglia;
@@ -91,6 +112,12 @@ public class Famiglia {
 
 	public void setDistanza(String distanza) {
 		this.Distanza = distanza;
+	}
+	
+	
+	public String toString() {
+		String p = "\n" + this.getCodice() + " | " + this.getCapoFamiglia() + " | " + this.getVacanza() + " | " + this.getNrComponenti() + " | " + this.getNrCamere() + " | " + this.getNrBagni() + " | " + this.isAnimali() + " | " + this.getDistanza();
+		return p;
 	}
 
 }

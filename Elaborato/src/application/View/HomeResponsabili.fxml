@@ -57,8 +57,8 @@
                                                                      </VBox.margin>
                                                                   </TextField>
                                                                   <DatePicker fx:id="dateDataVacanza" minHeight="-Infinity" prefHeight="25.0" prefWidth="200.0" />
-                                                                  <TextField fx:id="textDurataVacanza" editable="false" minHeight="-Infinity" prefHeight="25.0" />
-                                                                  <TextField fx:id="textLinguaVacanza" editable="false" minHeight="-Infinity" prefHeight="25.0" />
+                                                                  <TextField fx:id="textDurataVacanza" minHeight="-Infinity" prefHeight="25.0" />
+                                                                  <TextField fx:id="textLinguaVacanza" minHeight="-Infinity" prefHeight="25.0" />
                                                                   <Button fx:id="buttSalvaVacanza" minHeight="-Infinity" mnemonicParsing="false" onAction="#salvaVacanza" prefHeight="25.0" text="Salva">
                                                                      <font>
                                                                         <Font size="15.0" />
@@ -91,6 +91,7 @@
                                                                      </VBox.margin>
                                                                   </TextField>
                                                                   <TextField fx:id="textIndirizzoCollege" minHeight="-Infinity" prefHeight="25.0" />
+                                                                  <TextField fx:id="textStanzeCollege" minHeight="-Infinity" prefHeight="25.0" />
                                                                   <Button fx:id="buttSalvaCollege" mnemonicParsing="false" onAction="#salvaCollege" prefHeight="25.0" text="Salva">
                                                                      <font>
                                                                         <Font size="15.0" />
@@ -111,6 +112,7 @@
                                                                      </VBox.margin>
                                                                   </Label>
                                                                   <Label prefHeight="17.0" prefWidth="110.0" text="Indirizzo" />
+                                                                  <Label prefHeight="17.0" prefWidth="110.0" text="Numero Stanze" />
                                                                </children>
                                                             </VBox>
                                                          </children>
@@ -127,11 +129,6 @@
                                                          <children>
                                                             <VBox layoutY="14.0" prefHeight="126.0" prefWidth="157.0" spacing="20.0">
                                                                <children>
-                                                                  <Label text="Codice vacanza">
-                                                                     <VBox.margin>
-                                                                        <Insets top="10.0" />
-                                                                     </VBox.margin>
-                                                                  </Label>
                                                                   <Label prefHeight="17.0" prefWidth="112.0" text="Nome college">
                                                                      <VBox.margin>
                                                                         <Insets />
@@ -143,11 +140,6 @@
                                                             </VBox>
                                                             <VBox layoutX="185.0" layoutY="14.0" prefHeight="116.0" prefWidth="189.0" spacing="12.0">
                                                                <children>
-                                                                  <TextField fx:id="textCodiceVacanzaCollege_A" minHeight="-Infinity" prefHeight="25.0">
-                                                                     <VBox.margin>
-                                                                        <Insets top="8.0" />
-                                                                     </VBox.margin>
-                                                                  </TextField>
                                                                   <TextField fx:id="textNomeCollege_A" minHeight="-Infinity" prefHeight="25.0">
                                                                      <VBox.margin>
                                                                         <Insets />

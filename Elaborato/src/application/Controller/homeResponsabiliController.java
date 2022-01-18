@@ -1,6 +1,8 @@
 package application.Controller;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle ;
 
@@ -25,7 +27,14 @@ public class homeResponsabiliController {
 	@FXML private TextField textDurataVacanza;
 	@FXML private TextField textLinguaVacanza;
 	@FXML private Button buttSalvaVacanza;
-
+	
+	public void resetFieldsVacanza() {
+		textCodiceVacanza.setText(null);
+		textCittaVacanza.setText(null);
+		dateDataVacanza.setValue(null);
+		textDurataVacanza.setText(null);
+		textLinguaVacanza.setText(null);
+	}
 
 
 
@@ -38,15 +47,29 @@ public class homeResponsabiliController {
 	@FXML private Button buttSalvaGita;
 
 
+	public void resetFieldsGita() {
+		textCodiceVacanzaGita.setText(null);
+		textDestinazioneGita.setText(null);
+		textCostoGita.setText(null);
+		textDurataGita.setText(null);
+		textDescrizioneGita.setText(null);
+	}
+
 
 
 	//--------------------- COLLEGE -----------------------
 	@FXML private TextField textCodiceVacanzaCollege;
 	@FXML private TextField textNomeCollege;
 	@FXML private TextField textIndirizzoCollege;
+	@FXML private TextField textStanzeCollege;
 	@FXML private Button buttSalvaCollege;
 
-
+	public void resetFieldsCollege() {
+		textCodiceVacanzaCollege.setText(null);
+		textNomeCollege.setText(null);
+		textIndirizzoCollege.setText(null);
+		textStanzeCollege.setText(null);
+	}
 
 
 	//--------------------- ATTIVITA' COLLEGE -----------------------
@@ -57,12 +80,20 @@ public class homeResponsabiliController {
 	@FXML private Button buttSalvaAttivita;
 
 
+	public void resetFieldsAttivita() {
+		textCodiceVacanzaCollege_A.setText(null);
+		textNomeCollege_A.setText(null);
+		textNomeAttivita.setText(null);
+		textDescrizioneAttivita.setText(null);
+	}
+
 	//--------------------- FAMIGLIA -----------------------
 	@FXML private TextField textNomeCapoFam;
 	@FXML private TextField textCognomeCapoFam;
 	@FXML private TextField textCFCapoFam;
 	@FXML private DatePicker dateDdNCapoFam;
 	@FXML private TextField textEmailCapoFam;
+	
 	@FXML private TextField textCodiceVacanzaFam;
 	@FXML private TextField textNrComponentiFam;
 	@FXML private CheckBox checkAnimaliFam;
@@ -70,12 +101,30 @@ public class homeResponsabiliController {
 	@FXML private TextField textNrBagniFam;
 	@FXML private TextField textDistanzaFam;
 	@FXML private Button buttSalvaFamiglia;
-
+	
+	
+	
+	public void resetFieldsFamiglia() {
+		textNomeCapoFam.setText(null);
+		textCognomeCapoFam.setText(null);
+		textCFCapoFam.setText(null);
+		dateDdNCapoFam.setValue(null);
+		textEmailCapoFam.setText(null);
+		
+		textCodiceVacanzaFam.setText(null);
+		textNrComponentiFam.setText(null);
+		checkAnimaliFam.setSelected(false);
+		textNrCamereFam.setText(null);
+		textNrBagniFam.setText(null);
+		textDistanzaFam.setText(null);
+	}
+	
+	
 
 	//--------------------- VACANZA -----------------------
 
 
-	public void salvaVacanza(ActionEvent e) {
+	public void salvaVacanza(ActionEvent e) throws IOException{
 		Window owner = buttSalvaVacanza.getScene().getWindow();
 
 		//controllo che i campi siano stati compilati correttamente 
@@ -103,9 +152,19 @@ public class homeResponsabiliController {
 		}
 
 		Vacanza vacanza = new Vacanza(textCodiceVacanza.getText(), textCittaVacanza.getText(), dateDataVacanza.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), textDurataVacanza.getText(), textLinguaVacanza.getText());
-
+		
+		
+		System.out.println(vacanza.toString());
 
 		//chiamata insert del jdbc
+		
+		try {
+			PostreSQLJDBC.addVacanza(vacanza);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		resetFieldsVacanza();
 	}
 
 
@@ -139,7 +198,13 @@ public class homeResponsabiliController {
 
 		Gita gita = new Gita(textCodiceVacanzaGita.getText(), textDestinazioneGita.getText(), textCostoGita.getText(), textDurataGita.getText(), textDescrizioneGita.getText());
 
+		System.out.println(gita.toString());
+		
 		//chiamata insert del jdbc
+		
+		
+		
+		resetFieldsGita();
 	}
 
 
@@ -161,21 +226,27 @@ public class homeResponsabiliController {
 			showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire l'indirizzo");
 			return;
 		}
+		if (textStanzeCollege.getText().isEmpty()) {
+			showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire il numero di stanze disponibili");
+			return;
+		}
 
 
-		College college = new College(textCodiceVacanzaCollege.getText(), textNomeCollege.getText(), textIndirizzoCollege.getText());
+		College college = new College( textNomeCollege.getText(), textIndirizzoCollege.getText(), textCodiceVacanzaCollege.getText(), textStanzeCollege.getText());
+		
+		System.out.println(college.toString());
 		//chiamata insert del jdbc
+		
+		
+		
+		resetFieldsCollege();
 	}
 
 
 	//--------------------- ATTIVITA' COLLEGE -----------------------
 	public void salvaAttivita(ActionEvent e) {
 		Window owner = buttSalvaAttivita.getScene().getWindow();
-		
-		if (textCodiceVacanzaCollege_A.getText().isEmpty()) {
-			showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire un Codice Vacanza valido");
-			return;
-		}
+	
 		if (textNomeCollege_A.getText().isEmpty()) {
 			showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire il nome del reltivo college");
 			return;
@@ -190,9 +261,12 @@ public class homeResponsabiliController {
 		}
 		
 		
-		Attivita attivita = new Attivita(textCodiceVacanzaCollege_A.getText(), textNomeCollege_A.getText(), textNomeAttivita.getText(), textDescrizioneAttivita.getText());
+		Attivita attivita = new Attivita(textNomeCollege_A.getText(), textNomeAttivita.getText(), textDescrizioneAttivita.getText());
 		
 		//chiamata insert del jdbc
+		
+		
+		resetFieldsAttivita();
 	}
 
 
@@ -258,6 +332,8 @@ public class homeResponsabiliController {
 		Famiglia fam = new Famiglia(textCFCapoFam.getText(), textCodiceVacanzaFam.getText(), textNrComponentiFam.getText(), textNrCamereFam.getText(), textNrBagniFam.getText(), flag, textDistanzaFam.getText());
 	
 		//chiamata insert del jdbc
+		
+		resetFieldsFamiglia();
 	}
 
 
@@ -279,4 +355,8 @@ public class homeResponsabiliController {
 		alert.initOwner(owner);
 		alert.show();
 	}
+	
+	
+	
+	
 }

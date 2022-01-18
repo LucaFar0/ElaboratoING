@@ -4,8 +4,7 @@ public class Attivita {
 	private String Nome = new String();
 	private String Descrizione = new String();
 	private String College = new String();
-	private String Vacanza;
-	
+
 	
 	public String getNome() {
 		return this.Nome;
@@ -27,20 +26,17 @@ public class Attivita {
 		//CONTROLLO VALIDITA' DEL NOME INSERITO
 		this.College = college;
 	}
-	public String getVacanza() {
-		return this.Vacanza;
-	}
-	public void setVacanza(String vacanza) {
-		//@TODO
-		//CONTROLLO VALIDITA' DEL CODICE INSERITO		
-		this.Vacanza = vacanza;
-	}
 	
-	public Attivita(String nome, String descrizione, String college, String vacanza) {
+	
+	public Attivita(String nome, String descrizione, String college) {
 		this.setNome(nome);
 		this.setDescrizione(descrizione);
 		this.setCollege(college);
-		this.setVacanza(vacanza);
+	}
+	
+	public String toString() {
+		String p = "\n" + this.getNome() + " | " + this.getDescrizione()  + " | " + this.getCollege();
+		return p;
 	}
 	
 }
