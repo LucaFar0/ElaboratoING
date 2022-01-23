@@ -22,8 +22,7 @@ import javafx.scene.control.Alert.AlertType;
 
 
 public class loginController {
-	@FXML
-	private TextField textEmail;
+	@FXML private TextField textEmail;
 	@FXML private PasswordField textPasswd;
 	@FXML private Button logButton;
 	@FXML private Button logIscrivi;
@@ -52,12 +51,13 @@ public class loginController {
 
 		try {
 			if(PostreSQLJDBC.ValidateUser(textEmail.getText(), textPasswd.getText(), rag) == true ) {
+					//System.out.println(rag.toString());
+				Main.setUser(rag);
+				Main.changeScene("View/HomeRagazzi.fxml");
 				
-					Main.changeScene("View/HomeRagazzi.fxml");
-			
 			}else if(PostreSQLJDBC.ValidateResp(textEmail.getText(), textPasswd.getText(), resp) == true ) {
 			
-					Main.changeScene("View/HomeResponsabili.fxml");
+				Main.changeScene("View/HomeResponsabili.fxml");
 			
 			}else {
 				showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Credenziali errate ");

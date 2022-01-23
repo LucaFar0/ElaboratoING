@@ -67,7 +67,7 @@ public class PostreSQLJDBC {
 			System.exit(0);
 			
 		}
-		
+		if(codice == null) codice = "0000";
 		return codice;
 	}
 	
@@ -102,8 +102,13 @@ public class PostreSQLJDBC {
 				rag.setNrTelefono(user.getString("nrtelefono"));
 				rag.setPassword(password);
 				rag.setHobby(user.getString("Hobby"));
-
+				
+				
+				
+				//System.out.println(user.getString("Cf"));
+				
 			}
+			
 			user.close();
 			loginRagazzo.close();
 			c.close();
@@ -292,7 +297,7 @@ public class PostreSQLJDBC {
 		}System.out.println("Opened database successfully");
 	}
 
-	public static void addCollegge(College college) throws SQLException{
+	public static void addCollege(College college) throws SQLException{
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);

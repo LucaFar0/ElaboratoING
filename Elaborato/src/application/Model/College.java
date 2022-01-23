@@ -16,6 +16,7 @@ public class College {
 	public void setCodice() {
 		try {
 			Codice = PostreSQLJDBC.getMaxCodice("College", Vacanza);
+			System.out.println(Codice);
 			Integer c = Integer.valueOf(Codice) + 1;
 			String zeros = "";
 			for(int i = c.toString().length(); i < 4; i++) {

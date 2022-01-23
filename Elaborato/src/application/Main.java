@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 
 public class Main extends Application {
 	public static Stage stage;
+	private static Ragazzo user;
 	@Override
 	public void start(Stage stage) throws Exception {	
 		Main.stage = stage;
@@ -46,4 +47,14 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
+	
+	public static void setUser(Ragazzo x) {
+		user = x;
+	}
+	
+	public static Ragazzo getUser(){
+		return user;
+	}
+		
 }

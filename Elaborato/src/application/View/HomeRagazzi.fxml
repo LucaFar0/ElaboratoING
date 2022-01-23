@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller.homeRagazziController">
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller.homeRagazziController">
    <children>
       <TabPane layoutY="-1.0" prefHeight="860.0" prefWidth="1264.0" rotateGraphic="true" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -60,27 +60,27 @@
                      </children>
                   </AnchorPane>
                </content></Tab>
-            <Tab text="Profilo">
+            <Tab onSelectionChanged="#setPage" text="Profilo">
                <content>
                   <Pane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <VBox layoutX="387.0" layoutY="14.0" prefHeight="404.0" prefWidth="181.0" spacing="12.0">
+                        <VBox layoutX="452.0" layoutY="14.0" prefHeight="404.0" prefWidth="181.0" spacing="12.0">
                            <children>
                               <!-- <Button fx:id="buttModNome" mnemonicParsing="false" onAction="#modificaNome" text="Modifica">
                                  <VBox.margin>
                                                 <Insets top="8.0" />
                                              </VBox.margin>
                                           </Button>-->
-                              <Button fx:id="buttModCognome" disable="false" mnemonicParsing="false" onAction="#modificaCognome" text="Modifica" />
+                              <Button fx:id="buttMod" disable="false" mnemonicParsing="false" onAction="#buttMod" text="Modifica" />
                              <!-- <Button fx:id="buttModCF" disable="true" mnemonicParsing="false" onAction="#modificaCF" text="Modifica" />
                               <Button fx:id="buttModDdN" disable="true" mnemonicParsing="false" onAction="#modificaDdN" text="Modifica" />
                                           <Button fx:id="buttModEmail" disable="true" mnemonicParsing="false" onAction="#modificaEmail" text="Modifica" />
                                           <Button fx:id="buttModNrTel" disable="true" mnemonicParsing="false" onAction="#modificaNrTel" text="Modifica" />
                                           <Button fx:id="buttModIndirizzo" disable="true" mnemonicParsing="false" onAction="#modificaIndirizzo" text="Modifica" /> -->
-                              <Button fx:id="buttSave" mnemonicParsing="false" onAction="#salvaModifiche" prefHeight="39.0" prefWidth="169.0" text="Salva modifiche" />
+                              <Button fx:id="buttSave" disable="true" mnemonicParsing="false" onAction="#salvaModifiche" prefHeight="39.0" prefWidth="169.0" text="Salva modifiche" />
                            </children>
                         </VBox>
-                        <VBox layoutX="199.0" layoutY="14.0" prefHeight="267.0" prefWidth="188.0" spacing="12.0">
+                        <VBox layoutX="199.0" layoutY="14.0" prefHeight="267.0" prefWidth="188.0" spacing="17.0">
                            <children>
                               <TextField fx:id="textNomeProf" editable="false">
                                  <VBox.margin>
@@ -99,7 +99,7 @@
                               <TextField fx:id="textIndirizzoProf" editable="false" />
                            </children>
                         </VBox>
-                        <VBox layoutX="14.0" layoutY="14.0" prefHeight="276.0" prefWidth="185.0" spacing="25.0">
+                        <VBox layoutX="14.0" layoutY="14.0" prefHeight="276.0" prefWidth="185.0" spacing="18.0">
                            <children>
                               <Label text="Nome">
                                  <VBox.margin>

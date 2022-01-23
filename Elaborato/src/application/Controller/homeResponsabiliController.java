@@ -201,7 +201,13 @@ public class homeResponsabiliController {
 		System.out.println(gita.toString());
 		
 		//chiamata insert del jdbc
-		
+		try {
+			PostreSQLJDBC.addGita(gita);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	
 		
 		
 		resetFieldsGita();
@@ -237,7 +243,13 @@ public class homeResponsabiliController {
 		System.out.println(college.toString());
 		//chiamata insert del jdbc
 		
-		
+		try {
+			PostreSQLJDBC.addCollege(college);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	
 		
 		resetFieldsCollege();
 	}
@@ -265,7 +277,12 @@ public class homeResponsabiliController {
 		
 		//chiamata insert del jdbc
 		
-		
+		try {
+			PostreSQLJDBC.addAttivita(attivita);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		resetFieldsAttivita();
 	}
 
@@ -332,6 +349,15 @@ public class homeResponsabiliController {
 		Famiglia fam = new Famiglia(textCFCapoFam.getText(), textCodiceVacanzaFam.getText(), textNrComponentiFam.getText(), textNrCamereFam.getText(), textNrBagniFam.getText(), flag, textDistanzaFam.getText());
 	
 		//chiamata insert del jdbc
+		
+		try {
+			PostreSQLJDBC.addFamiglia(capoFam, fam);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
 		
 		resetFieldsFamiglia();
 	}
