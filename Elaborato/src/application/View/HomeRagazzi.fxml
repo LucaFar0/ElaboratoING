@@ -10,7 +10,7 @@
 
 <AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller.homeRagazziController">
    <children>
-      <TabPane layoutY="-1.0" prefHeight="860.0" prefWidth="1264.0" rotateGraphic="true" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TabPane layoutY="-1.0" onMouseClicked="#setPage" prefHeight="860.0" prefWidth="1264.0" rotateGraphic="true" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
           <Tab text="Offerta Vacanze">
                <content>
@@ -60,7 +60,7 @@
                      </children>
                   </AnchorPane>
                </content></Tab>
-            <Tab onSelectionChanged="#setPage" text="Profilo">
+            <Tab fx:id="profilo" text="Profilo">
                <content>
                   <Pane prefHeight="200.0" prefWidth="200.0">
                      <children>

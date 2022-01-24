@@ -23,6 +23,9 @@ public class PostreSQLJDBC {
 	private static  String INSERT_Attivita = "INSERT INTO Attivita (nome, descrizione, collegefk) VALUES (?, ?, ?);";
 	private static  String INSERT_Famiglia = "INSERT INTO Famiglia (codice, nrcomponenti, animali, nrcamere, nrbagni, distanza, famfk, vacanzafk) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 	private static  String INSERT_CapoFamiglia = "INSERT INTO CapoFamiglia (personafk) VALUES (?);";
+	private static  String UPDATE_Persona = "UPDATE Persona SET Nome = ?, Cognome = ?, datadinascita = ?, Email = ? WHERE cf = ?;";
+	private static  String UPDATE_Ragazzo = "UPDATE Ragazzo SET Indirizzo = ?, nrtelefono = ? WHERE personafk = ?;";
+	
 	
 	// cerco il codice più alto della relativa tabella per poi poter gnerare il prossimo
 	public static String getMaxCodice(String tabella, String vacanza) throws SQLException {
@@ -425,4 +428,42 @@ public class PostreSQLJDBC {
 		}System.out.println("Opened database successfully");
 	}
 
+	//Modifica dei dati dell'utente
+	public static void UpdateUser(Ragazzo old, Ragazzo mod) throws SQLException{
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
+			PreparedStatement persona = c.prepareStatement(UPDATE_Persona);
+			PreparedStatement ragazzo = c.prepareStatement(UPDATE_Ragazzo);
+			
+			persona.clearParameters();
+			ragazzo.clearParameters();
+			
+			//persona
+			persona.setString(1, mod.getNome());
+			persona.setString(2, mod.getCognome());
+			persona.setString(3, mod.getDdN());
+			persona.setString(4, mod.getEmail());
+			persona.setString(5, old.getCF());
+			
+			//RAGAZZO
+			ragazzo.setString(1, mod.getIndirizzo());
+			ragazzo.setString(2, mod.getNrTelefono());
+			ragazzo.setString(3, old.getCF());
+			
+			System.out.println(persona);
+			System.out.println(ragazzo);
+			
+			if(persona.executeUpdate() != 1) System.out.println("ERRORE UPDATE PERSONA" + old.getCF());
+			if(ragazzo.executeUpdate() != 1) System.out.println("ERRORE UPDATE CAPO FAMIGLIA" + old.getCF());
+			persona.close();
+			ragazzo.close();
+			c.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}System.out.println("Opened database successfully");
+
+	}
 }
