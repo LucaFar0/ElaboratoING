@@ -13,6 +13,10 @@ public class PostreSQLJDBC {
 	private static  String QUERY_LoginR = "SELECT * FROM (Persona INNER JOIN Responsabile ON Responsabile.passwd = ? AND Persona.EMail = ?);";
 	private static  String QUERY_GetMaxCollege = "SELECT MAX(codice) FROM College WHERE vacanzafk = ?";
 	private static  String QUERY_GetMaxFamiglia = "SELECT MAX(codice) FROM Famiglia WHERE vacanzafk = ?";
+	private static  String QUERY_GetVacanzeData = "SELECT * FROM Vacanza WHERE vacanza.datadipartenza >= ? ORDER BY codice";
+	private static  String QUERY_GetVacanzeDurata = "SELECT * FROM Vacanza WHERE vacanza.durata = ? ORDER BY codice";
+	private static  String QUERY_GetVacanzeCitta = "SELECT * FROM Vacanza WHERE vacanza.città = ? ORDER BY codice";
+	private static  String QUERY_GetGita = "SELECT * FROM Gita WHERE Gita.vacanzafk = ? ";
 	private static  String INSERT_Persona = "INSERT INTO Persona (Cf, Nome, Cognome, DataDiNascita, EMail) VALUES (?, ?, ?, ?, ?);";
 	private static  String INSERT_Ragazzo = "INSERT INTO Ragazzo (Hobby, Indirizzo, passwd, nrtelefono, personafk) VALUES (?, ?, ?, ?, ?); ";
 	private static  String INSERT_Allergia = "INSERT INTO Allergia (Nome, Ragazzofk, Precauzioni) VALUES (?, ?, ?); ";
@@ -466,4 +470,194 @@ public class PostreSQLJDBC {
 		}System.out.println("Opened database successfully");
 
 	}
+	
+	
+	//Lista vacanze future
+	public static ArrayList<Vacanza> getVacanzaData(String data) throws SQLException{
+		ArrayList<Vacanza> vac = new ArrayList<Vacanza>();
+		Vacanza x;
+		
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
+
+			PreparedStatement vacanza = c.prepareStatement(QUERY_GetVacanzeData);
+
+
+
+			vacanza.setString(1, data);
+			
+			System.out.println(vacanza);
+
+
+			ResultSet elenco = vacanza.executeQuery();
+
+
+
+			//salvo I dati del Ragazzo se le credenziali inserite sono di un ragazzo
+			while(elenco.next()) {
+				x = new Vacanza(elenco.getString("codice"), elenco.getString("città"), elenco.getString("datadipartenza"), elenco.getString("durata"),  elenco.getString("lingua"));
+				System.out.println(x);
+				vac.add(x);
+				x = null;
+				
+				
+			}
+			
+			elenco.close();
+			vacanza.close();
+			c.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+		System.out.println("Opened database successfully");
+		
+		return vac;
+		
+	}
+
+	public static ArrayList<Vacanza> getVacanzaDurata(String durata) throws SQLException{
+		ArrayList<Vacanza> vac = new ArrayList<Vacanza>();
+		Vacanza x;
+		
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
+
+			PreparedStatement vacanza = c.prepareStatement(QUERY_GetVacanzeDurata);
+
+
+
+			vacanza.setString(1, durata);
+			
+			System.out.println(vacanza);
+
+
+			ResultSet elenco = vacanza.executeQuery();
+
+
+
+			//salvo I dati del Ragazzo se le credenziali inserite sono di un ragazzo
+			while(elenco.next()) {
+				x = new Vacanza(elenco.getString("codice"), elenco.getString("città"), elenco.getString("datadipartenza"), elenco.getString("durata"),  elenco.getString("lingua"));
+				System.out.println(x);
+				vac.add(x);
+				x = null;
+				
+				
+			}
+			
+			elenco.close();
+			vacanza.close();
+			c.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+		System.out.println("Opened database successfully");
+		
+		return vac;
+		
+	}
+	
+	public static ArrayList<Vacanza> getVacanzaCitta(String citta) throws SQLException{
+		ArrayList<Vacanza> vac = new ArrayList<Vacanza>();
+		Vacanza x;
+		
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
+
+			PreparedStatement vacanza = c.prepareStatement(QUERY_GetVacanzeCitta);
+
+
+
+			vacanza.setString(1, citta);
+			
+			System.out.println(vacanza);
+
+
+			ResultSet elenco = vacanza.executeQuery();
+
+
+
+			//salvo I dati del Ragazzo se le credenziali inserite sono di un ragazzo
+			while(elenco.next()) {
+				x = new Vacanza(elenco.getString("codice"), elenco.getString("città"), elenco.getString("datadipartenza"), elenco.getString("durata"),  elenco.getString("lingua"));
+				System.out.println(x);
+				vac.add(x);
+				x = null;
+				
+				
+			}
+			
+			elenco.close();
+			vacanza.close();
+			c.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+		System.out.println("Opened database successfully");
+		
+		return vac;
+		
+	}
+
+	//liste Gite
+	public static ArrayList<Gita> getGitaVacanza(String codice) throws SQLException{
+		ArrayList<Gita> gite = new ArrayList<Gita>();
+		Gita g;
+		
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
+
+			PreparedStatement vacanza = c.prepareStatement(QUERY_GetGita);
+
+
+
+			vacanza.setString(1, codice);
+			
+			System.out.println(vacanza);
+
+
+			ResultSet elenco = vacanza.executeQuery();
+
+
+
+			//salvo I dati del Ragazzo se le credenziali inserite sono di un ragazzo
+			while(elenco.next()) {
+				g = new Gita( elenco.getString("vacanzafk"), elenco.getString("destinazione"), elenco.getString("costo"), elenco.getString("durata"), elenco.getString("descrizione") );
+				System.out.println(g);
+				gite.add(g);
+				g = null;
+				
+				
+			}
+			
+			elenco.close();
+			vacanza.close();
+			c.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+		System.out.println("Opened database successfully");
+		
+		return gite;
+		
+	}
+
+	
+	
 }

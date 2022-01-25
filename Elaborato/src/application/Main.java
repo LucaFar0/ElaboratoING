@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 
 //s0ftw4re3ng
 
@@ -16,6 +17,12 @@ import javafx.scene.Scene;
 public class Main extends Application {
 	public static Stage stage;
 	private static Ragazzo user;
+	static Parent pane;
+	
+	public static Parent getPane() {
+		return pane;
+	}
+	
 	@Override
 	public void start(Stage stage) throws Exception {	
 		Main.stage = stage;
@@ -32,7 +39,7 @@ public class Main extends Application {
 	}
 	
 	public static void changeScene(String fxml) throws IOException{
-	    Parent pane = FXMLLoader.load(Main.class.getResource(fxml));
+	   pane  = FXMLLoader.load(Main.class.getResource(fxml));
 		
 
 	   Scene scene = new Scene(pane, 1000, 600);
@@ -43,6 +50,9 @@ public class Main extends Application {
 		   e.printStackTrace();
 	   }
 	}
+	
+	
+	
 	
 	public static void main(String[] args) {
 		launch(args);

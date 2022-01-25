@@ -1,21 +1,21 @@
 package application.Controller;
 
-import java.net.URL;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ResourceBundle ;
+import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
 
 import application.Main;
-import application.Model.PostreSQLJDBC;
-import application.Model.Ragazzo;
+import application.Model.*;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent ;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML ;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable ;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color ;
@@ -26,11 +26,141 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 
 
-public class homeRagazziController {
+public class homeRagazziController{
 	Ragazzo user = Main.getUser();
+	ArrayList<Vacanza> vacanze = null;
 	
 	
 	
+	//----------------------------------------------------Vacanze Future--------------------------------------------------------------------------------------------------------------------------------
+	@FXML private ChoiceBox<String> boxOpzioni;
+	@FXML private DatePicker dateVisualizza;
+	@FXML private TextField textVisualizzaDurata;
+	@FXML private TextField textVisualizzaCitta;
+	@FXML private Button buttFiltroData;
+	@FXML private Button buttFiltroDurata;
+	@FXML private Button buttFiltroCitta;
+	
+	@FXML private ScrollPane scroll;
+	@FXML private AnchorPane ancora;
+	@FXML private javafx.scene.layout.VBox VBox;
+	
+	
+	
+	// cancello i valori inseriti nei filtri
+	public void resetFiltri() {
+		dateVisualizza.setValue(null);
+		textVisualizzaDurata.setText(null);
+		textVisualizzaCitta.setText(null);
+
+	}
+
+
+	
+	// Eseguo la selezione per data
+	public void FiltraData(ActionEvent e) throws IOException {
+		Window owner = buttFiltroData.getScene().getWindow();
+
+		if (dateVisualizza.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")).isEmpty()) {
+			showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire una data di partenza");
+			return;
+		}
+		String data = dateVisualizza.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));	
+		try {
+			vacanze = PostreSQLJDBC.getVacanzaData(data);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+
+		for(Vacanza i: vacanze) {
+			System.out.println(i.toString());
+		}
+		
+		
+		resetFiltri();
+	}
+	
+	
+	// Eseguo la selezione per durata
+	public void FiltraDurata(ActionEvent e) {
+		Window owner = buttFiltroDurata.getScene().getWindow();
+
+
+		if (textVisualizzaDurata.getText().isEmpty()) {
+			showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire la durata preferita");
+			return;
+		}
+		String durata = textVisualizzaDurata.getText();	
+		
+		try {
+			vacanze = PostreSQLJDBC.getVacanzaDurata(durata);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		for(Vacanza i: vacanze) {
+			System.out.println(i.toString());
+		}
+		
+		resetFiltri();
+	}
+	
+	
+	// Eseguo la selezione per Città
+	public void FiltraCitta(ActionEvent e) {
+		Window owner = buttFiltroDurata.getScene().getWindow();
+
+
+		if (textVisualizzaCitta.getText().isEmpty()) {
+			showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire una Città");
+			return;
+		}
+		String citta = textVisualizzaCitta.getText();	
+
+		try {
+			vacanze = PostreSQLJDBC.getVacanzaCitta(citta);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		for(Vacanza i: vacanze) {
+			System.out.println(i.toString());
+		}
+		
+		resetFiltri();
+	}
+
+	
+	
+	public String getGite(String codice) {
+		String g = null;
+		try {
+			ArrayList<Gita> gite = PostreSQLJDBC.getGitaVacanza(codice);
+			for(Gita i: gite) {
+				g += i.toString2();
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		return codice;
+		
+	}
+	
+	
+	
+	
+	//----------------------------------------------------------Profilo-----------------------------------------------------------------------------------------------------------------------
 	@FXML private TextField textNomeProf;
 	@FXML private TextField textCognomeProf;
 	@FXML private TextField textCFProf;
@@ -50,6 +180,7 @@ public class homeRagazziController {
 	
 	
 	
+	// metodo che consente di modificare i dati
 	public void buttMod(ActionEvent e) {
 		textNomeProf.setEditable(true);
 		textCognomeProf.setEditable(true);
@@ -138,7 +269,7 @@ public class homeRagazziController {
 	}
 	
 
-
+	//metodo che carica i dati dell'utente nei relativi spazi
 	public void setPage(MouseEvent e) {
 		textNomeProf.setText(user.getNome());
 		textCognomeProf.setText(user.getCognome());
@@ -168,5 +299,7 @@ public class homeRagazziController {
 		textNrTelProf.setText(x.getNrTelefono());
 		textIndirizzoProf.setText(x.getIndirizzo());	
 	}
+
+	
 
 }
