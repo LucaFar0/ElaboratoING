@@ -46,7 +46,7 @@
                           <content>
                             <AnchorPane fx:id="ancora" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="784.0" prefWidth="1262.0">
                                  <children>
-                                    <TextArea prefHeight="1000.0" prefWidth="1000.0" AnchorPane.bottomAnchor="-400.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="262.0" AnchorPane.topAnchor="0.0" />
+                                    <TextArea fx:id="areaVacanze" prefHeight="1000.0" prefWidth="1000.0" AnchorPane.bottomAnchor="-400.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="262.0" AnchorPane.topAnchor="0.0" />
                                  </children></AnchorPane>
                           </content> 
                         </ScrollPane>

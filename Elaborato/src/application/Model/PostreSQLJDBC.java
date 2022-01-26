@@ -17,6 +17,16 @@ public class PostreSQLJDBC {
 	private static  String QUERY_GetVacanzeDurata = "SELECT * FROM Vacanza WHERE vacanza.durata = ? ORDER BY codice";
 	private static  String QUERY_GetVacanzeCitta = "SELECT * FROM Vacanza WHERE vacanza.città = ? ORDER BY codice";
 	private static  String QUERY_GetGita = "SELECT * FROM Gita WHERE Gita.vacanzafk = ? ";
+	private static  String QUERY_GetCollege = "SELECT * FROM College WHERE College.vacanzafk = ? ";
+	private static  String QUERY_GetAttivitaCollege = "SELECT * FROM Attivita WHERE Attivita.collegefk = ? ";
+	private static  String QUERY_GetCapoFam = "SELECT * \r\n"
+			+ "FROM ((Persona INNER JOIN CapoFamiglia ON CapoFamiglia.personafk = Persona.cf) \r\n"
+			+ "	  	INNER JOIN Famiglia On CapoFamiglia.personafk = Famiglia.famfk)\r\n"
+			+ "WHERE Famiglia.vacanzafk = '0002'\r\n"
+			+ " ";
+	private static  String QUERY_GeFam = "SELECT * FROM Attivita WHERE Attivita.collegefk = ? ";
+	
+	
 	private static  String INSERT_Persona = "INSERT INTO Persona (Cf, Nome, Cognome, DataDiNascita, EMail) VALUES (?, ?, ?, ?, ?);";
 	private static  String INSERT_Ragazzo = "INSERT INTO Ragazzo (Hobby, Indirizzo, passwd, nrtelefono, personafk) VALUES (?, ?, ?, ?, ?); ";
 	private static  String INSERT_Allergia = "INSERT INTO Allergia (Nome, Ragazzofk, Precauzioni) VALUES (?, ?, ?); ";
@@ -611,7 +621,7 @@ public class PostreSQLJDBC {
 		
 	}
 
-	//liste Gite
+	//liste Gite per vacanza
 	public static ArrayList<Gita> getGitaVacanza(String codice) throws SQLException{
 		ArrayList<Gita> gite = new ArrayList<Gita>();
 		Gita g;
@@ -620,23 +630,23 @@ public class PostreSQLJDBC {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
 
-			PreparedStatement vacanza = c.prepareStatement(QUERY_GetGita);
+			PreparedStatement vacanzagita = c.prepareStatement(QUERY_GetGita);
 
 
 
-			vacanza.setString(1, codice);
+			vacanzagita.setString(1, codice);
 			
-			System.out.println(vacanza);
+			System.out.println(vacanzagita);
 
 
-			ResultSet elenco = vacanza.executeQuery();
+			ResultSet elenco = vacanzagita.executeQuery();
 
 
 
-			//salvo I dati del Ragazzo se le credenziali inserite sono di un ragazzo
+			//salvo I dati delle gite se presenti
 			while(elenco.next()) {
 				g = new Gita( elenco.getString("vacanzafk"), elenco.getString("destinazione"), elenco.getString("costo"), elenco.getString("durata"), elenco.getString("descrizione") );
-				System.out.println(g);
+				//System.out.println(g);
 				gite.add(g);
 				g = null;
 				
@@ -644,7 +654,7 @@ public class PostreSQLJDBC {
 			}
 			
 			elenco.close();
-			vacanza.close();
+			vacanzagita.close();
 			c.close();
 			
 		} catch (Exception e) {
@@ -657,7 +667,142 @@ public class PostreSQLJDBC {
 		return gite;
 		
 	}
-
 	
+	//liste college per vacanza
+	public static ArrayList<College> getCollegeVacanza(String codice) throws SQLException{
+		ArrayList<College> college = new ArrayList<College>();
+		College coll;
+		
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
+
+			PreparedStatement vacanzacollege = c.prepareStatement(QUERY_GetCollege);
+
+
+
+			vacanzacollege.setString(1, codice);
+			
+			System.out.println(vacanzacollege);
+
+
+			ResultSet elenco = vacanzacollege.executeQuery();
+
+
+
+			//salvo I dati del Ragazzo se le credenziali inserite sono di un ragazzo
+			while(elenco.next()) {
+				coll = new College( elenco.getString("nome"), elenco.getString("indirizzo"), elenco.getString("vacanzafk"), elenco.getString("nrstanze"), true, elenco.getString("codice"));
+				//System.out.println(g);
+				college.add(coll);
+				coll = null;
+				
+				
+			}
+			
+			elenco.close();
+			vacanzacollege.close();
+			c.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+		System.out.println("Opened database successfully");
+		
+		return college;
+	}
+
+	public static ArrayList<Attivita> getAttivitaCollegeVacanza(String codice) throws SQLException{
+		ArrayList<Attivita> attivita = new ArrayList<Attivita>();
+		Attivita a;
+		
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
+
+			PreparedStatement attivitaCollege = c.prepareStatement(QUERY_GetAttivitaCollege);
+
+
+
+			attivitaCollege.setString(1, codice);
+			
+			System.out.println(attivitaCollege);
+
+
+			ResultSet elenco = attivitaCollege.executeQuery();
+
+
+
+			//salvo I dati dele attività se presenti
+			while(elenco.next()) {
+				a = new Attivita( elenco.getString("nome"), elenco.getString("descrizione"), elenco.getString("collegefk"));
+				//System.out.println(g);
+				attivita.add(a);
+				a = null;
+				
+				
+			}
+			
+			elenco.close();
+			attivitaCollege.close();
+			c.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+		System.out.println("Opened database successfully");
+		
+		return attivita;
+	}
+
+	public static ArrayList<Attivita> getFamigliaVacanza(String codice) throws SQLException{
+		ArrayList<Attivita> attivita = new ArrayList<Attivita>();
+		Attivita a;
+		
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
+
+			PreparedStatement attivitaCollege = c.prepareStatement(QUERY_GetAttivitaCollege);
+
+
+
+			attivitaCollege.setString(1, codice);
+			
+			System.out.println(attivitaCollege);
+
+
+			ResultSet elenco = attivitaCollege.executeQuery();
+
+
+
+			//salvo I dati dele attività se presenti
+			while(elenco.next()) {
+				a = new Attivita( elenco.getString("nome"), elenco.getString("descrizione"), elenco.getString("collegefk"));
+				//System.out.println(g);
+				attivita.add(a);
+				a = null;
+				
+				
+			}
+			
+			elenco.close();
+			attivitaCollege.close();
+			c.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+		System.out.println("Opened database successfully");
+		
+		return attivita;
+	}
+
 	
 }

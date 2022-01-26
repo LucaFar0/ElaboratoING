@@ -29,6 +29,9 @@ public class College {
 			e.printStackTrace();
 		}
 	}
+	public void setCodice2(String codice) {
+		this.Codice = codice;
+	}
 	public String getCodice() {
 		return Codice;
 	}
@@ -61,12 +64,13 @@ public class College {
 	}
 	
 	
-	public College(String nome, String indirizzo, String vacanza, String nrStanze) {
+	public College(String nome, String indirizzo, String vacanza, String nrStanze, boolean flag, String codice) {
 		this.setNome(nome);
 		this.setIndirizzo(indirizzo);
 		this.setVacanza(vacanza);
 		this.setNrStanze(nrStanze);
-		this.setCodice();
+		if(flag == false)	this.setCodice();
+		else this.setCodice2(codice);
 	}
 	
 	public String toString() {
@@ -74,5 +78,9 @@ public class College {
 		return p;
 	}
 	
+	public String toString2() {
+		String p = "\n\n Codice College: " + this.getCodice() + " \n Nome: " + this.getNome()  + " \n Numero di stanze: " + this.getNrStanze() + " \n Indirrizzo: " + this.getIndirizzo();// + " | " + this.getVacanza();
+		return p;
+	}
 	
 }

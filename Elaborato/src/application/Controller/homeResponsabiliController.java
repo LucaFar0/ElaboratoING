@@ -238,7 +238,7 @@ public class homeResponsabiliController {
 		}
 
 
-		College college = new College( textNomeCollege.getText(), textIndirizzoCollege.getText(), textCodiceVacanzaCollege.getText(), textStanzeCollege.getText());
+		College college = new College( textNomeCollege.getText(), textIndirizzoCollege.getText(), textCodiceVacanzaCollege.getText(), textStanzeCollege.getText(), false, null);
 		
 		System.out.println(college.toString());
 		//chiamata insert del jdbc

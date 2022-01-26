@@ -56,5 +56,9 @@ public class Vacanza {
 		return p;
 	}
 	
-	
+
+	public String toString2() {
+		String p = "\n\n Codice Vacanza:" + this.getCodice() + " \n Città: " + this.getCitta() + " \n Data di Partenza: " + this.getDataPartenza() + " \n Durata(Settimane): " + this.getDurata() + " \n Lingua: " + this.getLingua();
+		return p;
+	}
 }

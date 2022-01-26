@@ -29,7 +29,8 @@ import javafx.scene.input.MouseEvent;
 public class homeRagazziController{
 	Ragazzo user = Main.getUser();
 	ArrayList<Vacanza> vacanze = null;
-	
+	String out = "";
+	String separatoreVacanza = "\n\n-------------------------------------------------------------------------------------------------------------\n";
 	
 	
 	//----------------------------------------------------Vacanze Future--------------------------------------------------------------------------------------------------------------------------------
@@ -43,7 +44,7 @@ public class homeRagazziController{
 	
 	@FXML private ScrollPane scroll;
 	@FXML private AnchorPane ancora;
-	@FXML private javafx.scene.layout.VBox VBox;
+	@FXML private TextArea areaVacanze;
 	
 	
 	
@@ -75,9 +76,14 @@ public class homeRagazziController{
 
 
 		for(Vacanza i: vacanze) {
-			System.out.println(i.toString());
+			
+			System.out.println(i.toString2());
+			System.out.println(getGite(i.getCodice()));
+			out += separatoreVacanza;
+			out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice());
+			
 		}
-		
+		areaVacanze.setText(out);
 		
 		resetFiltri();
 	}
@@ -103,8 +109,13 @@ public class homeRagazziController{
 		
 		
 		for(Vacanza i: vacanze) {
-			System.out.println(i.toString());
+			System.out.println(i.toString2());
+			System.out.println(getGite(i.getCodice()));
+			out += separatoreVacanza;
+			out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice());
+			
 		}
+		areaVacanze.setText(out);
 		
 		resetFiltri();
 	}
@@ -130,8 +141,13 @@ public class homeRagazziController{
 		
 		
 		for(Vacanza i: vacanze) {
-			System.out.println(i.toString());
+			System.out.println(i.toString2());
+			System.out.println(getGite(i.getCodice()));
+			out += separatoreVacanza;
+			out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice());
+			
 		}
+		areaVacanze.setText(out);
 		
 		resetFiltri();
 	}
@@ -151,14 +167,66 @@ public class homeRagazziController{
 			e.printStackTrace();
 		}
 		
-		
-		
-		return codice;
+		if(g == null) g = "";
+		return g;
 		
 	}
 	
+	public String getCollege(String codice) {
+		String g = null;
+		try {
+			ArrayList<College> college = PostreSQLJDBC.getCollegeVacanza(codice);
+			for(College i: college) {
+				g += i.toString2();
+				g += "\n -------------------------------------Attività---------------------------   " + getAttivita(i.getCodice());
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(g == null) g = "";
+		return g;
+		
+	}
 	
+
+	public String getAttivita(String codice) {
+		String g = null;
+		try {
+			ArrayList<Attivita> a = PostreSQLJDBC.getAttivitaCollegeVacanza(codice);
+			for(Attivita i: a) {
+				g += i.toString2();
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(g == null) g = "";
+		return g;
+		
+	}
 	
+	public String getFam(String codice) {
+		String g = null;
+		try {
+			ArrayList<Attivita> a = PostreSQLJDBC.getFamigliaVacanza(codice);
+			for(Attivita i: a) {
+				g += i.toString2();
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(g == null) g = "";
+		return g;
+		
+	}
 	
 	//----------------------------------------------------------Profilo-----------------------------------------------------------------------------------------------------------------------
 	@FXML private TextField textNomeProf;
