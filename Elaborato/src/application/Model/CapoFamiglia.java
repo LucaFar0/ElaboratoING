@@ -9,4 +9,6 @@ public class CapoFamiglia extends Persona {
 		// TODO Auto-generated constructor stub
 	}
 
+	
+
 }

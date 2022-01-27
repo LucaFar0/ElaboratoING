@@ -1,10 +1,12 @@
 package application.Controller;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import javax.swing.event.ChangeEvent;
 
@@ -26,15 +28,16 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 
 
-public class homeRagazziController{
+public class homeRagazziController implements Initializable{
 	Ragazzo user = Main.getUser();
 	ArrayList<Vacanza> vacanze = null;
+	ArrayList<College> college = null;
 	String out = "";
-	String separatoreVacanza = "\n\n-------------------------------------------------------------------------------------------------------------\n";
+	String separatoreVacanza = "\n\n\n-----------------------------------V A C A N Z A-----------------------------------------------------------------------------------------------\n";
 	
 	
 	//----------------------------------------------------Vacanze Future--------------------------------------------------------------------------------------------------------------------------------
-	@FXML private ChoiceBox<String> boxOpzioni;
+	
 	@FXML private DatePicker dateVisualizza;
 	@FXML private TextField textVisualizzaDurata;
 	@FXML private TextField textVisualizzaCitta;
@@ -44,22 +47,79 @@ public class homeRagazziController{
 	
 	@FXML private ScrollPane scroll;
 	@FXML private AnchorPane ancora;
-	@FXML private TextArea areaVacanze;
+	@FXML private TextArea areaVacanze ;
+	
+	
+	//---------------------	PRENOTAZIONI-------------------------
+	//college
+	@FXML private ChoiceBox<String> choicePrenotaCollegeVacanza;
+	@FXML private ChoiceBox<String> choicePrenotaCollege;
+	@FXML private ChoiceBox<String> choicePrenotaCollegePaga;
+	@FXML private ChoiceBox<String> choicePrenotaCollegeStanza;
+	@FXML private Button buttPrenotaCollege;
+	
+	private String[] pagamento = {"Carta di credito", "Bonifico"};
+	private String[] tipoStanza = {"Singola", "Doppia"};
 	
 	
 	
-	// cancello i valori inseriti nei filtri
-	public void resetFiltri() {
-		dateVisualizza.setValue(null);
-		textVisualizzaDurata.setText(null);
-		textVisualizzaCitta.setText(null);
-
+	
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		choicePrenotaCollegeVacanza.setOnAction(this::setCollege);
+		
+		
+	}
+	
+	
+	
+	
+	private void setCollege(ActionEvent e) {
+		String vac = choicePrenotaCollegeVacanza.getValue();
+		String[] codCollege = new String[100];
+		 try {
+			ArrayList<College> coll = PostreSQLJDBC.getCollegeVacanza(vac);
+			int j = 0;
+			for(College i: coll) {
+				codCollege[j] = i.getCodice();
+				j++;
+			}
+			choicePrenotaCollege.getItems().addAll(codCollege);
+			
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 
+
+
+	// cancello i valori inseriti nei filtri
+	private void resetFiltri() {
+		dateVisualizza.setValue(null);
+		textVisualizzaDurata.setText(null);
+		textVisualizzaCitta.setText(null);
+		
+	}
+	
+	private void clearBox() {
+		choicePrenotaCollegeVacanza.getItems().clear();
+		choicePrenotaCollege.getItems().clear();
+	}
+	
+	
 	
 	// Eseguo la selezione per data
 	public void FiltraData(ActionEvent e) throws IOException {
+		clearBox();
+		out = "";
+		String[] codVacanze = new String[100];
+		String[] codCollege;
+		if(college != null) college.clear();
+		if(vacanze != null) vacanze.clear();
+		
+		
 		Window owner = buttFiltroData.getScene().getWindow();
 
 		if (dateVisualizza.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")).isEmpty()) {
@@ -74,16 +134,22 @@ public class homeRagazziController{
 			e1.printStackTrace();
 		}
 
-
+		int j = 0;
 		for(Vacanza i: vacanze) {
-			
+			codVacanze[j] = i.getCodice();// + " | " + i.getCitta();
 			System.out.println(i.toString2());
 			System.out.println(getGite(i.getCodice()));
 			out += separatoreVacanza;
-			out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice());
-			
+			out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice()) + getFam(i.getCodice());
+			j++;
 		}
-		areaVacanze.setText(out);
+	
+		choicePrenotaCollegeVacanza.getItems().addAll(codVacanze);
+		choicePrenotaCollegePaga.getItems().addAll(pagamento);
+		choicePrenotaCollegeStanza.getItems().addAll(tipoStanza);
+		
+		
+		areaVacanze.replaceText(0, areaVacanze.getLength(), out);
 		
 		resetFiltri();
 	}
@@ -91,6 +157,14 @@ public class homeRagazziController{
 	
 	// Eseguo la selezione per durata
 	public void FiltraDurata(ActionEvent e) {
+		clearBox();
+		out = "";
+		String[] codVacanze = new String[100];
+		String[] codCollege;
+		if(college != null) college.clear();
+		if(vacanze != null) vacanze.clear();
+		
+		
 		Window owner = buttFiltroDurata.getScene().getWindow();
 
 
@@ -107,15 +181,20 @@ public class homeRagazziController{
 			e1.printStackTrace();
 		}
 		
-		
+		int j = 0;
 		for(Vacanza i: vacanze) {
+			codVacanze[j] = i.getCodice();// + " | " + i.getCitta();
 			System.out.println(i.toString2());
 			System.out.println(getGite(i.getCodice()));
 			out += separatoreVacanza;
-			out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice());
-			
+			out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice()) + getFam(i.getCodice());
+			j++;
 		}
-		areaVacanze.setText(out);
+		choicePrenotaCollegeVacanza.getItems().addAll(codVacanze);
+		choicePrenotaCollegePaga.getItems().addAll(pagamento);
+		choicePrenotaCollegeStanza.getItems().addAll(tipoStanza);
+		
+		areaVacanze.replaceText(0, areaVacanze.getLength(), out);
 		
 		resetFiltri();
 	}
@@ -123,6 +202,15 @@ public class homeRagazziController{
 	
 	// Eseguo la selezione per Città
 	public void FiltraCitta(ActionEvent e) {
+		clearBox();
+		out = "";
+		String[] codVacanze = new String[100];
+		String[] codCollege;
+		if(college != null) college.clear();
+		if(vacanze != null) vacanze.clear();
+		
+		
+		
 		Window owner = buttFiltroDurata.getScene().getWindow();
 
 
@@ -139,14 +227,20 @@ public class homeRagazziController{
 			e1.printStackTrace();
 		}
 		
-		
+		int j = 0;
 		for(Vacanza i: vacanze) {
+			
+			codVacanze[j] = i.getCodice();// + " | " + i.getCitta();
 			System.out.println(i.toString2());
 			System.out.println(getGite(i.getCodice()));
 			out += separatoreVacanza;
-			out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice());
-			
+			out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice()) + getFam(i.getCodice());
+			j++;
 		}
+		choicePrenotaCollegeVacanza.getItems().addAll(codVacanze);
+		choicePrenotaCollegePaga.getItems().addAll(pagamento);
+		choicePrenotaCollegeStanza.getItems().addAll(tipoStanza);
+		
 		areaVacanze.setText(out);
 		
 		resetFiltri();
@@ -155,7 +249,7 @@ public class homeRagazziController{
 	
 	
 	public String getGite(String codice) {
-		String g = null;
+		String g = "\n		--------------------Gite---------------------------------";
 		try {
 			ArrayList<Gita> gite = PostreSQLJDBC.getGitaVacanza(codice);
 			for(Gita i: gite) {
@@ -167,18 +261,22 @@ public class homeRagazziController{
 			e.printStackTrace();
 		}
 		
-		if(g == null) g = "";
+		//if(g == null) g = "";
 		return g;
 		
 	}
 	
 	public String getCollege(String codice) {
-		String g = null;
+		String g = "\n		--------------------College---------------------------------";
 		try {
-			ArrayList<College> college = PostreSQLJDBC.getCollegeVacanza(codice);
+			 college = PostreSQLJDBC.getCollegeVacanza(codice);
+			
+		
 			for(College i: college) {
+				
 				g += i.toString2();
-				g += "\n -------------------------------------Attività---------------------------   " + getAttivita(i.getCodice());
+				g += "\n 			------------------------Attività---------------------------   " + getAttivita(i.getCodice());
+				
 			}
 			
 		} catch (SQLException e) {
@@ -186,7 +284,7 @@ public class homeRagazziController{
 			e.printStackTrace();
 		}
 		
-		if(g == null) g = "";
+		//if(g == null) g = "";
 		return g;
 		
 	}
@@ -211,11 +309,15 @@ public class homeRagazziController{
 	}
 	
 	public String getFam(String codice) {
-		String g = null;
+		String g = "\n		--------------------Famiglie---------------------------------";
+		ArrayList<CapoFamiglia> capo = new ArrayList<CapoFamiglia>();
+		ArrayList<Famiglia> fam = new ArrayList<Famiglia>();
 		try {
-			ArrayList<Attivita> a = PostreSQLJDBC.getFamigliaVacanza(codice);
-			for(Attivita i: a) {
-				g += i.toString2();
+			PostreSQLJDBC.getFamigliaVacanza(codice, capo, fam);
+			int x = 0;
+			for(CapoFamiglia i: capo) {
+				g += i.toString2() + fam.get(x).toString2();
+				
 			}
 			
 		} catch (SQLException e) {
@@ -223,10 +325,33 @@ public class homeRagazziController{
 			e.printStackTrace();
 		}
 		
-		if(g == null) g = "";
+		//if(g == null) g = "";
 		return g;
 		
 	}
+	
+	
+	
+	
+	// prenotazione College
+	public void PrenotaCollege(ActionEvent e) {
+		PrenotazioneCollege prenotazione =  new PrenotazioneCollege(choicePrenotaCollegeVacanza.getValue(), user.getCF(), choicePrenotaCollege.getValue(), choicePrenotaCollegeStanza.getValue(), choicePrenotaCollegePaga.getValue());
+		
+		try {
+			PostreSQLJDBC.addPrenotazioneCollege(prenotazione);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	
+	
+	}
+
+	
+	
+	
+	
+	
 	
 	//----------------------------------------------------------Profilo-----------------------------------------------------------------------------------------------------------------------
 	@FXML private TextField textNomeProf;
@@ -367,6 +492,10 @@ public class homeRagazziController{
 		textNrTelProf.setText(x.getNrTelefono());
 		textIndirizzoProf.setText(x.getIndirizzo());	
 	}
+
+
+
+	
 
 	
 

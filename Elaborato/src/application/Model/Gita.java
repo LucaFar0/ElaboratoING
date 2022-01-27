@@ -57,7 +57,7 @@ public class Gita {
 		return p;
 	}
 	public String toString2() {
-		String p = "\n\n Destinazione" + this.getDestinazione() + " \n Costo: " + this.getCosto() + " \n Durata(ore= " + this.getOre() + " \n Descrizione " + this.getDescrizione();// + " | " + this.getVacanza();
+		String p = "\n\n		Destinazione" + this.getDestinazione() + " \n		Costo: " + this.getCosto() + " \n		Durata(ore= " + this.getOre() + " \n		Descrizione " + this.getDescrizione();// + " | " + this.getVacanza();
 		return p;
 	}
 	

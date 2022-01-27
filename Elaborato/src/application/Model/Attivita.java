@@ -40,7 +40,7 @@ public class Attivita {
 	}
 	
 	public String toString2() {
-		String p = "\n\n Nome Attività: " + this.getNome() + " \n Descrizione:  " + this.getDescrizione(); //  + " | " + this.getCollege();
+		String p = "\n\n			 Nome Attività: " + this.getNome() + " \n		 	Descrizione:  " + this.getDescrizione(); //  + " | " + this.getCollege();
 		return p;
 	}
 }

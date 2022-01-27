@@ -13,18 +13,16 @@ public class PostreSQLJDBC {
 	private static  String QUERY_LoginR = "SELECT * FROM (Persona INNER JOIN Responsabile ON Responsabile.passwd = ? AND Persona.EMail = ?);";
 	private static  String QUERY_GetMaxCollege = "SELECT MAX(codice) FROM College WHERE vacanzafk = ?";
 	private static  String QUERY_GetMaxFamiglia = "SELECT MAX(codice) FROM Famiglia WHERE vacanzafk = ?";
-	private static  String QUERY_GetVacanzeData = "SELECT * FROM Vacanza WHERE vacanza.datadipartenza >= ? ORDER BY codice";
+	private static  String QUERY_GetMaxPrenotazioniCollege = "SELECT MAX(codice) FROM PrenotazioneCollege WHERE vacanzafk = ? AND collegefk = ?";
+	private static  String QUERY_GetMaxPrenotazioniFamiglia = "SELECT MAX(codice) FROM PrenotazioneFamiglia WHERE vacanzafk = ? AND famigliafk = ?";
+	private static  String QUERY_GetVacanzeData = "SELECT * FROM Vacanza WHERE vacanza.datadipartenza >= ? ORDER BY datadipartenza";
 	private static  String QUERY_GetVacanzeDurata = "SELECT * FROM Vacanza WHERE vacanza.durata = ? ORDER BY codice";
 	private static  String QUERY_GetVacanzeCitta = "SELECT * FROM Vacanza WHERE vacanza.città = ? ORDER BY codice";
 	private static  String QUERY_GetGita = "SELECT * FROM Gita WHERE Gita.vacanzafk = ? ";
 	private static  String QUERY_GetCollege = "SELECT * FROM College WHERE College.vacanzafk = ? ";
 	private static  String QUERY_GetAttivitaCollege = "SELECT * FROM Attivita WHERE Attivita.collegefk = ? ";
-	private static  String QUERY_GetCapoFam = "SELECT * \r\n"
-			+ "FROM ((Persona INNER JOIN CapoFamiglia ON CapoFamiglia.personafk = Persona.cf) \r\n"
-			+ "	  	INNER JOIN Famiglia On CapoFamiglia.personafk = Famiglia.famfk)\r\n"
-			+ "WHERE Famiglia.vacanzafk = '0002'\r\n"
-			+ " ";
-	private static  String QUERY_GeFam = "SELECT * FROM Attivita WHERE Attivita.collegefk = ? ";
+	private static  String QUERY_GetCapoFam = "SELECT * FROM (Persona INNER JOIN Famiglia On Persona.cf = Famiglia.famfk) WHERE Famiglia.vacanzafk = ? ";
+	//private static  String QUERY_GeFam = "SELECT * FROM Attivita WHERE Attivita.collegefk = ? ";
 	
 	
 	private static  String INSERT_Persona = "INSERT INTO Persona (Cf, Nome, Cognome, DataDiNascita, EMail) VALUES (?, ?, ?, ?, ?);";
@@ -37,6 +35,8 @@ public class PostreSQLJDBC {
 	private static  String INSERT_Attivita = "INSERT INTO Attivita (nome, descrizione, collegefk) VALUES (?, ?, ?);";
 	private static  String INSERT_Famiglia = "INSERT INTO Famiglia (codice, nrcomponenti, animali, nrcamere, nrbagni, distanza, famfk, vacanzafk) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 	private static  String INSERT_CapoFamiglia = "INSERT INTO CapoFamiglia (personafk) VALUES (?);";
+	private static  String INSERT_PrenotazioneCollege = "INSERT INTO PrenotazioneCollege (codice , tipostanza, pagamento, ragazzofk, vacanzafk, collegefk) VALUES (?, ?, ?, ?, ?, ?)";
+	
 	private static  String UPDATE_Persona = "UPDATE Persona SET Nome = ?, Cognome = ?, datadinascita = ?, Email = ? WHERE cf = ?;";
 	private static  String UPDATE_Ragazzo = "UPDATE Ragazzo SET Indirizzo = ?, nrtelefono = ? WHERE personafk = ?;";
 	
@@ -87,6 +87,55 @@ public class PostreSQLJDBC {
 		if(codice == null) codice = "0000";
 		return codice;
 	}
+	
+	
+	// cerco il codice più alto della relativa tabella per poi poter gnerare il prossimo
+		public static String getMaxCodicePrenotazione(String tabella, String vacanza, String x) throws SQLException {
+			String codice = null;
+			
+			try {
+				Class.forName("org.postgresql.Driver");
+				Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
+				PreparedStatement getmax;
+				
+				switch(tabella) {
+				case "College":
+					getmax = c.prepareStatement(QUERY_GetMaxPrenotazioniCollege);
+				break;
+				case "Famiglia":
+					getmax = c.prepareStatement(QUERY_GetMaxPrenotazioniFamiglia);
+				break;
+				default:
+					getmax = c.prepareStatement(QUERY_GetMaxPrenotazioniCollege);
+				}
+					
+				
+				getmax.clearParameters();
+				
+				//getmax.setString(1, tabella);
+				getmax.setString(1, vacanza);
+				getmax.setString(2, x);
+				System.out.println(getmax);
+
+				ResultSet max = getmax.executeQuery();
+				
+				while(max.next()) {
+					codice = max.getString("max");
+					System.out.println(codice);
+				}
+				max.close();
+				getmax.close();
+				c.close();
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.err.println(e.getClass().getName()+": "+e.getMessage());
+				System.exit(0);
+				
+			}
+			if(codice == null) codice = "0000";
+			return codice;
+		}
 	
 	public static boolean ValidateUser(String emailId, String password, Ragazzo rag) throws SQLException {
 
@@ -713,7 +762,8 @@ public class PostreSQLJDBC {
 		
 		return college;
 	}
-
+	
+	//liste attivita dei college per vacanza
 	public static ArrayList<Attivita> getAttivitaCollegeVacanza(String codice) throws SQLException{
 		ArrayList<Attivita> attivita = new ArrayList<Attivita>();
 		Attivita a;
@@ -758,40 +808,47 @@ public class PostreSQLJDBC {
 		
 		return attivita;
 	}
-
-	public static ArrayList<Attivita> getFamigliaVacanza(String codice) throws SQLException{
-		ArrayList<Attivita> attivita = new ArrayList<Attivita>();
-		Attivita a;
+	
+	//liste famiglie e capofam per vacanza
+	public static void getFamigliaVacanza(String codice, ArrayList<CapoFamiglia> capofam, ArrayList<Famiglia> fam) throws SQLException{
+		
+		CapoFamiglia capo;
+		Famiglia f;
 		
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
 
-			PreparedStatement attivitaCollege = c.prepareStatement(QUERY_GetAttivitaCollege);
+			PreparedStatement datifam = c.prepareStatement(QUERY_GetCapoFam);
 
 
 
-			attivitaCollege.setString(1, codice);
+			datifam.setString(1, codice);
 			
-			System.out.println(attivitaCollege);
+			System.out.println(datifam);
 
 
-			ResultSet elenco = attivitaCollege.executeQuery();
+			ResultSet elenco = datifam.executeQuery();
 
 
 
 			//salvo I dati dele attività se presenti
 			while(elenco.next()) {
-				a = new Attivita( elenco.getString("nome"), elenco.getString("descrizione"), elenco.getString("collegefk"));
-				//System.out.println(g);
-				attivita.add(a);
-				a = null;
+				capo = new CapoFamiglia( elenco.getString("nome"), elenco.getString("cognome"), elenco.getString("cf"),  elenco.getString("email"), elenco.getString("datadinascita"));
+				f = new Famiglia( elenco.getString("cf"),  elenco.getString("vacanzafk"),  elenco.getString("nrcomponenti"),  elenco.getString("nrcamere"),  elenco.getString("nrbagni"),  elenco.getBoolean("animali"),  elenco.getString("distanza"), true, elenco.getString("codice"));
 				
+				//System.out.println(g);
+				capofam.add(capo);
+				fam.add(f);
+				
+				
+				capo = null;
+				f = null;
 				
 			}
 			
 			elenco.close();
-			attivitaCollege.close();
+			datifam.close();
 			c.close();
 			
 		} catch (Exception e) {
@@ -801,8 +858,36 @@ public class PostreSQLJDBC {
 		}
 		System.out.println("Opened database successfully");
 		
-		return attivita;
 	}
 
+	//inserimento prenotazione college
+	public static void addPrenotazioneCollege(PrenotazioneCollege prenotazione) throws SQLException{
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
+			PreparedStatement pren = c.prepareStatement(INSERT_PrenotazioneCollege);
+			
+			pren.clearParameters();
+			
+			pren.setString(1, prenotazione.getCodice());
+			pren.setString(2, prenotazione.getStanza());
+			pren.setString(3, prenotazione.getMdP());
+			pren.setString(4, prenotazione.getPersona());
+			pren.setString(5, prenotazione.getVacanza());
+			pren.setString(6, prenotazione.getCollege());
+
+			
+			System.out.println(pren);
+			
+			if(pren.executeUpdate() != 1) System.out.println("ERRORE INSERIMENTO PRENOTAZIONE COLLEGE" + prenotazione.getCodice());
+			pren.close();
+			c.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}System.out.println("Opened database successfully");
+	}
+	
 	
 }

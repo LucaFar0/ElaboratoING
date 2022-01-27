@@ -57,4 +57,13 @@ public class Persona {
 		String p = "\n" + this.getNome() + " | " + this.getCognome() + " | " + this.getCF() + " | " + this.getDdN() + " | " + this.getEmail();
 		return p;
 	}
+	
+	
+	public String toString2() {
+		String p = "\n\n		Nome: " + this.getNome() + " \n		Cognome: " + this.getCognome() + " \n	 	Codice Fiscale: " + this.getCF() + " \n		Data di Nascita: " + this.getDdN() + " \n		Email: " + this.getEmail();
+		return p;
+	}
+	
+	
+	
 }

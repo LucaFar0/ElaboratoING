@@ -345,8 +345,8 @@ public class homeResponsabiliController {
 		
 		if(checkAnimaliFam.isSelected()) flag = true;
 		
-		CapoFamiglia capoFam = new CapoFamiglia(textNomeCapoFam.getText(), textCognomeCapoFam.getText(), textCFCapoFam.getText(), dateDdNCapoFam.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), textEmailCapoFam.getText());
-		Famiglia fam = new Famiglia(textCFCapoFam.getText(), textCodiceVacanzaFam.getText(), textNrComponentiFam.getText(), textNrCamereFam.getText(), textNrBagniFam.getText(), flag, textDistanzaFam.getText());
+		CapoFamiglia capoFam = new CapoFamiglia(textNomeCapoFam.getText(), textCognomeCapoFam.getText(), textCFCapoFam.getText() , textEmailCapoFam.getText(), dateDdNCapoFam.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+		Famiglia fam = new Famiglia(textCFCapoFam.getText(), textCodiceVacanzaFam.getText(), textNrComponentiFam.getText(), textNrCamereFam.getText(), textNrBagniFam.getText(), flag, textDistanzaFam.getText(), false, null);
 	
 		//chiamata insert del jdbc
 		

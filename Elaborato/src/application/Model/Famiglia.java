@@ -12,7 +12,7 @@ public class Famiglia {
 	private String Distanza = new String();
 	private String Codice;
 	
-	public Famiglia(String capoFam, String vacanza, String nrComponenti, String nrCamere, String nrBagni, boolean animali, String distanza) {
+	public Famiglia(String capoFam, String vacanza, String nrComponenti, String nrCamere, String nrBagni, boolean animali, String distanza, boolean flag, String codice) {
 		this.setCapoFamiglia(capoFam);
 		this.setVacanza(vacanza);
 		this.setNrComponenti(nrComponenti);
@@ -21,6 +21,8 @@ public class Famiglia {
 		this.setDistanza(distanza);
 		this.setAnimali(animali);
 		this.setCodice();
+		if(flag == false)	this.setCodice();
+		else this.setCodice2(codice);
 	}
 	
 	public void setCodice() {
@@ -38,6 +40,11 @@ public class Famiglia {
 			e.printStackTrace();
 		}
 	}
+	
+	public void setCodice2(String codice) {
+		this.Codice = codice;
+	}
+	
 	public String getCodice() {
 		return Codice;
 	}
@@ -119,5 +126,18 @@ public class Famiglia {
 		String p = "\n" + this.getCodice() + " | " + this.getCapoFamiglia() + " | " + this.getVacanza() + " | " + this.getNrComponenti() + " | " + this.getNrCamere() + " | " + this.getNrBagni() + " | " + this.isAnimali() + " | " + this.getDistanza();
 		return p;
 	}
-
+	
+	
+	public String toString2() {
+		String p = "\n\n		CodiceFamiglia: " + this.getCodice() + " \n		CodiceVacanza: " + this.getVacanza() + " \n		numero componenti: " + this.getNrComponenti() + " \n		Numero Camere " + this.getNrCamere() + " \n		NUmero Bagni: " + this.getNrBagni() + " \n		Animali: " + Animali() + " \n		Distanza dal centro: " + this.getDistanza();
+		return p;
+	}
+	
+	public String Animali() {
+		String x = "no";
+		if(this.isAnimali() == true )
+			x = "sì";
+		
+		return x;
+	}
 }

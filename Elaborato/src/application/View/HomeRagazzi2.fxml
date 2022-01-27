@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
@@ -17,27 +18,27 @@
                <content>
                   <AnchorPane prefHeight="739.0" prefWidth="1382.0">
                      <children>
-                        <VBox layoutX="1.0" prefHeight="81.0" prefWidth="1000.0">
+                        <VBox layoutX="1.0" prefHeight="84.0" prefWidth="350.0">
                            <children>
-                              <HBox prefHeight="25.0" prefWidth="1000.0" spacing="15.0">
+                              <HBox layoutY="53.0" prefHeight="31.0" prefWidth="1000.0" spacing="15.0">
                                  <children>
-                                    <Label prefHeight="25.0" prefWidth="64.0" text="Scegli Data" />
-                                    <DatePicker fx:id="dateVisualizza" />
-                                    <Button fx:id="buttFiltroData" mnemonicParsing="false" onAction="#FiltraData" text="Filtra" />
+                                    <Label prefHeight="28.0" prefWidth="64.0" text="Città" />
+                                    <TextField fx:id="textVisualizzaCitta" prefHeight="25.0" prefWidth="174.0" />
+                                    <Button fx:id="buttFiltroCitta" mnemonicParsing="false" onAction="#FiltraCitta" text="Filtra" />
                                  </children>
                               </HBox>
-                              <HBox prefHeight="31.0" prefWidth="1000.0" spacing="15.0">
+                              <HBox layoutY="25.0" prefHeight="31.0" prefWidth="1000.0" spacing="15.0">
                                  <children>
                                     <Label prefHeight="25.0" prefWidth="64.0" text="Durata" />
                                     <TextField fx:id="textVisualizzaDurata" prefHeight="25.0" prefWidth="174.0" />
                                     <Button fx:id="buttFiltroDurata" mnemonicParsing="false" onAction="#FiltraDurata" text="Filtra" />
                                  </children>
                               </HBox>
-                              <HBox prefHeight="31.0" prefWidth="1000.0" spacing="15.0">
+                              <HBox prefHeight="25.0" prefWidth="1000.0" spacing="15.0">
                                  <children>
-                                    <Label prefHeight="28.0" prefWidth="64.0" text="Città" />
-                                    <TextField fx:id="textVisualizzaCitta" prefHeight="25.0" prefWidth="174.0" />
-                                    <Button fx:id="buttFiltroCitta" mnemonicParsing="false" onAction="#FiltraCitta" text="Filtra" />
+                                    <Label prefHeight="25.0" prefWidth="64.0" text="Scegli Data" />
+                                    <DatePicker fx:id="dateVisualizza" />
+                                    <Button fx:id="buttFiltroData" mnemonicParsing="false" onAction="#FiltraData" text="Filtra" />
                                  </children>
                               </HBox>
                            </children>
@@ -46,10 +47,90 @@
                           <content>
                             <AnchorPane fx:id="ancora" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="20000.0" prefWidth="1262.0">
                                  <children>
-                                    <TextArea fx:id="areaVacanze" editable="false" maxHeight="1.7976931348623157E308" prefHeight="3071.0" prefWidth="1000.0" AnchorPane.bottomAnchor="-2287.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="262.0" AnchorPane.topAnchor="0.0" />
+                                    <TextArea fx:id="areaVacanze" editable="false" prefHeight="676.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="262.0" AnchorPane.topAnchor="0.0" />
                                  </children></AnchorPane>
                           </content> 
                         </ScrollPane>
+                        <TitledPane animated="false" expanded="false" layoutX="394.0" prefHeight="324.0" prefWidth="296.0" text="prenota college">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="298.0" prefWidth="244.0">
+                                 <children>
+                                    <VBox layoutX="14.0" layoutY="14.0" prefHeight="243.0" prefWidth="262.0" spacing="20.0">
+                                       <children>
+                                          <HBox prefHeight="21.0" prefWidth="262.0">
+                                             <children>
+                                                <Label prefHeight="41.0" prefWidth="79.0" text="Vacanza" />
+                                                <ChoiceBox fx:id="choicePrenotaCollegeVacanza" prefHeight="48.0" prefWidth="184.0" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="21.0" prefWidth="262.0">
+                                             <children>
+                                                <Label prefHeight="41.0" prefWidth="79.0" text="College" />
+                                                <ChoiceBox fx:id="choicePrenotaCollege" prefHeight="48.0" prefWidth="184.0" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="21.0" prefWidth="262.0">
+                                             <children>
+                                                <Label prefHeight="41.0" prefWidth="79.0" text="Pagamento" />
+                                                <ChoiceBox fx:id="choicePrenotaCollegePaga" prefHeight="48.0" prefWidth="184.0" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="21.0" prefWidth="262.0">
+                                             <children>
+                                                <Label prefHeight="41.0" prefWidth="79.0" text="Tipo Stanza" />
+                                                <ChoiceBox fx:id="choicePrenotaCollegeStanza" prefHeight="48.0" prefWidth="184.0" />
+                                             </children>
+                                          </HBox>
+                                          <Button fx:id="buttPrenotaCollege" mnemonicParsing="false"  onAction="#PrenotaCollege" text="Prenota" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </TitledPane>
+                        <TitledPane animated="false" expanded="false" layoutX="690.0" prefHeight="324.0" prefWidth="296.0" text="prenota Famiglia">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="298.0" prefWidth="244.0">
+                                 <children>
+                                    <VBox layoutX="14.0" layoutY="14.0" prefHeight="243.0" prefWidth="262.0" spacing="20.0">
+                                       <children>
+                                          <HBox prefHeight="21.0" prefWidth="262.0">
+                                             <children>
+                                                <Label prefHeight="41.0" prefWidth="79.0" text="Vacanza" />
+                                                <ChoiceBox fx:id="choicePrenotaFamVacanza" prefHeight="48.0" prefWidth="184.0" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="21.0" prefWidth="262.0">
+                                             <children>
+                                                <Label prefHeight="41.0" prefWidth="79.0" text="Famiglia" />
+                                                <ChoiceBox fx:id="choicePrenotaFam" prefHeight="48.0" prefWidth="184.0" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="21.0" prefWidth="262.0">
+                                             <children>
+                                                <Label prefHeight="41.0" prefWidth="79.0" text="Pagamento" />
+                                                <ChoiceBox fx:id="choicePrenotaFamPaga" prefHeight="48.0" prefWidth="184.0" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="21.0" prefWidth="262.0">
+                                             <children>
+                                                <Label prefHeight="41.0" prefWidth="79.0" text="Nome Amico" />
+                                                <TextField fx:id="textNomeAmico" prefHeight="25.0" prefWidth="188.0" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="21.0" prefWidth="262.0">
+                                             <children>
+                                                <Label prefHeight="41.0" prefWidth="79.0" text="Email Amico" />
+                                                <TextField fx:id="EmailAmico" prefHeight="25.0" prefWidth="188.0" />
+                                             </children>
+                                          </HBox>
+                                          <Button fx:id="buttPrenotaFam" mnemonicParsing="false" text="Prenota" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </TitledPane>
                      </children>
                   </AnchorPane>
                </content>

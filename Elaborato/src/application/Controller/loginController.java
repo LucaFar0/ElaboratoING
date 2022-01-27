@@ -53,7 +53,7 @@ public class loginController {
 			if(PostreSQLJDBC.ValidateUser(textEmail.getText(), textPasswd.getText(), rag) == true ) {
 					//System.out.println(rag.toString());
 				Main.setUser(rag);
-				Main.changeScene("View/HomeRagazzi.fxml");
+				Main.changeScene("View/HomeRagazzi2.fxml");
 				
 			}else if(PostreSQLJDBC.ValidateResp(textEmail.getText(), textPasswd.getText(), resp) == true ) {
 			

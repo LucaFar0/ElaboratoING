@@ -1,27 +1,56 @@
 package application.Model;
 
+import java.sql.SQLException;
+
 public class PrenotazioneCollege {
-	private int Vacanza;
+	private String Vacanza;
 	private String Persona = new String();
 	private String College = new String();
-	private tipoStanza Stanza;
-	private metodoDiPagamento MdP;
+	private String Stanza;
+	private String MdP;
+	private String Codice;
 	
-	public PrenotazioneCollege(int vacanza, String persona, String college, tipoStanza stanza, metodoDiPagamento mdp) {
+	public PrenotazioneCollege(String vacanza, String persona, String college, String stanza, String mdp) {
 		this.setVacanza(vacanza);
 		this.setPersona(persona);
 		this.setCollege(college);
 		this.setStanza(stanza);
 		this.setMdP(mdp);
+		this.setCodice();
 	}
 
+	
+	public void setCodice() {
+		try {
+			Codice = PostreSQLJDBC.getMaxCodicePrenotazione("College", Vacanza, this.College);
+			System.out.println(Codice);
+			Integer c = Integer.valueOf(Codice) + 1;
+			String zeros = "";
+			for(int i = c.toString().length(); i < 4; i++) {
+				zeros += "0";
+			}
+			zeros += c.toString();
+			Codice = Vacanza+College+zeros;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public String getCodice() {
+		return Codice;
+	}
+	
 
-	public int getVacanza() {
+
+
+	public String getVacanza() {
 		return this.Vacanza;
 	}
 
 
-	public void setVacanza(int vacanza) {
+	public void setVacanza(String vacanza) {
 		this.Vacanza = vacanza;
 	}
 
@@ -46,22 +75,22 @@ public class PrenotazioneCollege {
 	}
 
 
-	public tipoStanza getStanza() {
+	public String getStanza() {
 		return this.Stanza;
 	}
 
 
-	public void setStanza(tipoStanza stanza) {
+	public void setStanza(String stanza) {
 		this.Stanza = stanza;
 	}
 
 
-	public metodoDiPagamento getMdP() {
+	public String getMdP() {
 		return this.MdP;
 	}
 
 
-	public void setMdP(metodoDiPagamento mdP) {
+	public void setMdP(String mdP) {
 		this.MdP = mdP;
 	}
 

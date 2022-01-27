@@ -79,7 +79,7 @@ public class College {
 	}
 	
 	public String toString2() {
-		String p = "\n\n Codice College: " + this.getCodice() + " \n Nome: " + this.getNome()  + " \n Numero di stanze: " + this.getNrStanze() + " \n Indirrizzo: " + this.getIndirizzo();// + " | " + this.getVacanza();
+		String p = "\n\n		Codice College: " + this.getCodice() + " \n		Nome: " + this.getNome()  + " \n 		Numero di stanze: " + this.getNrStanze() + " \n		Indirrizzo: " + this.getIndirizzo();// + " | " + this.getVacanza();
 		return p;
 	}
 	
