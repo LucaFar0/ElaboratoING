@@ -1,33 +1,61 @@
 package application.Model;
 
+import java.sql.SQLException;
+
 public class PrenotazioneFam {
-	private int Vacanza;
+	private String Vacanza;
 	private String Persona = new String();
-	private int Famiglia;
+	private String Famiglia;
 	private String NomeAmico = new String();
 	private String EmailAmico = new String();
-	private metodoDiPagamento MdP;
+	private String MdP;
+	private String Codice;
 	
 	
 	
 	
 	
-	public PrenotazioneFam(int vacanza, String persona, int famiglia, String nomeAmico, String emailAmico, metodoDiPagamento mdp) {
+	public PrenotazioneFam(String vacanza, String persona, String famiglia, String nomeAmico, String emailAmico, String mdp) {
 		this.setVacanza(vacanza);
 		this.setPersona(persona);
 		this.setFamiglia(famiglia);
 		this.setNomeAmico(nomeAmico);
 		this.setEmailAmico(emailAmico);
 		this.setMdP(mdp);
-		
+		this.setCodice();
 	}
-
-	public int getVacanza() {
+	
+	public void setCodice() {
+		try {
+			Codice = PostreSQLJDBC.getMaxCodicePrenotazione("Famiglia", Vacanza, this.Famiglia);
+			System.out.println(Codice);
+			Integer c = Integer.valueOf(Codice) + 1;
+			String zeros = "";
+			for(int i = c.toString().length(); i < 4; i++) {
+				zeros += "0";
+			}
+			zeros += c.toString();
+			Codice = Famiglia+zeros;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public String getCodice() {
+		return Codice;
+	}
+	
+	
+	
+	
+	public String getVacanza() {
 		return this.Vacanza;
 	}
 
 
-	public void setVacanza(int vacanza) {
+	public void setVacanza(String vacanza) {
 		this.Vacanza = vacanza;
 	}
 
@@ -42,14 +70,14 @@ public class PrenotazioneFam {
 
 
 
-	public int getFamiglia() {
+	public String getFamiglia() {
 		return this.Famiglia;
 	}
 
 
 
 
-	public void setFamiglia(int famiglia) {
+	public void setFamiglia(String famiglia) {
 		this.Famiglia = famiglia;
 	}
 
@@ -77,11 +105,11 @@ public class PrenotazioneFam {
 		this.EmailAmico = emailAmico;
 	}
 
-	public metodoDiPagamento getMdP() {
+	public String getMdP() {
 		return MdP;
 	}
 
-	public void setMdP(metodoDiPagamento mdP) {
+	public void setMdP(String mdP) {
 		MdP = mdP;
 	}
 

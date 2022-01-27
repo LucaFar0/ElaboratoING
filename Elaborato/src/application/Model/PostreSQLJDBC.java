@@ -36,7 +36,7 @@ public class PostreSQLJDBC {
 	private static  String INSERT_Famiglia = "INSERT INTO Famiglia (codice, nrcomponenti, animali, nrcamere, nrbagni, distanza, famfk, vacanzafk) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 	private static  String INSERT_CapoFamiglia = "INSERT INTO CapoFamiglia (personafk) VALUES (?);";
 	private static  String INSERT_PrenotazioneCollege = "INSERT INTO PrenotazioneCollege (codice , tipostanza, pagamento, ragazzofk, vacanzafk, collegefk) VALUES (?, ?, ?, ?, ?, ?)";
-	
+	private static  String INSERT_PrenotazioneFamiglia = "INSERT INTO PrenotazioneFamiglia (nomeamico, emailamico, pagamento, ragazzofk, codice , vacanzafk, famfk) VALUES (?, ?, ?, ?, ?, ?, ?)";
 	private static  String UPDATE_Persona = "UPDATE Persona SET Nome = ?, Cognome = ?, datadinascita = ?, Email = ? WHERE cf = ?;";
 	private static  String UPDATE_Ragazzo = "UPDATE Ragazzo SET Indirizzo = ?, nrtelefono = ? WHERE personafk = ?;";
 	
@@ -90,52 +90,52 @@ public class PostreSQLJDBC {
 	
 	
 	// cerco il codice più alto della relativa tabella per poi poter gnerare il prossimo
-		public static String getMaxCodicePrenotazione(String tabella, String vacanza, String x) throws SQLException {
-			String codice = null;
-			
-			try {
-				Class.forName("org.postgresql.Driver");
-				Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
-				PreparedStatement getmax;
-				
-				switch(tabella) {
-				case "College":
-					getmax = c.prepareStatement(QUERY_GetMaxPrenotazioniCollege);
-				break;
-				case "Famiglia":
-					getmax = c.prepareStatement(QUERY_GetMaxPrenotazioniFamiglia);
-				break;
-				default:
-					getmax = c.prepareStatement(QUERY_GetMaxPrenotazioniCollege);
-				}
-					
-				
-				getmax.clearParameters();
-				
-				//getmax.setString(1, tabella);
-				getmax.setString(1, vacanza);
-				getmax.setString(2, x);
-				System.out.println(getmax);
+	public static String getMaxCodicePrenotazione(String tabella, String vacanza, String x) throws SQLException {
+		String codice = null;
 
-				ResultSet max = getmax.executeQuery();
-				
-				while(max.next()) {
-					codice = max.getString("max");
-					System.out.println(codice);
-				}
-				max.close();
-				getmax.close();
-				c.close();
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.err.println(e.getClass().getName()+": "+e.getMessage());
-				System.exit(0);
-				
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
+			PreparedStatement getmax;
+
+			switch(tabella) {
+			case "College":
+				getmax = c.prepareStatement(QUERY_GetMaxPrenotazioniCollege);
+				break;
+			case "Famiglia":
+				getmax = c.prepareStatement(QUERY_GetMaxPrenotazioniFamiglia);
+				break;
+			default:
+				getmax = c.prepareStatement(QUERY_GetMaxPrenotazioniCollege);
 			}
-			if(codice == null) codice = "0000";
-			return codice;
+
+
+			getmax.clearParameters();
+
+			//getmax.setString(1, tabella);
+			getmax.setString(1, vacanza);
+			getmax.setString(2, x);
+			System.out.println(getmax);
+
+			ResultSet max = getmax.executeQuery();
+
+			while(max.next()) {
+				codice = max.getString("max");
+				System.out.println(codice);
+			}
+			max.close();
+			getmax.close();
+			c.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+
 		}
+		if(codice == null) codice = "0000";
+		return codice;
+	}
 	
 	public static boolean ValidateUser(String emailId, String password, Ragazzo rag) throws SQLException {
 
@@ -887,6 +887,37 @@ public class PostreSQLJDBC {
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
 		}System.out.println("Opened database successfully");
+	}
+
+
+	public static void addPrenotazioneFamiglia(PrenotazioneFam prenotazione) throws SQLException {
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
+			PreparedStatement pren = c.prepareStatement(INSERT_PrenotazioneFamiglia);
+			
+			pren.clearParameters();
+			
+			pren.setString(1, prenotazione.getNomeAmico());
+			pren.setString(2, prenotazione.getEmailAmico());
+			pren.setString(3, prenotazione.getMdP());
+			pren.setString(4, prenotazione.getPersona());
+			pren.setString(5, prenotazione.getCodice());
+			pren.setString(6, prenotazione.getVacanza());
+			pren.setString(7, prenotazione.getFamiglia());
+
+			
+			System.out.println(pren);
+			
+			if(pren.executeUpdate() != 1) System.out.println("ERRORE INSERIMENTO PRENOTAZIONE FAMIGLIA" + prenotazione.getCodice());
+			pren.close();
+			c.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}System.out.println("Opened database successfully");
+		
 	}
 	
 	

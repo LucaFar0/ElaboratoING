@@ -30,7 +30,7 @@ public class PrenotazioneCollege {
 				zeros += "0";
 			}
 			zeros += c.toString();
-			Codice = Vacanza+College+zeros;
+			Codice = College+zeros;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

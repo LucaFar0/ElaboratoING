@@ -58,16 +58,25 @@ public class homeRagazziController implements Initializable{
 	@FXML private ChoiceBox<String> choicePrenotaCollegeStanza;
 	@FXML private Button buttPrenotaCollege;
 	
+	//famiglia
+	@FXML private ChoiceBox<String> choicePrenotaFamVacanza;
+	@FXML private ChoiceBox<String> choicePrenotaFam;
+	@FXML private ChoiceBox<String> choicePrenotaFamPaga;
+	@FXML private TextField textNomeAmico;
+	@FXML private TextField textEmailAmico;
+	@FXML private Button buttPrenotaFam;
+	
+	
+	
 	private String[] pagamento = {"Carta di credito", "Bonifico"};
 	private String[] tipoStanza = {"Singola", "Doppia"};
-	
 	
 	
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		choicePrenotaCollegeVacanza.setOnAction(this::setCollege);
-		
+		choicePrenotaFamVacanza.setOnAction(this::setFam);
 		
 	}
 	
@@ -75,6 +84,7 @@ public class homeRagazziController implements Initializable{
 	
 	
 	private void setCollege(ActionEvent e) {
+		choicePrenotaCollege.getItems().clear();
 		String vac = choicePrenotaCollegeVacanza.getValue();
 		String[] codCollege = new String[100];
 		 try {
@@ -91,7 +101,27 @@ public class homeRagazziController implements Initializable{
 			e1.printStackTrace();
 		}
 	}
-
+	
+	private void setFam(ActionEvent e) {
+		choicePrenotaFam.getItems().clear();
+		String vac = choicePrenotaFamVacanza.getValue();
+		ArrayList<CapoFamiglia> capo = new ArrayList<CapoFamiglia>();
+		ArrayList<Famiglia> fam  = new ArrayList<Famiglia>();
+		String[] codFam = new String[100];
+		 try {
+			PostreSQLJDBC.getFamigliaVacanza(vac, capo, fam);
+			int j = 0;
+			for(Famiglia i: fam) {
+				codFam[j] = i.getCodice();
+				j++;
+			}
+			choicePrenotaFam.getItems().addAll(codFam);
+			
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
 
 
 
@@ -103,9 +133,12 @@ public class homeRagazziController implements Initializable{
 		
 	}
 	
+	//metodo che libera i box di scelta quando applico un nuovo filtro di ricerca
 	private void clearBox() {
 		choicePrenotaCollegeVacanza.getItems().clear();
 		choicePrenotaCollege.getItems().clear();
+		choicePrenotaFamVacanza.getItems().clear();
+		choicePrenotaFam.getItems().clear();
 	}
 	
 	
@@ -115,7 +148,6 @@ public class homeRagazziController implements Initializable{
 		clearBox();
 		out = "";
 		String[] codVacanze = new String[100];
-		String[] codCollege;
 		if(college != null) college.clear();
 		if(vacanze != null) vacanze.clear();
 		
@@ -143,11 +175,13 @@ public class homeRagazziController implements Initializable{
 			out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice()) + getFam(i.getCodice());
 			j++;
 		}
-	
+		
+		//aggiorno i campi delle prenotazioni in base al filtro applicato ì nella ricerca 
 		choicePrenotaCollegeVacanza.getItems().addAll(codVacanze);
 		choicePrenotaCollegePaga.getItems().addAll(pagamento);
 		choicePrenotaCollegeStanza.getItems().addAll(tipoStanza);
-		
+		choicePrenotaFamVacanza.getItems().addAll(codVacanze);
+		choicePrenotaFamPaga.getItems().addAll(pagamento);
 		
 		areaVacanze.replaceText(0, areaVacanze.getLength(), out);
 		
@@ -160,7 +194,6 @@ public class homeRagazziController implements Initializable{
 		clearBox();
 		out = "";
 		String[] codVacanze = new String[100];
-		String[] codCollege;
 		if(college != null) college.clear();
 		if(vacanze != null) vacanze.clear();
 		
@@ -190,9 +223,13 @@ public class homeRagazziController implements Initializable{
 			out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice()) + getFam(i.getCodice());
 			j++;
 		}
+		
+		//aggiorno i campi delle prenotazioni in base al filtro applicato ì nella ricerca 
 		choicePrenotaCollegeVacanza.getItems().addAll(codVacanze);
 		choicePrenotaCollegePaga.getItems().addAll(pagamento);
 		choicePrenotaCollegeStanza.getItems().addAll(tipoStanza);
+		choicePrenotaFamVacanza.getItems().addAll(codVacanze);
+		choicePrenotaFamPaga.getItems().addAll(pagamento);
 		
 		areaVacanze.replaceText(0, areaVacanze.getLength(), out);
 		
@@ -205,7 +242,6 @@ public class homeRagazziController implements Initializable{
 		clearBox();
 		out = "";
 		String[] codVacanze = new String[100];
-		String[] codCollege;
 		if(college != null) college.clear();
 		if(vacanze != null) vacanze.clear();
 		
@@ -237,9 +273,13 @@ public class homeRagazziController implements Initializable{
 			out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice()) + getFam(i.getCodice());
 			j++;
 		}
+		
+		//aggiorno i campi delle prenotazioni in base al filtro applicato ì nella ricerca 
 		choicePrenotaCollegeVacanza.getItems().addAll(codVacanze);
 		choicePrenotaCollegePaga.getItems().addAll(pagamento);
 		choicePrenotaCollegeStanza.getItems().addAll(tipoStanza);
+		choicePrenotaFamVacanza.getItems().addAll(codVacanze);
+		choicePrenotaFamPaga.getItems().addAll(pagamento);
 		
 		areaVacanze.setText(out);
 		
@@ -346,12 +386,18 @@ public class homeRagazziController implements Initializable{
 	
 	
 	}
+	
+	public void PrenotaFam(ActionEvent e) {
+		PrenotazioneFam prenotazione =  new PrenotazioneFam(choicePrenotaFamVacanza.getValue(), user.getCF(), choicePrenotaFam.getValue(), textNomeAmico.getText(),  textEmailAmico.getText(), choicePrenotaFamPaga.getValue());
 
-	
-	
-	
-	
-	
+		try {
+			PostreSQLJDBC.addPrenotazioneFamiglia(prenotazione);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+
 	
 	//----------------------------------------------------------Profilo-----------------------------------------------------------------------------------------------------------------------
 	@FXML private TextField textNomeProf;
