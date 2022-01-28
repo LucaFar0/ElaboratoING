@@ -4,22 +4,23 @@ public class Questionario {
 	private String Prenotazione;
 	private String Voto;
 	private String Commento;
+	private String Vacanza;
 	
 	
 	public Questionario(String prenotazione, String voto, String commento) {
-		this.setVacanza(prenotazione);
+		this.setPrenotazione(prenotazione);
 		this.setVoto(voto);
 		this.setCommento(commento);
-		
+		this.setVacanza();
 	}
 
 
-	public String getVacanza() {
+	public String getPrenotazione() {
 		return this.Prenotazione;
 	}
 
 
-	public void setVacanza(String vacanza) {
+	public void setPrenotazione(String vacanza) {
 		this.Prenotazione = vacanza;
 	}
 
@@ -41,6 +42,20 @@ public class Questionario {
 
 	public void setCommento(String commento) {
 		this.Commento = commento;
+	}
+
+
+	public String getVacanza() {
+		return Vacanza;
+	}
+
+
+	public void setVacanza() {
+		String x = this.Prenotazione;
+		for(int i = 0; i < 4; i++)
+			this.Vacanza += x.charAt(i);
+		
+		
 	}
 
 }

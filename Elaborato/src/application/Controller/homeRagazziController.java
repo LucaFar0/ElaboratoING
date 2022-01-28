@@ -80,13 +80,13 @@ public class homeRagazziController implements Initializable{
 		choicePrenotaFamVacanza.setOnAction(this::setFam);
 		setVacanzePassate();
 		
-		choiceQuestionarioPrenotazione.getItems().addAll(pagamento);
+		
 		choiceQuestionarioVoto.getItems().addAll(voto);
 	}
 	
 	
 	
-	
+	//metodo per caricare i college corretti nel box della prenotazione
 	private void setCollege(ActionEvent e) {
 		choicePrenotaCollege.getItems().clear();
 		String vac = choicePrenotaCollegeVacanza.getValue();
@@ -105,7 +105,8 @@ public class homeRagazziController implements Initializable{
 			e1.printStackTrace();
 		}
 	}
-	
+
+	//metodo per caricare le famiglie corrette nel box della prenotazione
 	private void setFam(ActionEvent e) {
 		choicePrenotaFam.getItems().clear();
 		String vac = choicePrenotaFamVacanza.getValue();
@@ -419,47 +420,71 @@ public class homeRagazziController implements Initializable{
 	ArrayList<Vacanza> VacanzePassate = new ArrayList<Vacanza>();
 	ArrayList<PrenotazioneCollege> prenotazioniCollege = new ArrayList<PrenotazioneCollege>();
 	ArrayList<PrenotazioneFam> prenotazioniFam = new ArrayList<PrenotazioneFam>();
+	ArrayList<String> prenotazioni = new ArrayList<String>();
 	
+	// metodo che carica tutti i dati relativi alle vacanze passate e setta i campi per l'inserimento del questionario
 	public void setVacanzePassate() {
 		
 		try {
 			PostreSQLJDBC.getVacanzePassate(user.getCF(), VacanzePassate, prenotazioniCollege, prenotazioniFam);
+			areaVacanzePassate.setText(getPrenotazioneFam(prenotazioniFam) + getPrenotazioneCollege(prenotazioniCollege));
+			choiceQuestionarioPrenotazione.getItems().addAll(prenotazioni);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		
-		
-		
-		
 	}
 	
 	
+	//metodo che restituisce la stringa con tutte le prenotazioni passate relative a famiglia
 	private String getPrenotazioneFam(ArrayList<PrenotazioneFam> prenotazioniFam ) {
 		
 		String s = "";
 		for(PrenotazioneFam i: prenotazioniFam) {
+			prenotazioni.add(i.getCodice());
+			s += "\n\n----------------------------Vacanza Passata-------------------------";
 			s += i.toString() + getVacanza(i.getCodice());
 		}
-		
-		
+	
 		return s;
 	}
+	
+	//metodo che restituisce la stringa con tutte le prenotazioni passate relative a famiglia
+		private String getPrenotazioneCollege(ArrayList<PrenotazioneCollege> prenotazioniCollege ) {
+			
+			String s = "";
+			for(PrenotazioneCollege i: prenotazioniCollege) {
+				prenotazioni.add(i.getCodice());
+				s += "\n\n----------------------------Vacanza Passata-------------------------";
+				s += i.toString() + getVacanza(i.getCodice());
+			}
+		
+			return s;
+		}
 	
 	private String getVacanza(String codice) {
 		
 		for(Vacanza i: VacanzePassate) {
 			if(i.getCodice() == codice) {
-				return "\n Città: " + i.getCitta() + "\n Lingua Studiata: " + i.getLingua() + "\n Certificazione: B2";
+				return "\n Città: " + i.getCitta() + "\n Lingua Studiata: " + i.getLingua() + "\n Certificazione: B2\n";
 			}
 		}
-		return "";
+		return "\n";
 	}
 	
 	
 	public void salvaQuestionario(ActionEvent e) {
 		
+		
+		Questionario q = new Questionario(choiceQuestionarioPrenotazione.getValue(), choiceQuestionarioVoto.getValue(), areaCommento.getText());
+		try {
+			PostreSQLJDBC.addQuestionario(q);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		areaCommento.clear();
 	}
 	
 	//----------------------------------------------------------Profilo-----------------------------------------------------------------------------------------------------------------------

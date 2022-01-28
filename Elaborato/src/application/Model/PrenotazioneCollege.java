@@ -96,5 +96,10 @@ public class PrenotazioneCollege {
 	public void setMdP(String mdP) {
 		this.MdP = mdP;
 	}
+	
+	public String toString() {
+		String p = "\n\n Codice: " + this.getCodice() + " \n Vacanza: " + this.getVacanza() + " \n Famiglia: " + this.getCollege();
+		return p;
+	}
 
 }

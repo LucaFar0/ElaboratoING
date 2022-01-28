@@ -43,6 +43,7 @@ public class PostreSQLJDBC {
 	private static  String INSERT_CapoFamiglia = "INSERT INTO CapoFamiglia (personafk) VALUES (?);";
 	private static  String INSERT_PrenotazioneCollege = "INSERT INTO PrenotazioneCollege (codice , tipostanza, pagamento, ragazzofk, vacanzafk, collegefk) VALUES (?, ?, ?, ?, ?, ?)";
 	private static  String INSERT_PrenotazioneFamiglia = "INSERT INTO PrenotazioneFamiglia (nomeamico, emailamico, pagamento, ragazzofk, codice , vacanzafk, famfk) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	private static  String INSERT_Questionario = "INSERT INTO Questionario (prenotazionefk, voto, commento, vacanzafk) VALUES (?, ?, ?, ?)";
 	private static  String UPDATE_Persona = "UPDATE Persona SET Nome = ?, Cognome = ?, datadinascita = ?, Email = ? WHERE cf = ?;";
 	private static  String UPDATE_Ragazzo = "UPDATE Ragazzo SET Indirizzo = ?, nrtelefono = ? WHERE personafk = ?;";
 	
@@ -1004,6 +1005,30 @@ public class PostreSQLJDBC {
 		
 	}
 	
-	
+	public static void addQuestionario(Questionario questionario) throws SQLException{
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
+			PreparedStatement q = c.prepareStatement(INSERT_Questionario);
+			
+			q.clearParameters();
+			
+			q.setString(1, questionario.getPrenotazione());
+			q.setString(2, questionario.getVoto());
+			q.setString(3, questionario.getCommento());
+			q.setString(4, questionario.getVacanza());
+			
+			
+			System.out.println(q);
+			
+			if(q.executeUpdate() != 1) System.out.println("ERRORE INSERIMENTO QUESTIONARIO" + questionario.getPrenotazione());
+			q.close();
+			c.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}System.out.println("Opened database successfully");
+	}
 	
 }
