@@ -31,6 +31,7 @@ import javafx.scene.input.MouseEvent;
 public class homeRagazziController implements Initializable{
 	Ragazzo user = Main.getUser();
 	ArrayList<Vacanza> vacanze = null;
+	ArrayList<Vacanza> vacanzePassate = null;
 	ArrayList<College> college = null;
 	String out = "";
 	String separatoreVacanza = "\n\n\n-----------------------------------V A C A N Z A-----------------------------------------------------------------------------------------------\n";
@@ -77,7 +78,10 @@ public class homeRagazziController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		choicePrenotaCollegeVacanza.setOnAction(this::setCollege);
 		choicePrenotaFamVacanza.setOnAction(this::setFam);
+		setVacanzePassate();
 		
+		choiceQuestionarioPrenotazione.getItems().addAll(pagamento);
+		choiceQuestionarioVoto.getItems().addAll(voto);
 	}
 	
 	
@@ -287,7 +291,7 @@ public class homeRagazziController implements Initializable{
 	}
 
 	
-	
+	//genero la stringa con tutte le gite della vacanza inserita
 	public String getGite(String codice) {
 		String g = "\n		--------------------Gite---------------------------------";
 		try {
@@ -306,6 +310,7 @@ public class homeRagazziController implements Initializable{
 		
 	}
 	
+	//genero la stringa con tutti i college della vacanza inserita
 	public String getCollege(String codice) {
 		String g = "\n		--------------------College---------------------------------";
 		try {
@@ -329,7 +334,7 @@ public class homeRagazziController implements Initializable{
 		
 	}
 	
-
+	//genero la stringa con tutte le attività della vacanza inserita
 	public String getAttivita(String codice) {
 		String g = null;
 		try {
@@ -348,6 +353,7 @@ public class homeRagazziController implements Initializable{
 		
 	}
 	
+	//genero la stringa con tutte le famiglie della vacanza inserita
 	public String getFam(String codice) {
 		String g = "\n		--------------------Famiglie---------------------------------";
 		ArrayList<CapoFamiglia> capo = new ArrayList<CapoFamiglia>();
@@ -375,7 +381,7 @@ public class homeRagazziController implements Initializable{
 	
 	// prenotazione College
 	public void PrenotaCollege(ActionEvent e) {
-		PrenotazioneCollege prenotazione =  new PrenotazioneCollege(choicePrenotaCollegeVacanza.getValue(), user.getCF(), choicePrenotaCollege.getValue(), choicePrenotaCollegeStanza.getValue(), choicePrenotaCollegePaga.getValue());
+		PrenotazioneCollege prenotazione =  new PrenotazioneCollege(choicePrenotaCollegeVacanza.getValue(), user.getCF(), choicePrenotaCollege.getValue(), choicePrenotaCollegeStanza.getValue(), choicePrenotaCollegePaga.getValue(), false, null);
 		
 		try {
 			PostreSQLJDBC.addPrenotazioneCollege(prenotazione);
@@ -387,8 +393,9 @@ public class homeRagazziController implements Initializable{
 	
 	}
 	
+	// prenotazione College
 	public void PrenotaFam(ActionEvent e) {
-		PrenotazioneFam prenotazione =  new PrenotazioneFam(choicePrenotaFamVacanza.getValue(), user.getCF(), choicePrenotaFam.getValue(), textNomeAmico.getText(),  textEmailAmico.getText(), choicePrenotaFamPaga.getValue());
+		PrenotazioneFam prenotazione =  new PrenotazioneFam(choicePrenotaFamVacanza.getValue(), user.getCF(), choicePrenotaFam.getValue(), textNomeAmico.getText(),  textEmailAmico.getText(), choicePrenotaFamPaga.getValue(), false, null);
 
 		try {
 			PostreSQLJDBC.addPrenotazioneFamiglia(prenotazione);
@@ -398,6 +405,62 @@ public class homeRagazziController implements Initializable{
 		}
 	}
 
+	//----------------------------------------------------Vacanze Passate--------------------------------------------------------------------------------------------------------------------------------
+	
+	@FXML private ChoiceBox<String> choiceQuestionarioPrenotazione;
+	@FXML private ChoiceBox<String> choiceQuestionarioVoto;
+	@FXML private TextArea areaCommento;
+	@FXML private TextArea areaVacanzePassate;
+	@FXML private Button buttSalvaQuestionario;
+	
+	private String[] voto = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+	
+	
+	ArrayList<Vacanza> VacanzePassate = new ArrayList<Vacanza>();
+	ArrayList<PrenotazioneCollege> prenotazioniCollege = new ArrayList<PrenotazioneCollege>();
+	ArrayList<PrenotazioneFam> prenotazioniFam = new ArrayList<PrenotazioneFam>();
+	
+	public void setVacanzePassate() {
+		
+		try {
+			PostreSQLJDBC.getVacanzePassate(user.getCF(), VacanzePassate, prenotazioniCollege, prenotazioniFam);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
+	}
+	
+	
+	private String getPrenotazioneFam(ArrayList<PrenotazioneFam> prenotazioniFam ) {
+		
+		String s = "";
+		for(PrenotazioneFam i: prenotazioniFam) {
+			s += i.toString() + getVacanza(i.getCodice());
+		}
+		
+		
+		return s;
+	}
+	
+	private String getVacanza(String codice) {
+		
+		for(Vacanza i: VacanzePassate) {
+			if(i.getCodice() == codice) {
+				return "\n Città: " + i.getCitta() + "\n Lingua Studiata: " + i.getLingua() + "\n Certificazione: B2";
+			}
+		}
+		return "";
+	}
+	
+	
+	public void salvaQuestionario(ActionEvent e) {
+		
+	}
 	
 	//----------------------------------------------------------Profilo-----------------------------------------------------------------------------------------------------------------------
 	@FXML private TextField textNomeProf;
@@ -432,6 +495,8 @@ public class homeRagazziController implements Initializable{
 		
 	}
 	
+	
+	//metodo che gestisce le modifiche al profilo
 	public void salvaModifiche(ActionEvent e) {
 		System.out.println(user.toString());
 		

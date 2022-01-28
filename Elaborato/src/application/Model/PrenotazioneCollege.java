@@ -10,13 +10,14 @@ public class PrenotazioneCollege {
 	private String MdP;
 	private String Codice;
 	
-	public PrenotazioneCollege(String vacanza, String persona, String college, String stanza, String mdp) {
+	public PrenotazioneCollege(String vacanza, String persona, String college, String stanza, String mdp, boolean flag, String codice) {
 		this.setVacanza(vacanza);
 		this.setPersona(persona);
 		this.setCollege(college);
 		this.setStanza(stanza);
 		this.setMdP(mdp);
-		this.setCodice();
+		if(flag == false)	this.setCodice();
+		else this.setCodice2(codice);
 	}
 
 	
@@ -30,7 +31,7 @@ public class PrenotazioneCollege {
 				zeros += "0";
 			}
 			zeros += c.toString();
-			Codice = College+zeros;
+			Codice = College+zeros+"C";
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -42,7 +43,9 @@ public class PrenotazioneCollege {
 		return Codice;
 	}
 	
-
+	public void setCodice2(String codice) {
+		this.Codice = codice;
+	}
 
 
 	public String getVacanza() {

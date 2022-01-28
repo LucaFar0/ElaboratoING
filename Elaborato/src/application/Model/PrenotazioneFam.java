@@ -15,14 +15,15 @@ public class PrenotazioneFam {
 	
 	
 	
-	public PrenotazioneFam(String vacanza, String persona, String famiglia, String nomeAmico, String emailAmico, String mdp) {
+	public PrenotazioneFam(String vacanza, String persona, String famiglia, String nomeAmico, String emailAmico, String mdp, boolean flag, String codice) {
 		this.setVacanza(vacanza);
 		this.setPersona(persona);
 		this.setFamiglia(famiglia);
 		this.setNomeAmico(nomeAmico);
 		this.setEmailAmico(emailAmico);
 		this.setMdP(mdp);
-		this.setCodice();
+		if(flag == false)	this.setCodice();
+		else this.setCodice2(codice);
 	}
 	
 	public void setCodice() {
@@ -35,11 +36,15 @@ public class PrenotazioneFam {
 				zeros += "0";
 			}
 			zeros += c.toString();
-			Codice = Famiglia+zeros;
+			Codice = Famiglia+zeros+"F";
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void setCodice2(String codice) {
+		this.Codice = codice;
 	}
 	
 	
@@ -113,4 +118,10 @@ public class PrenotazioneFam {
 		MdP = mdP;
 	}
 
+	
+	public String toString() {
+		String p = "\n\n Codice: " + this.getCodice() + " \n Vacanza: " + this.getVacanza() + " \n Famiglia: " + this.getFamiglia();
+		return p;
+	}
+	
 }

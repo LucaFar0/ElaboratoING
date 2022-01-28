@@ -2,7 +2,10 @@ package application.Model;
 
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;  
 
 public class PostreSQLJDBC {
 
@@ -14,7 +17,7 @@ public class PostreSQLJDBC {
 	private static  String QUERY_GetMaxCollege = "SELECT MAX(codice) FROM College WHERE vacanzafk = ?";
 	private static  String QUERY_GetMaxFamiglia = "SELECT MAX(codice) FROM Famiglia WHERE vacanzafk = ?";
 	private static  String QUERY_GetMaxPrenotazioniCollege = "SELECT MAX(codice) FROM PrenotazioneCollege WHERE vacanzafk = ? AND collegefk = ?";
-	private static  String QUERY_GetMaxPrenotazioniFamiglia = "SELECT MAX(codice) FROM PrenotazioneFamiglia WHERE vacanzafk = ? AND famigliafk = ?";
+	private static  String QUERY_GetMaxPrenotazioniFamiglia = "SELECT MAX(codice) FROM PrenotazioneFamiglia WHERE vacanzafk = ? AND famfk = ?";
 	private static  String QUERY_GetVacanzeData = "SELECT * FROM Vacanza WHERE vacanza.datadipartenza >= ? ORDER BY datadipartenza";
 	private static  String QUERY_GetVacanzeDurata = "SELECT * FROM Vacanza WHERE vacanza.durata = ? ORDER BY codice";
 	private static  String QUERY_GetVacanzeCitta = "SELECT * FROM Vacanza WHERE vacanza.città = ? ORDER BY codice";
@@ -22,6 +25,9 @@ public class PostreSQLJDBC {
 	private static  String QUERY_GetCollege = "SELECT * FROM College WHERE College.vacanzafk = ? ";
 	private static  String QUERY_GetAttivitaCollege = "SELECT * FROM Attivita WHERE Attivita.collegefk = ? ";
 	private static  String QUERY_GetCapoFam = "SELECT * FROM (Persona INNER JOIN Famiglia On Persona.cf = Famiglia.famfk) WHERE Famiglia.vacanzafk = ? ";
+	private static  String QUERY_GetPrenotazioneCollege = "SELECT * FROM (PrenotazioneCollege INNER JOIN Vacanza On PrenotazioneCollege.vacanzafk = Vacanza.codice AND PrenotazioneCollege.ragazzofk = ?) WHERE Vacanza.datadipartenza < ?;";
+	private static  String QUERY_GetPrenotazioneFamiglia = "SELECT * FROM (PrenotazioneFamiglia INNER JOIN Vacanza On PrenotazioneFamiglia.vacanzafk = Vacanza.codice AND PrenotazioneFamiglia.ragazzofk = ?) WHERE Vacanza.datadipartenza < ?;";
+	
 	//private static  String QUERY_GeFam = "SELECT * FROM Attivita WHERE Attivita.collegefk = ? ";
 	
 	
@@ -889,7 +895,7 @@ public class PostreSQLJDBC {
 		}System.out.println("Opened database successfully");
 	}
 
-
+	//inserimento prenotazione famiglia
 	public static void addPrenotazioneFamiglia(PrenotazioneFam prenotazione) throws SQLException {
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -919,6 +925,85 @@ public class PostreSQLJDBC {
 		}System.out.println("Opened database successfully");
 		
 	}
+	
+	
+	public static void getVacanzePassate(String user, ArrayList<Vacanza> vacanze,  ArrayList<PrenotazioneCollege> prenotazioniCollege,  ArrayList<PrenotazioneFam> prenotazioniFam )  throws SQLException{
+		
+		PrenotazioneCollege coll;
+		PrenotazioneFam fam;
+		Vacanza vac;
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");  
+		LocalDateTime now = LocalDateTime.now();  
+		String data = dtf.format(now);
+		
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
+
+			PreparedStatement prencollege = c.prepareStatement(QUERY_GetPrenotazioneCollege);
+			PreparedStatement prenFam = c.prepareStatement(QUERY_GetPrenotazioneFamiglia);
+
+			
+			
+			//prenotazioni college
+			prencollege.setString(1, user);
+			prencollege.setString(2, data);
+			
+			//prenotazioni Famiglie
+			prenFam.setString(1, user);
+			prenFam.setString(2, data);
+			
+			System.out.println(prencollege);
+
+
+			ResultSet elencoCollege = prencollege.executeQuery();
+			ResultSet elencoFamiglia = prenFam.executeQuery();
+
+
+
+			//salvo I dati di collegge e vacanze relative alle prenotazioni
+			while(elencoCollege.next()) {
+				coll = new PrenotazioneCollege( elencoCollege.getString("vacanzafk"), elencoCollege.getString("ragazzofk"), elencoCollege.getString("collegefk"),  elencoCollege.getString("tipostanza"), elencoCollege.getString("pagamento"), true, elencoCollege.getString("codice"));
+				vac = new Vacanza(elencoCollege.getString("vacanzafk"), elencoCollege.getString("città"), elencoCollege.getString("datadipartenza"), elencoCollege.getString("durata"),  elencoCollege.getString("lingua"));
+				
+				
+				prenotazioniCollege.add(coll);
+				vacanze.add(vac);
+			
+				coll = null;
+				vac = null;
+			}
+			//salvo I dati di famiglia e vacanze relative alle prenotazioni
+			while(elencoFamiglia.next()) {
+				fam = new PrenotazioneFam( elencoFamiglia.getString("vacanzafk"), elencoFamiglia.getString("ragazzofk"), elencoFamiglia.getString("famfk"),  elencoFamiglia.getString("nomeamico"), elencoFamiglia.getString("emailamico"), elencoFamiglia.getString("pagamento"), true, elencoFamiglia.getString("codice"));
+				vac = new Vacanza(elencoFamiglia.getString("vacanzafk"), elencoFamiglia.getString("città"), elencoFamiglia.getString("datadipartenza"), elencoFamiglia.getString("durata"),  elencoFamiglia.getString("lingua"));
+				
+				
+				prenotazioniFam.add(fam);
+				vacanze.add(vac);
+			
+				fam = null;
+				vac = null;
+			}
+			
+			
+			elencoCollege.close();
+			elencoFamiglia.close();
+			prencollege.close();
+			prenFam.close();
+			c.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+		System.out.println("Opened database successfully");
+		
+		
+		
+	}
+	
 	
 	
 }

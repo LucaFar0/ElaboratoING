@@ -1,47 +1,35 @@
 package application.Model;
 
 public class Questionario {
-	private int Vacanza;
-	private String Persona = new String();
-	private int Voto;
-	private String Commento = new String();
+	private String Prenotazione;
+	private String Voto;
+	private String Commento;
 	
 	
-	public Questionario(int vacanza, String persona, int voto, String commento) {
-		this.setVacanza(vacanza);
-		this.setPersona(persona);
+	public Questionario(String prenotazione, String voto, String commento) {
+		this.setVacanza(prenotazione);
 		this.setVoto(voto);
 		this.setCommento(commento);
 		
 	}
 
 
-	public int getVacanza() {
-		return this.Vacanza;
+	public String getVacanza() {
+		return this.Prenotazione;
 	}
 
 
-	public void setVacanza(int vacanza) {
-		this.Vacanza = vacanza;
+	public void setVacanza(String vacanza) {
+		this.Prenotazione = vacanza;
 	}
 
 
-	public String getPersona() {
-		return this.Persona;
-	}
-
-
-	public void setPersona(String persona) {
-		this.Persona = persona;
-	}
-
-
-	public int getVoto() {
+	public String getVoto() {
 		return this.Voto;
 	}
 
 
-	public void setVoto(int voto) {
+	public void setVoto(String voto) {
 		this.Voto = voto;
 	}
 
