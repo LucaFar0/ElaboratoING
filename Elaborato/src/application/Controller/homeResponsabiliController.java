@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.ResourceBundle ;
 
 import application.Model.*;
@@ -18,7 +19,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-public class homeResponsabiliController {
+public class homeResponsabiliController implements Initializable{
 
 	//--------------------- VACANZA -----------------------
 	@FXML private TextField textCodiceVacanza;
@@ -119,8 +120,19 @@ public class homeResponsabiliController {
 		textDistanzaFam.setText(null);
 	}
 	
+	//-----------------------------------------VACANZE PASSATE-----------------------------------------------------------------
+	
+	@FXML private TextArea areaVacanzeResponsabili;
+	
+	ArrayList<Vacanza> vacanze = new ArrayList<Vacanza>() ;
 	
 
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		setVacanzePassate();
+		
+	}
+	
 	//--------------------- VACANZA -----------------------
 
 
@@ -366,7 +378,6 @@ public class homeResponsabiliController {
 
 
 
-
 	private boolean CFCheck(String text) {
 		if(text.length() != 16) return false;
 		return true;
@@ -383,6 +394,22 @@ public class homeResponsabiliController {
 	}
 	
 	
+	private void setVacanzePassate() {
+		String s = "";
+		try {
+			PostreSQLJDBC.getVacanzePassate(vacanze);
+			for(Vacanza i: vacanze) {
+				System.out.println(i);
+				//s+ getmediavoti + get commenti
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
 	
 	
 }

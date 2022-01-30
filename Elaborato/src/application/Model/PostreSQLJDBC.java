@@ -2,6 +2,7 @@ package application.Model;
 
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -27,10 +28,11 @@ public class PostreSQLJDBC {
 	private static  String QUERY_GetCapoFam = "SELECT * FROM (Persona INNER JOIN Famiglia On Persona.cf = Famiglia.famfk) WHERE Famiglia.vacanzafk = ? ";
 	private static  String QUERY_GetPrenotazioneCollege = "SELECT * FROM (PrenotazioneCollege INNER JOIN Vacanza On PrenotazioneCollege.vacanzafk = Vacanza.codice AND PrenotazioneCollege.ragazzofk = ?) WHERE Vacanza.datadipartenza < ?;";
 	private static  String QUERY_GetPrenotazioneFamiglia = "SELECT * FROM (PrenotazioneFamiglia INNER JOIN Vacanza On PrenotazioneFamiglia.vacanzafk = Vacanza.codice AND PrenotazioneFamiglia.ragazzofk = ?) WHERE Vacanza.datadipartenza < ?;";
-	
+	private static  String QUERY_GetVacanzePassate = "SELECT * FROM Vacanza ";
+	private static  String QUERY_GetMediaVoti = "SELECT avg(voto) FROM Questionario WHERE vacanzafk = '0002';";
 	//private static  String QUERY_GeFam = "SELECT * FROM Attivita WHERE Attivita.collegefk = ? ";
-	
-	
+
+
 	private static  String INSERT_Persona = "INSERT INTO Persona (Cf, Nome, Cognome, DataDiNascita, EMail) VALUES (?, ?, ?, ?, ?);";
 	private static  String INSERT_Ragazzo = "INSERT INTO Ragazzo (Hobby, Indirizzo, passwd, nrtelefono, personafk) VALUES (?, ?, ?, ?, ?); ";
 	private static  String INSERT_Allergia = "INSERT INTO Allergia (Nome, Ragazzofk, Precauzioni) VALUES (?, ?, ?); ";
@@ -46,37 +48,37 @@ public class PostreSQLJDBC {
 	private static  String INSERT_Questionario = "INSERT INTO Questionario (prenotazionefk, voto, commento, vacanzafk) VALUES (?, ?, ?, ?)";
 	private static  String UPDATE_Persona = "UPDATE Persona SET Nome = ?, Cognome = ?, datadinascita = ?, Email = ? WHERE cf = ?;";
 	private static  String UPDATE_Ragazzo = "UPDATE Ragazzo SET Indirizzo = ?, nrtelefono = ? WHERE personafk = ?;";
-	
-	
+
+
 	// cerco il codice più alto della relativa tabella per poi poter gnerare il prossimo
 	public static String getMaxCodice(String tabella, String vacanza) throws SQLException {
 		String codice = null;
-		
+
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
 			PreparedStatement getmax;
-			
+
 			switch(tabella) {
 			case "College":
 				getmax = c.prepareStatement(QUERY_GetMaxCollege);
-			break;
+				break;
 			case "Famiglia":
 				getmax = c.prepareStatement(QUERY_GetMaxFamiglia);
-			break;
+				break;
 			default:
 				getmax = c.prepareStatement(QUERY_GetMaxCollege);
 			}
-				
-			
+
+
 			getmax.clearParameters();
-			
+
 			//getmax.setString(1, tabella);
 			getmax.setString(1, vacanza);
 			System.out.println(getmax);
 
 			ResultSet max = getmax.executeQuery();
-			
+
 			while(max.next()) {
 				codice = max.getString("max");
 				System.out.println(codice);
@@ -84,18 +86,18 @@ public class PostreSQLJDBC {
 			max.close();
 			getmax.close();
 			c.close();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
-			
+
 		}
 		if(codice == null) codice = "0000";
 		return codice;
 	}
-	
-	
+
+
 	// cerco il codice più alto della relativa tabella per poi poter gnerare il prossimo
 	public static String getMaxCodicePrenotazione(String tabella, String vacanza, String x) throws SQLException {
 		String codice = null;
@@ -143,7 +145,7 @@ public class PostreSQLJDBC {
 		if(codice == null) codice = "0000";
 		return codice;
 	}
-	
+
 	public static boolean ValidateUser(String emailId, String password, Ragazzo rag) throws SQLException {
 
 		try {
@@ -156,7 +158,7 @@ public class PostreSQLJDBC {
 
 			loginRagazzo.setString(1, password);
 			loginRagazzo.setString(2, emailId);
-			
+
 			System.out.println(loginRagazzo);
 
 
@@ -175,13 +177,13 @@ public class PostreSQLJDBC {
 				rag.setNrTelefono(user.getString("nrtelefono"));
 				rag.setPassword(password);
 				rag.setHobby(user.getString("Hobby"));
-				
-				
-				
+
+
+
 				//System.out.println(user.getString("Cf"));
-				
+
 			}
-			
+
 			user.close();
 			loginRagazzo.close();
 			c.close();
@@ -216,7 +218,7 @@ public class PostreSQLJDBC {
 
 			System.out.println(loginResponsabile);
 
-			
+
 			// altrimenti controllo se le creedenziali  sono di un responsabile
 			ResultSet responsablie = loginResponsabile.executeQuery();
 
@@ -348,18 +350,18 @@ public class PostreSQLJDBC {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
 			PreparedStatement vac = c.prepareStatement(INSERT_Vacanza);
-			
+
 			vac.clearParameters();
-			
+
 			vac.setString(1, vacanza.getCodice());
 			vac.setString(2, vacanza.getCitta());
 			vac.setString(3, vacanza.getDataPartenza());
 			vac.setString(4, vacanza.getDurata());
 			vac.setString(5, vacanza.getLingua());
-			
-			
+
+
 			System.out.println(vac);
-			
+
 			if(vac.executeUpdate() != 1) System.out.println("ERRORE INSERIMENTO GENITORE" + vacanza.getCodice());
 			vac.close();
 			c.close();
@@ -375,18 +377,18 @@ public class PostreSQLJDBC {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
 			PreparedStatement coll = c.prepareStatement(INSERT_College);
-			
+
 			coll.clearParameters();
-			
+
 			coll.setString(1, college.getCodice());
 			coll.setString(2, college.getNome());
 			coll.setString(3, college.getNrStanze());
 			coll.setString(4, college.getIndirizzo());
 			coll.setString(5, college.getVacanza());
-			
-			
+
+
 			System.out.println(coll);
-			
+
 			if(coll.executeUpdate() != 1) System.out.println("ERRORE INSERIMENTO GENITORE" + college.getCodice());
 			coll.close();
 			c.close();
@@ -396,24 +398,24 @@ public class PostreSQLJDBC {
 			System.exit(0);
 		}System.out.println("Opened database successfully");
 	}
-	
+
 	public static void addGita(Gita gita) throws SQLException{
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
 			PreparedStatement g = c.prepareStatement(INSERT_Gita);
-			
+
 			g.clearParameters();
-			
+
 			g.setString(1, gita.getDestinazione());
 			g.setString(2, gita.getCosto());
 			g.setString(3, gita.getOre());
 			g.setString(4, gita.getDescrizione());
 			g.setString(5, gita.getVacanza());
-			
-			
+
+
 			System.out.println(g);
-			
+
 			if(g.executeUpdate() != 1) System.out.println("ERRORE INSERIMENTO GITA" + gita.getDestinazione());
 			g.close();
 			c.close();
@@ -423,22 +425,22 @@ public class PostreSQLJDBC {
 			System.exit(0);
 		}System.out.println("Opened database successfully");
 	}
-	
+
 	public static void addAttivita(Attivita attivita) throws SQLException{
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
 			PreparedStatement att = c.prepareStatement(INSERT_Attivita);
-			
+
 			att.clearParameters();
-			
+
 			att.setString(1, attivita.getNome());
 			att.setString(2, attivita.getDescrizione());
 			att.setString(3, attivita.getCollege());
 
-			
+
 			System.out.println(att);
-			
+
 			if(att.executeUpdate() != 1) System.out.println("ERRORE INSERIMENTO ATTIVITA" + attivita.getNome());
 			att.close();
 			c.close();
@@ -448,7 +450,7 @@ public class PostreSQLJDBC {
 			System.exit(0);
 		}System.out.println("Opened database successfully");
 	}
-	
+
 	public static void addFamiglia(CapoFamiglia capo, Famiglia famiglia) throws SQLException{
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -456,20 +458,20 @@ public class PostreSQLJDBC {
 			PreparedStatement persona = c.prepareStatement(INSERT_Persona);
 			PreparedStatement capofam = c.prepareStatement(INSERT_CapoFamiglia);
 			PreparedStatement fam = c.prepareStatement(INSERT_Famiglia);
-			
+
 			persona.clearParameters();
 			capofam.clearParameters();
 			fam.clearParameters();
-			
+
 			//persona
 			persona.setString(1, capo.getCF());
 			persona.setString(2, capo.getNome());
 			persona.setString(3, capo.getCognome());
 			persona.setString(4, capo.getDdN());
 			persona.setString(5, capo.getEmail());
-			
+
 			capofam.setString(1, capo.getCF());
-			
+
 			fam.setString(1, famiglia.getCodice());
 			fam.setString(2, famiglia.getNrComponenti());
 			fam.setBoolean(3, famiglia.isAnimali());
@@ -478,12 +480,12 @@ public class PostreSQLJDBC {
 			fam.setString(6, famiglia.getDistanza());
 			fam.setString(7, famiglia.getCapoFamiglia());
 			fam.setString(8, famiglia.getVacanza());
-			
-			
+
+
 			System.out.println(persona);
 			System.out.println(capofam);
 			System.out.println(fam);
-			
+
 			if(persona.executeUpdate() != 1) System.out.println("ERRORE INSERIMENTO PERSONA" + capo.getCF());
 			if(capofam.executeUpdate() != 1) System.out.println("ERRORE INSERIMENTO CAPO FAMIGLIA" + capo.getCF());
 			if(fam.executeUpdate() != 1) System.out.println("ERRORE INSERIMENTO FAMIGLIA" + famiglia.getCodice());
@@ -505,25 +507,25 @@ public class PostreSQLJDBC {
 			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
 			PreparedStatement persona = c.prepareStatement(UPDATE_Persona);
 			PreparedStatement ragazzo = c.prepareStatement(UPDATE_Ragazzo);
-			
+
 			persona.clearParameters();
 			ragazzo.clearParameters();
-			
+
 			//persona
 			persona.setString(1, mod.getNome());
 			persona.setString(2, mod.getCognome());
 			persona.setString(3, mod.getDdN());
 			persona.setString(4, mod.getEmail());
 			persona.setString(5, old.getCF());
-			
+
 			//RAGAZZO
 			ragazzo.setString(1, mod.getIndirizzo());
 			ragazzo.setString(2, mod.getNrTelefono());
 			ragazzo.setString(3, old.getCF());
-			
+
 			System.out.println(persona);
 			System.out.println(ragazzo);
-			
+
 			if(persona.executeUpdate() != 1) System.out.println("ERRORE UPDATE PERSONA" + old.getCF());
 			if(ragazzo.executeUpdate() != 1) System.out.println("ERRORE UPDATE CAPO FAMIGLIA" + old.getCF());
 			persona.close();
@@ -536,13 +538,13 @@ public class PostreSQLJDBC {
 		}System.out.println("Opened database successfully");
 
 	}
-	
-	
+
+
 	//Lista vacanze future
 	public static ArrayList<Vacanza> getVacanzaData(String data) throws SQLException{
 		ArrayList<Vacanza> vac = new ArrayList<Vacanza>();
 		Vacanza x;
-		
+
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
@@ -552,7 +554,7 @@ public class PostreSQLJDBC {
 
 
 			vacanza.setString(1, data);
-			
+
 			System.out.println(vacanza);
 
 
@@ -566,29 +568,29 @@ public class PostreSQLJDBC {
 				System.out.println(x);
 				vac.add(x);
 				x = null;
-				
-				
+
+
 			}
-			
+
 			elenco.close();
 			vacanza.close();
 			c.close();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
 		}
 		System.out.println("Opened database successfully");
-		
+
 		return vac;
-		
+
 	}
 
 	public static ArrayList<Vacanza> getVacanzaDurata(String durata) throws SQLException{
 		ArrayList<Vacanza> vac = new ArrayList<Vacanza>();
 		Vacanza x;
-		
+
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
@@ -598,7 +600,7 @@ public class PostreSQLJDBC {
 
 
 			vacanza.setString(1, durata);
-			
+
 			System.out.println(vacanza);
 
 
@@ -612,29 +614,29 @@ public class PostreSQLJDBC {
 				System.out.println(x);
 				vac.add(x);
 				x = null;
-				
-				
+
+
 			}
-			
+
 			elenco.close();
 			vacanza.close();
 			c.close();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
 		}
 		System.out.println("Opened database successfully");
-		
+
 		return vac;
-		
+
 	}
-	
+
 	public static ArrayList<Vacanza> getVacanzaCitta(String citta) throws SQLException{
 		ArrayList<Vacanza> vac = new ArrayList<Vacanza>();
 		Vacanza x;
-		
+
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
@@ -644,7 +646,7 @@ public class PostreSQLJDBC {
 
 
 			vacanza.setString(1, citta);
-			
+
 			System.out.println(vacanza);
 
 
@@ -658,30 +660,30 @@ public class PostreSQLJDBC {
 				System.out.println(x);
 				vac.add(x);
 				x = null;
-				
-				
+
+
 			}
-			
+
 			elenco.close();
 			vacanza.close();
 			c.close();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
 		}
 		System.out.println("Opened database successfully");
-		
+
 		return vac;
-		
+
 	}
 
 	//liste Gite per vacanza
 	public static ArrayList<Gita> getGitaVacanza(String codice) throws SQLException{
 		ArrayList<Gita> gite = new ArrayList<Gita>();
 		Gita g;
-		
+
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
@@ -691,7 +693,7 @@ public class PostreSQLJDBC {
 
 
 			vacanzagita.setString(1, codice);
-			
+
 			System.out.println(vacanzagita);
 
 
@@ -705,30 +707,30 @@ public class PostreSQLJDBC {
 				//System.out.println(g);
 				gite.add(g);
 				g = null;
-				
-				
+
+
 			}
-			
+
 			elenco.close();
 			vacanzagita.close();
 			c.close();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
 		}
 		System.out.println("Opened database successfully");
-		
+
 		return gite;
-		
+
 	}
-	
+
 	//liste college per vacanza
 	public static ArrayList<College> getCollegeVacanza(String codice) throws SQLException{
 		ArrayList<College> college = new ArrayList<College>();
 		College coll;
-		
+
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
@@ -738,7 +740,7 @@ public class PostreSQLJDBC {
 
 
 			vacanzacollege.setString(1, codice);
-			
+
 			System.out.println(vacanzacollege);
 
 
@@ -752,29 +754,29 @@ public class PostreSQLJDBC {
 				//System.out.println(g);
 				college.add(coll);
 				coll = null;
-				
-				
+
+
 			}
-			
+
 			elenco.close();
 			vacanzacollege.close();
 			c.close();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
 		}
 		System.out.println("Opened database successfully");
-		
+
 		return college;
 	}
-	
+
 	//liste attivita dei college per vacanza
 	public static ArrayList<Attivita> getAttivitaCollegeVacanza(String codice) throws SQLException{
 		ArrayList<Attivita> attivita = new ArrayList<Attivita>();
 		Attivita a;
-		
+
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
@@ -784,7 +786,7 @@ public class PostreSQLJDBC {
 
 
 			attivitaCollege.setString(1, codice);
-			
+
 			System.out.println(attivitaCollege);
 
 
@@ -798,30 +800,30 @@ public class PostreSQLJDBC {
 				//System.out.println(g);
 				attivita.add(a);
 				a = null;
-				
-				
+
+
 			}
-			
+
 			elenco.close();
 			attivitaCollege.close();
 			c.close();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
 		}
 		System.out.println("Opened database successfully");
-		
+
 		return attivita;
 	}
-	
+
 	//liste famiglie e capofam per vacanza
 	public static void getFamigliaVacanza(String codice, ArrayList<CapoFamiglia> capofam, ArrayList<Famiglia> fam) throws SQLException{
-		
+
 		CapoFamiglia capo;
 		Famiglia f;
-		
+
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
@@ -831,7 +833,7 @@ public class PostreSQLJDBC {
 
 
 			datifam.setString(1, codice);
-			
+
 			System.out.println(datifam);
 
 
@@ -843,28 +845,28 @@ public class PostreSQLJDBC {
 			while(elenco.next()) {
 				capo = new CapoFamiglia( elenco.getString("nome"), elenco.getString("cognome"), elenco.getString("cf"),  elenco.getString("email"), elenco.getString("datadinascita"));
 				f = new Famiglia( elenco.getString("cf"),  elenco.getString("vacanzafk"),  elenco.getString("nrcomponenti"),  elenco.getString("nrcamere"),  elenco.getString("nrbagni"),  elenco.getBoolean("animali"),  elenco.getString("distanza"), true, elenco.getString("codice"));
-				
+
 				//System.out.println(g);
 				capofam.add(capo);
 				fam.add(f);
-				
-				
+
+
 				capo = null;
 				f = null;
-				
+
 			}
-			
+
 			elenco.close();
 			datifam.close();
 			c.close();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
 		}
 		System.out.println("Opened database successfully");
-		
+
 	}
 
 	//inserimento prenotazione college
@@ -873,9 +875,9 @@ public class PostreSQLJDBC {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
 			PreparedStatement pren = c.prepareStatement(INSERT_PrenotazioneCollege);
-			
+
 			pren.clearParameters();
-			
+
 			pren.setString(1, prenotazione.getCodice());
 			pren.setString(2, prenotazione.getStanza());
 			pren.setString(3, prenotazione.getMdP());
@@ -883,9 +885,9 @@ public class PostreSQLJDBC {
 			pren.setString(5, prenotazione.getVacanza());
 			pren.setString(6, prenotazione.getCollege());
 
-			
+
 			System.out.println(pren);
-			
+
 			if(pren.executeUpdate() != 1) System.out.println("ERRORE INSERIMENTO PRENOTAZIONE COLLEGE" + prenotazione.getCodice());
 			pren.close();
 			c.close();
@@ -902,9 +904,9 @@ public class PostreSQLJDBC {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
 			PreparedStatement pren = c.prepareStatement(INSERT_PrenotazioneFamiglia);
-			
+
 			pren.clearParameters();
-			
+
 			pren.setString(1, prenotazione.getNomeAmico());
 			pren.setString(2, prenotazione.getEmailAmico());
 			pren.setString(3, prenotazione.getMdP());
@@ -913,9 +915,9 @@ public class PostreSQLJDBC {
 			pren.setString(6, prenotazione.getVacanza());
 			pren.setString(7, prenotazione.getFamiglia());
 
-			
+
 			System.out.println(pren);
-			
+
 			if(pren.executeUpdate() != 1) System.out.println("ERRORE INSERIMENTO PRENOTAZIONE FAMIGLIA" + prenotazione.getCodice());
 			pren.close();
 			c.close();
@@ -924,19 +926,19 @@ public class PostreSQLJDBC {
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
 		}System.out.println("Opened database successfully");
-		
+
 	}
-	
-	
-	public static void getVacanzePassate(String user, ArrayList<Vacanza> vacanze,  ArrayList<PrenotazioneCollege> prenotazioniCollege,  ArrayList<PrenotazioneFam> prenotazioniFam )  throws SQLException{
-		
+
+
+	public static void getPrenotazioniPassate(String user, ArrayList<Vacanza> vacanze,  ArrayList<PrenotazioneCollege> prenotazioniCollege,  ArrayList<PrenotazioneFam> prenotazioniFam )  throws SQLException{
+
 		PrenotazioneCollege coll;
 		PrenotazioneFam fam;
 		Vacanza vac;
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");  
 		LocalDateTime now = LocalDateTime.now();  
 		String data = dtf.format(now);
-		
+
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
@@ -944,16 +946,16 @@ public class PostreSQLJDBC {
 			PreparedStatement prencollege = c.prepareStatement(QUERY_GetPrenotazioneCollege);
 			PreparedStatement prenFam = c.prepareStatement(QUERY_GetPrenotazioneFamiglia);
 
-			
-			
+
+
 			//prenotazioni college
 			prencollege.setString(1, user);
 			prencollege.setString(2, data);
-			
+
 			//prenotazioni Famiglie
 			prenFam.setString(1, user);
 			prenFam.setString(2, data);
-			
+
 			System.out.println(prencollege);
 
 
@@ -966,11 +968,11 @@ public class PostreSQLJDBC {
 			while(elencoCollege.next()) {
 				coll = new PrenotazioneCollege( elencoCollege.getString("vacanzafk"), elencoCollege.getString("ragazzofk"), elencoCollege.getString("collegefk"),  elencoCollege.getString("tipostanza"), elencoCollege.getString("pagamento"), true, elencoCollege.getString("codice"));
 				vac = new Vacanza(elencoCollege.getString("vacanzafk"), elencoCollege.getString("città"), elencoCollege.getString("datadipartenza"), elencoCollege.getString("durata"),  elencoCollege.getString("lingua"));
-				
-				
+
+
 				prenotazioniCollege.add(coll);
 				vacanze.add(vac);
-			
+
 				coll = null;
 				vac = null;
 			}
@@ -978,49 +980,49 @@ public class PostreSQLJDBC {
 			while(elencoFamiglia.next()) {
 				fam = new PrenotazioneFam( elencoFamiglia.getString("vacanzafk"), elencoFamiglia.getString("ragazzofk"), elencoFamiglia.getString("famfk"),  elencoFamiglia.getString("nomeamico"), elencoFamiglia.getString("emailamico"), elencoFamiglia.getString("pagamento"), true, elencoFamiglia.getString("codice"));
 				vac = new Vacanza(elencoFamiglia.getString("vacanzafk"), elencoFamiglia.getString("città"), elencoFamiglia.getString("datadipartenza"), elencoFamiglia.getString("durata"),  elencoFamiglia.getString("lingua"));
-				
-				
+
+
 				prenotazioniFam.add(fam);
 				vacanze.add(vac);
-			
+
 				fam = null;
 				vac = null;
 			}
-			
-			
+
+
 			elencoCollege.close();
 			elencoFamiglia.close();
 			prencollege.close();
 			prenFam.close();
 			c.close();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
 		}
 		System.out.println("Opened database successfully");
-		
-		
-		
+
+
+
 	}
-	
+
 	public static void addQuestionario(Questionario questionario) throws SQLException{
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
 			PreparedStatement q = c.prepareStatement(INSERT_Questionario);
-			
+
 			q.clearParameters();
-			
+
 			q.setString(1, questionario.getPrenotazione());
-			q.setString(2, questionario.getVoto());
+			q.setInt(2, questionario.getVoto());
 			q.setString(3, questionario.getCommento());
 			q.setString(4, questionario.getVacanza());
-			
-			
+
+
 			System.out.println(q);
-			
+
 			if(q.executeUpdate() != 1) System.out.println("ERRORE INSERIMENTO QUESTIONARIO" + questionario.getPrenotazione());
 			q.close();
 			c.close();
@@ -1030,5 +1032,58 @@ public class PostreSQLJDBC {
 			System.exit(0);
 		}System.out.println("Opened database successfully");
 	}
-	
+
+
+	//metodo che restituisce le vacanze passate/in corso
+	public static void getVacanzePassate( ArrayList<Vacanza> vacanze)  throws SQLException{
+
+		
+		Vacanza v;
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");  
+		LocalDateTime now = LocalDateTime.now();  
+		String data = dtf.format(now);
+
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
+
+			PreparedStatement vac = c.prepareStatement(QUERY_GetVacanzePassate);
+			
+
+
+
+
+			System.out.println(vac);
+
+
+			ResultSet elenco = vac.executeQuery();
+
+
+
+			//salvo I dati di collegge e vacanze relative alle prenotazioni
+			while(elenco.next()) {
+				Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(elenco.getString("datadipartenza")); 
+				Date date2 = new SimpleDateFormat("dd-MM-yyyy").parse(data);  
+				if(date1.before(date2)) {
+					v = new Vacanza(elenco.getString("codice"), elenco.getString("città"), elenco.getString("datadipartenza"), elenco.getString("durata"),  elenco.getString("lingua"));
+					vacanze.add(v);
+				}
+				
+
+				v = null;
+			}
+		
+			vac.close();
+			c.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+		System.out.println("Opened database successfully");
+
+
+
+	}
 }

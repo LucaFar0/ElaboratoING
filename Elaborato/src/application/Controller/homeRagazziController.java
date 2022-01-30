@@ -90,9 +90,10 @@ public class homeRagazziController implements Initializable{
 	private void setCollege(ActionEvent e) {
 		choicePrenotaCollege.getItems().clear();
 		String vac = choicePrenotaCollegeVacanza.getValue();
-		String[] codCollege = new String[100];
+		
 		 try {
 			ArrayList<College> coll = PostreSQLJDBC.getCollegeVacanza(vac);
+			String[] codCollege = new String[coll.size()];
 			int j = 0;
 			for(College i: coll) {
 				codCollege[j] = i.getCodice();
@@ -112,9 +113,10 @@ public class homeRagazziController implements Initializable{
 		String vac = choicePrenotaFamVacanza.getValue();
 		ArrayList<CapoFamiglia> capo = new ArrayList<CapoFamiglia>();
 		ArrayList<Famiglia> fam  = new ArrayList<Famiglia>();
-		String[] codFam = new String[100];
+		
 		 try {
 			PostreSQLJDBC.getFamigliaVacanza(vac, capo, fam);
+			String[] codFam = new String[fam.size()];
 			int j = 0;
 			for(Famiglia i: fam) {
 				codFam[j] = i.getCodice();
@@ -152,7 +154,7 @@ public class homeRagazziController implements Initializable{
 	public void FiltraData(ActionEvent e) throws IOException {
 		clearBox();
 		out = "";
-		String[] codVacanze = new String[100];
+		
 		if(college != null) college.clear();
 		if(vacanze != null) vacanze.clear();
 		
@@ -170,6 +172,7 @@ public class homeRagazziController implements Initializable{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		String[] codVacanze = new String[vacanze.size()];
 
 		int j = 0;
 		for(Vacanza i: vacanze) {
@@ -198,7 +201,7 @@ public class homeRagazziController implements Initializable{
 	public void FiltraDurata(ActionEvent e) {
 		clearBox();
 		out = "";
-		String[] codVacanze = new String[100];
+		
 		if(college != null) college.clear();
 		if(vacanze != null) vacanze.clear();
 		
@@ -218,6 +221,8 @@ public class homeRagazziController implements Initializable{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		String[] codVacanze = new String[vacanze.size()];
 		
 		int j = 0;
 		for(Vacanza i: vacanze) {
@@ -246,7 +251,7 @@ public class homeRagazziController implements Initializable{
 	public void FiltraCitta(ActionEvent e) {
 		clearBox();
 		out = "";
-		String[] codVacanze = new String[100];
+		
 		if(college != null) college.clear();
 		if(vacanze != null) vacanze.clear();
 		
@@ -267,6 +272,8 @@ public class homeRagazziController implements Initializable{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		String[] codVacanze = new String[vacanze.size()];
 		
 		int j = 0;
 		for(Vacanza i: vacanze) {
@@ -409,12 +416,12 @@ public class homeRagazziController implements Initializable{
 	//----------------------------------------------------Vacanze Passate--------------------------------------------------------------------------------------------------------------------------------
 	
 	@FXML private ChoiceBox<String> choiceQuestionarioPrenotazione;
-	@FXML private ChoiceBox<String> choiceQuestionarioVoto;
+	@FXML private ChoiceBox<Integer> choiceQuestionarioVoto;
 	@FXML private TextArea areaCommento;
 	@FXML private TextArea areaVacanzePassate;
 	@FXML private Button buttSalvaQuestionario;
 	
-	private String[] voto = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+	private Integer[] voto = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 	
 	
 	ArrayList<Vacanza> VacanzePassate = new ArrayList<Vacanza>();
@@ -426,7 +433,7 @@ public class homeRagazziController implements Initializable{
 	public void setVacanzePassate() {
 		
 		try {
-			PostreSQLJDBC.getVacanzePassate(user.getCF(), VacanzePassate, prenotazioniCollege, prenotazioniFam);
+			PostreSQLJDBC.getPrenotazioniPassate(user.getCF(), VacanzePassate, prenotazioniCollege, prenotazioniFam);
 			areaVacanzePassate.setText(getPrenotazioneFam(prenotazioniFam) + getPrenotazioneCollege(prenotazioniCollege));
 			choiceQuestionarioPrenotazione.getItems().addAll(prenotazioni);
 		} catch (SQLException e) {
@@ -444,7 +451,7 @@ public class homeRagazziController implements Initializable{
 		for(PrenotazioneFam i: prenotazioniFam) {
 			prenotazioni.add(i.getCodice());
 			s += "\n\n----------------------------Vacanza Passata-------------------------";
-			s += i.toString() + getVacanza(i.getCodice());
+			s += i.toString() + getVacanza(i.getVacanza());
 		}
 	
 		return s;
@@ -457,7 +464,7 @@ public class homeRagazziController implements Initializable{
 			for(PrenotazioneCollege i: prenotazioniCollege) {
 				prenotazioni.add(i.getCodice());
 				s += "\n\n----------------------------Vacanza Passata-------------------------";
-				s += i.toString() + getVacanza(i.getCodice());
+				s += i.toString() + getVacanza(i.getVacanza());
 			}
 		
 			return s;
@@ -466,7 +473,9 @@ public class homeRagazziController implements Initializable{
 	private String getVacanza(String codice) {
 		
 		for(Vacanza i: VacanzePassate) {
-			if(i.getCodice() == codice) {
+			System.out.println(i.getCodice());
+			System.out.println(codice);
+			if(i.getCodice().equals(codice)) {
 				return "\n Città: " + i.getCitta() + "\n Lingua Studiata: " + i.getLingua() + "\n Certificazione: B2\n";
 			}
 		}

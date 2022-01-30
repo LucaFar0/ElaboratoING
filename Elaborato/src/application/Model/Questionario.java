@@ -2,12 +2,12 @@ package application.Model;
 
 public class Questionario {
 	private String Prenotazione;
-	private String Voto;
+	private Integer Voto;
 	private String Commento;
-	private String Vacanza;
+	private String Vacanza = "";
 	
 	
-	public Questionario(String prenotazione, String voto, String commento) {
+	public Questionario(String prenotazione, Integer voto, String commento) {
 		this.setPrenotazione(prenotazione);
 		this.setVoto(voto);
 		this.setCommento(commento);
@@ -25,12 +25,12 @@ public class Questionario {
 	}
 
 
-	public String getVoto() {
+	public Integer getVoto() {
 		return this.Voto;
 	}
 
 
-	public void setVoto(String voto) {
+	public void setVoto(Integer voto) {
 		this.Voto = voto;
 	}
 
