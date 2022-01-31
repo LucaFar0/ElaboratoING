@@ -73,6 +73,42 @@ public class homeRagazziController implements Initializable{
 	private String[] tipoStanza = {"Singola", "Doppia"};
 	
 	
+	//----------------------------------------------------Vacanze Passate--------------------------------------------------------------------------------------------------------------------------------
+
+	@FXML private ChoiceBox<String> choiceQuestionarioPrenotazione;
+	@FXML private ChoiceBox<Integer> choiceQuestionarioVoto;
+	@FXML private TextArea areaCommento;
+	@FXML private TextArea areaVacanzePassate;
+	@FXML private Button buttSalvaQuestionario;
+
+	private Integer[] voto = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+
+	ArrayList<Vacanza> VacanzePassate = new ArrayList<Vacanza>();
+	ArrayList<PrenotazioneCollege> prenotazioniCollege = new ArrayList<PrenotazioneCollege>();
+	ArrayList<PrenotazioneFam> prenotazioniFam = new ArrayList<PrenotazioneFam>();
+	ArrayList<String> prenotazioni = new ArrayList<String>();
+
+	
+	//----------------------------------------------------------Profilo-----------------------------------------------------------------------------------------------------------------------
+	@FXML private TextField textNomeProf;
+	@FXML private TextField textCognomeProf;
+	@FXML private TextField textCFProf;
+	@FXML private DatePicker dateDdNprof;
+	@FXML private TextField textEmailProf;
+	@FXML private TextField textNrTelProf;
+	@FXML private TextField textIndirizzoProf;
+
+
+
+	@FXML private Button buttMod;
+	@FXML private Button buttSave;
+
+	@FXML private AnchorPane pane;
+
+	@FXML private Tab profilo;
+	
+	
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -85,6 +121,8 @@ public class homeRagazziController implements Initializable{
 	}
 	
 	
+	
+	//--------------------------------------------------------------------------------------------------------VACANZE FUTURE--------------------------------------------------------------------------------------------------------------------------------
 	
 	//metodo per caricare i college corretti nel box della prenotazione
 	private void setCollege(ActionEvent e) {
@@ -176,12 +214,19 @@ public class homeRagazziController implements Initializable{
 
 		int j = 0;
 		for(Vacanza i: vacanze) {
-			codVacanze[j] = i.getCodice();// + " | " + i.getCitta();
-			System.out.println(i.toString2());
-			System.out.println(getGite(i.getCodice()));
-			out += separatoreVacanza;
-			out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice()) + getFam(i.getCodice());
-			j++;
+			if(PostreSQLJDBC.isPrenotata(user.getCF(), i.getCodice()) == false) { // non esiste una prenotazione per la vacanza
+				codVacanze[j] = i.getCodice();// + " | " + i.getCitta();
+				System.out.println(i.toString2());
+				System.out.println(getGite(i.getCodice()));
+				out += separatoreVacanza;
+				out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice()) + getFam(i.getCodice());
+				j++;
+			}else {
+				System.out.println(i.toString2());
+				System.out.println(getGite(i.getCodice()));
+				out += separatoreVacanza;
+				out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice()) + getFam(i.getCodice()) + " \n VACANZA PRENOTATA";
+			}
 		}
 		
 		//aggiorno i campi delle prenotazioni in base al filtro applicato ì nella ricerca 
@@ -226,12 +271,19 @@ public class homeRagazziController implements Initializable{
 		
 		int j = 0;
 		for(Vacanza i: vacanze) {
-			codVacanze[j] = i.getCodice();// + " | " + i.getCitta();
-			System.out.println(i.toString2());
-			System.out.println(getGite(i.getCodice()));
-			out += separatoreVacanza;
-			out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice()) + getFam(i.getCodice());
-			j++;
+			if(PostreSQLJDBC.isPrenotata(user.getCF(), i.getCodice()) == false) { // non esiste una prenotazione per la vacanza
+				codVacanze[j] = i.getCodice();// + " | " + i.getCitta();
+				System.out.println(i.toString2());
+				System.out.println(getGite(i.getCodice()));
+				out += separatoreVacanza;
+				out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice()) + getFam(i.getCodice());
+				j++;
+			}else {
+				System.out.println(i.toString2());
+				System.out.println(getGite(i.getCodice()));
+				out += separatoreVacanza;
+				out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice()) + getFam(i.getCodice()) + " \n VACANZA PRENOTATA";
+			}
 		}
 		
 		//aggiorno i campi delle prenotazioni in base al filtro applicato ì nella ricerca 
@@ -277,13 +329,19 @@ public class homeRagazziController implements Initializable{
 		
 		int j = 0;
 		for(Vacanza i: vacanze) {
-			
-			codVacanze[j] = i.getCodice();// + " | " + i.getCitta();
-			System.out.println(i.toString2());
-			System.out.println(getGite(i.getCodice()));
-			out += separatoreVacanza;
-			out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice()) + getFam(i.getCodice());
-			j++;
+			if(PostreSQLJDBC.isPrenotata(user.getCF(), i.getCodice()) == false) { // non esiste una prenotazione per la vacanza
+				codVacanze[j] = i.getCodice();// + " | " + i.getCitta();
+				System.out.println(i.toString2());
+				System.out.println(getGite(i.getCodice()));
+				out += separatoreVacanza;
+				out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice()) + getFam(i.getCodice());
+				j++;
+			}else {
+				System.out.println(i.toString2());
+				System.out.println(getGite(i.getCodice()));
+				out += separatoreVacanza;
+				out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice()) + getFam(i.getCodice()) + " \n VACANZA PRENOTATA";
+			}
 		}
 		
 		//aggiorno i campi delle prenotazioni in base al filtro applicato ì nella ricerca 
@@ -413,21 +471,8 @@ public class homeRagazziController implements Initializable{
 		}
 	}
 
-	//----------------------------------------------------Vacanze Passate--------------------------------------------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------------------VACANZE PASSATE--------------------------------------------------------------------------------------------------------------------------------
 	
-	@FXML private ChoiceBox<String> choiceQuestionarioPrenotazione;
-	@FXML private ChoiceBox<Integer> choiceQuestionarioVoto;
-	@FXML private TextArea areaCommento;
-	@FXML private TextArea areaVacanzePassate;
-	@FXML private Button buttSalvaQuestionario;
-	
-	private Integer[] voto = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-	
-	
-	ArrayList<Vacanza> VacanzePassate = new ArrayList<Vacanza>();
-	ArrayList<PrenotazioneCollege> prenotazioniCollege = new ArrayList<PrenotazioneCollege>();
-	ArrayList<PrenotazioneFam> prenotazioniFam = new ArrayList<PrenotazioneFam>();
-	ArrayList<String> prenotazioni = new ArrayList<String>();
 	
 	// metodo che carica tutti i dati relativi alle vacanze passate e setta i campi per l'inserimento del questionario
 	public void setVacanzePassate() {
@@ -449,27 +494,39 @@ public class homeRagazziController implements Initializable{
 		
 		String s = "";
 		for(PrenotazioneFam i: prenotazioniFam) {
-			prenotazioni.add(i.getCodice());
-			s += "\n\n----------------------------Vacanza Passata-------------------------";
-			s += i.toString() + getVacanza(i.getVacanza());
+			if(PostreSQLJDBC.isCompilato(i.getCodice()) == false) {
+				prenotazioni.add(i.getCodice());
+				s += "\n\n----------------------------Vacanza Passata-------------------------";
+				s += i.toString() + getVacanza(i.getVacanza()) + "\n Questionario da compilare";
+			}else {
+				s += "\n\n----------------------------Vacanza Passata-------------------------";
+				s += i.toString() + getVacanza(i.getVacanza()) + "\n Questionario compilato !";
+			}
 		}
 	
 		return s;
 	}
 	
 	//metodo che restituisce la stringa con tutte le prenotazioni passate relative a famiglia
-		private String getPrenotazioneCollege(ArrayList<PrenotazioneCollege> prenotazioniCollege ) {
-			
-			String s = "";
-			for(PrenotazioneCollege i: prenotazioniCollege) {
+	private String getPrenotazioneCollege(ArrayList<PrenotazioneCollege> prenotazioniCollege ) {
+
+		String s = "";
+		for(PrenotazioneCollege i: prenotazioniCollege) {
+			if(PostreSQLJDBC.isCompilato(i.getCodice()) == false) {
 				prenotazioni.add(i.getCodice());
 				s += "\n\n----------------------------Vacanza Passata-------------------------";
-				s += i.toString() + getVacanza(i.getVacanza());
+				s += i.toString() + getVacanza(i.getVacanza()) + "\n Questionario da compilare";
+			}else {
+				s += "\n\n----------------------------Vacanza Passata-------------------------";
+				s += i.toString() + getVacanza(i.getVacanza()) + "\n Questionario compilato !";
 			}
-		
-			return s;
 		}
-	
+
+		return s;
+	}
+
+		
+	//genera la stringa contenente dati della vacanza trascorsa
 	private String getVacanza(String codice) {
 		
 		for(Vacanza i: VacanzePassate) {
@@ -496,23 +553,8 @@ public class homeRagazziController implements Initializable{
 		areaCommento.clear();
 	}
 	
-	//----------------------------------------------------------Profilo-----------------------------------------------------------------------------------------------------------------------
-	@FXML private TextField textNomeProf;
-	@FXML private TextField textCognomeProf;
-	@FXML private TextField textCFProf;
-	@FXML private DatePicker dateDdNprof;
-	@FXML private TextField textEmailProf;
-	@FXML private TextField textNrTelProf;
-	@FXML private TextField textIndirizzoProf;
+	//--------------------------------------------------------------------------------------------------------------PROFILO-----------------------------------------------------------------------------------------------------------------------
 	
-	
-	
-	@FXML private Button buttMod;
-	@FXML private Button buttSave;
-	
-	@FXML private AnchorPane pane;
-
-	@FXML private Tab profilo;
 	
 	
 	

@@ -120,7 +120,7 @@ public class homeResponsabiliController implements Initializable{
 		textDistanzaFam.setText(null);
 	}
 	
-	//-----------------------------------------VACANZE PASSATE-----------------------------------------------------------------
+	//-----------------------------------------------------------------------------------------------------VACANZE PASSATE-----------------------------------------------------------------
 	
 	@FXML private TextArea areaVacanzeResponsabili;
 	
@@ -133,7 +133,7 @@ public class homeResponsabiliController implements Initializable{
 		
 	}
 	
-	//--------------------- VACANZA -----------------------
+	//--------------------- ------------------------------------------------------------------------------------------VACANZA -------------------------------------------------------------
 
 
 	public void salvaVacanza(ActionEvent e) throws IOException{
@@ -393,20 +393,23 @@ public class homeResponsabiliController implements Initializable{
 		alert.show();
 	}
 	
-	
+	//ottengo tutte le vacanze ch sono già passate con il voto medio e i  commenti
 	private void setVacanzePassate() {
 		String s = "";
 		try {
 			PostreSQLJDBC.getVacanzePassate(vacanze);
 			for(Vacanza i: vacanze) {
-				System.out.println(i);
-				//s+ getmediavoti + get commenti
+				s = i.toString2() + "\n Voto medio vacanza: " + PostreSQLJDBC.getVotoMedio(i.getCodice()) + "\n ----------COMMENTI-------------" +  PostreSQLJDBC.getCommenti(i.getCodice());
+				
 				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		areaVacanzeResponsabili.setText(s);
+		
 	}
 
 

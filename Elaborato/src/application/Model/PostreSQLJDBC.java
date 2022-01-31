@@ -13,8 +13,8 @@ public class PostreSQLJDBC {
 	private static final String DB_URL = "jdbc:postgresql://localhost:5432/db";
 	private static final String DB_User = "postgres";
 	private static final String DB_Password = "Ciao1107";
-	private static  String QUERY_LoginU = "SELECT * FROM (Persona INNER JOIN Ragazzo ON Ragazzo.passwd = ? AND Persona.EMail = ?);";
-	private static  String QUERY_LoginR = "SELECT * FROM (Persona INNER JOIN Responsabile ON Responsabile.passwd = ? AND Persona.EMail = ?);";
+	private static  String QUERY_LoginU = "SELECT * FROM (Persona INNER JOIN Ragazzo ON Ragazzo.passwd = ? AND Persona.EMail = ?) WHERE Ragazzo.personafk = Persona.cf;;";
+	private static  String QUERY_LoginR = "SELECT * FROM (Persona INNER JOIN Responsabile ON Responsabile.passwd = ? AND Persona.EMail = ?) WHERE Responsabile.personafk = Persona.cf;;";
 	private static  String QUERY_GetMaxCollege = "SELECT MAX(codice) FROM College WHERE vacanzafk = ?";
 	private static  String QUERY_GetMaxFamiglia = "SELECT MAX(codice) FROM Famiglia WHERE vacanzafk = ?";
 	private static  String QUERY_GetMaxPrenotazioniCollege = "SELECT MAX(codice) FROM PrenotazioneCollege WHERE vacanzafk = ? AND collegefk = ?";
@@ -29,7 +29,13 @@ public class PostreSQLJDBC {
 	private static  String QUERY_GetPrenotazioneCollege = "SELECT * FROM (PrenotazioneCollege INNER JOIN Vacanza On PrenotazioneCollege.vacanzafk = Vacanza.codice AND PrenotazioneCollege.ragazzofk = ?) WHERE Vacanza.datadipartenza < ?;";
 	private static  String QUERY_GetPrenotazioneFamiglia = "SELECT * FROM (PrenotazioneFamiglia INNER JOIN Vacanza On PrenotazioneFamiglia.vacanzafk = Vacanza.codice AND PrenotazioneFamiglia.ragazzofk = ?) WHERE Vacanza.datadipartenza < ?;";
 	private static  String QUERY_GetVacanzePassate = "SELECT * FROM Vacanza ";
-	private static  String QUERY_GetMediaVoti = "SELECT avg(voto) FROM Questionario WHERE vacanzafk = '0002';";
+	private static  String QUERY_GetMediaVoti = "SELECT avg(voto) FROM Questionario WHERE vacanzafk = ?;";
+	private static  String QUERY_GetCommenti = "SELECT commento FROM Questionario WHERE vacanzafk = ?;";
+	private static  String QUERY_NQuestionari = "SELECT COUNT(prenotazionefk) FROM Questionario WHERE Questionario.prenotazionefk = ?;";
+	private static  String IsPrenotata = "SELECT COUNT(*) FROM (PrenotazioneFamiglia INNER JOIN PrenotazioneCollege ON PrenotazioneFamiglia.ragazzofk = ? OR PrenotazioneCollege.ragazzofk  = ? ) WHERE PrenotazioneFamiglia.vacanzafk = ? OR PrenotazioneCollege.vacanzafk = ?;";
+	
+	
+	
 	//private static  String QUERY_GeFam = "SELECT * FROM Attivita WHERE Attivita.collegefk = ? ";
 
 
@@ -1083,7 +1089,185 @@ public class PostreSQLJDBC {
 		}
 		System.out.println("Opened database successfully");
 
-
-
 	}
+
+	//metodo che restituisce le vacanze passate/in corso
+	public static float getVotoMedio(String vacanza)  throws SQLException{
+
+		float media = 0;
+		
+
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
+
+			PreparedStatement voto = c.prepareStatement(QUERY_GetMediaVoti);
+
+
+
+			voto.setString(1, vacanza);
+
+			System.out.println(voto);
+
+
+			ResultSet elenco = voto.executeQuery();
+
+
+
+			//salvo I dati di collegge e vacanze relative alle prenotazioni
+			while(elenco.next()) {
+				media = elenco.getFloat("avg");
+
+			}
+
+			voto.close();
+			c.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+		System.out.println("Opened database successfully");
+		
+		
+		return media;
+	}
+
+
+	public static String getCommenti(String codice) {
+		
+		String s = "";
+		
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
+
+			PreparedStatement commenti = c.prepareStatement(QUERY_GetCommenti);
+
+
+
+			commenti.setString(1, codice);
+
+			System.out.println(commenti);
+
+
+			ResultSet elenco = commenti.executeQuery();
+
+
+
+			//salvo I dati di collegge e vacanze relative alle prenotazioni
+			while(elenco.next()) {
+				s += "\n 		- " + elenco.getString("commento");
+
+			}
+
+			commenti.close();
+			c.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+		System.out.println("Opened database successfully");
+		
+		
+	
+		return s;
+	}
+	
+	
+	//metodo che interroga il db e dice se è già stato compilato un questionario per la vacanza in questione
+	public static boolean isCompilato(String codice) {
+
+		boolean flag = false;
+
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
+
+			PreparedStatement q = c.prepareStatement(QUERY_NQuestionari);
+
+
+
+			q.setString(1, codice);
+
+			System.out.println(q);
+
+
+			ResultSet elenco = q.executeQuery();
+
+
+
+			//salvo I dati di collegge e vacanze relative alle prenotazioni
+			while(elenco.next()) {
+				if(elenco.getInt("count") > 0) flag = true;
+
+			}
+
+			q.close();
+			c.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+		System.out.println("Opened database successfully");
+
+
+
+		return flag;
+	}
+	
+
+	//metodo che interroga il db e dice se è già stata fatta una prenotazione per la vacanza in questione
+	public static boolean isPrenotata(String user, String vacanza) {
+
+		boolean flag = false;
+
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
+
+			PreparedStatement q = c.prepareStatement(IsPrenotata);
+
+
+
+			q.setString(1, user);
+			q.setString(2, user);
+			q.setString(3, vacanza);
+			q.setString(4, vacanza);
+
+			System.out.println(q);
+
+
+			ResultSet elenco = q.executeQuery();
+
+
+
+			//salvo I dati di collegge e vacanze relative alle prenotazioni
+			while(elenco.next()) {
+				if(elenco.getInt("count") > 0) flag = true;
+
+			}
+
+			q.close();
+			c.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+		System.out.println("Opened database successfully");
+
+
+
+		return flag;
+	}
+
+
+
 }
