@@ -1,6 +1,7 @@
 package application.Model;
 
 
+
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -19,15 +20,15 @@ public class PostreSQLJDBC {
 	private static  String QUERY_GetMaxFamiglia = "SELECT MAX(codice) FROM Famiglia WHERE vacanzafk = ?";
 	private static  String QUERY_GetMaxPrenotazioniCollege = "SELECT MAX(codice) FROM PrenotazioneCollege WHERE vacanzafk = ? AND collegefk = ?";
 	private static  String QUERY_GetMaxPrenotazioniFamiglia = "SELECT MAX(codice) FROM PrenotazioneFamiglia WHERE vacanzafk = ? AND famfk = ?";
-	private static  String QUERY_GetVacanzeData = "SELECT * FROM Vacanza WHERE vacanza.datadipartenza >= ? ORDER BY datadipartenza";
+	private static  String QUERY_GetVacanzeData = "SELECT * FROM Vacanza ORDER BY datadipartenza";
 	private static  String QUERY_GetVacanzeDurata = "SELECT * FROM Vacanza WHERE vacanza.durata = ? ORDER BY codice";
 	private static  String QUERY_GetVacanzeCitta = "SELECT * FROM Vacanza WHERE vacanza.città = ? ORDER BY codice";
 	private static  String QUERY_GetGita = "SELECT * FROM Gita WHERE Gita.vacanzafk = ? ";
 	private static  String QUERY_GetCollege = "SELECT * FROM College WHERE College.vacanzafk = ? ";
 	private static  String QUERY_GetAttivitaCollege = "SELECT * FROM Attivita WHERE Attivita.collegefk = ? ";
 	private static  String QUERY_GetCapoFam = "SELECT * FROM (Persona INNER JOIN Famiglia On Persona.cf = Famiglia.famfk) WHERE Famiglia.vacanzafk = ? ";
-	private static  String QUERY_GetPrenotazioneCollege = "SELECT * FROM (PrenotazioneCollege INNER JOIN Vacanza On PrenotazioneCollege.vacanzafk = Vacanza.codice AND PrenotazioneCollege.ragazzofk = ?) WHERE Vacanza.datadipartenza < ?;";
-	private static  String QUERY_GetPrenotazioneFamiglia = "SELECT * FROM (PrenotazioneFamiglia INNER JOIN Vacanza On PrenotazioneFamiglia.vacanzafk = Vacanza.codice AND PrenotazioneFamiglia.ragazzofk = ?) WHERE Vacanza.datadipartenza < ?;";
+	private static  String QUERY_GetPrenotazioneCollege = "SELECT * FROM (PrenotazioneCollege INNER JOIN Vacanza On PrenotazioneCollege.vacanzafk = Vacanza.codice AND PrenotazioneCollege.ragazzofk = ?);";
+	private static  String QUERY_GetPrenotazioneFamiglia = "SELECT * FROM (PrenotazioneFamiglia INNER JOIN Vacanza On PrenotazioneFamiglia.vacanzafk = Vacanza.codice AND PrenotazioneFamiglia.ragazzofk = ?);";
 	private static  String QUERY_GetVacanzePassate = "SELECT * FROM Vacanza ";
 	private static  String QUERY_GetMediaVoti = "SELECT avg(voto) FROM Questionario WHERE vacanzafk = ?;";
 	private static  String QUERY_GetCommenti = "SELECT commento FROM Questionario WHERE vacanzafk = ?;";
@@ -395,7 +396,7 @@ public class PostreSQLJDBC {
 
 			System.out.println(coll);
 
-			if(coll.executeUpdate() != 1) System.out.println("ERRORE INSERIMENTO GENITORE" + college.getCodice());
+			if(coll.executeUpdate() != 1) System.out.println("ERRORE INSERIMENTO COLLEGE" + college.getCodice());
 			coll.close();
 			c.close();
 		} catch (Exception e) {
@@ -559,8 +560,8 @@ public class PostreSQLJDBC {
 
 
 
-			vacanza.setString(1, data);
-
+			//vacanza.setString(1, data);
+			Date date2 = new SimpleDateFormat("dd-MM-yyyy").parse(data);  
 			System.out.println(vacanza);
 
 
@@ -570,11 +571,15 @@ public class PostreSQLJDBC {
 
 			//salvo I dati del Ragazzo se le credenziali inserite sono di un ragazzo
 			while(elenco.next()) {
-				x = new Vacanza(elenco.getString("codice"), elenco.getString("città"), elenco.getString("datadipartenza"), elenco.getString("durata"),  elenco.getString("lingua"));
-				System.out.println(x);
-				vac.add(x);
-				x = null;
+				Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(elenco.getString("datadipartenza")); 
+				
+				if(date1.after(date2) || date1.equals(date2)) {
 
+					x = new Vacanza(elenco.getString("codice"), elenco.getString("città"), elenco.getString("datadipartenza"), elenco.getString("durata"),  elenco.getString("lingua"));
+					System.out.println(x);
+					vac.add(x);
+					x = null;
+				}
 
 			}
 
@@ -935,7 +940,7 @@ public class PostreSQLJDBC {
 
 	}
 
-
+	//metodo che trova le proprie prenotazioni passate 
 	public static void getPrenotazioniPassate(String user, ArrayList<Vacanza> vacanze,  ArrayList<PrenotazioneCollege> prenotazioniCollege,  ArrayList<PrenotazioneFam> prenotazioniFam )  throws SQLException{
 
 		PrenotazioneCollege coll;
@@ -944,6 +949,7 @@ public class PostreSQLJDBC {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");  
 		LocalDateTime now = LocalDateTime.now();  
 		String data = dtf.format(now);
+		
 
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -956,11 +962,11 @@ public class PostreSQLJDBC {
 
 			//prenotazioni college
 			prencollege.setString(1, user);
-			prencollege.setString(2, data);
+			//prencollege.setString(2, data);
 
 			//prenotazioni Famiglie
 			prenFam.setString(1, user);
-			prenFam.setString(2, data);
+			//prenFam.setString(2, data);
 
 			System.out.println(prencollege);
 
@@ -968,31 +974,39 @@ public class PostreSQLJDBC {
 			ResultSet elencoCollege = prencollege.executeQuery();
 			ResultSet elencoFamiglia = prenFam.executeQuery();
 
-
+			Date date2 = new SimpleDateFormat("dd-MM-yyyy").parse(data);  
 
 			//salvo I dati di collegge e vacanze relative alle prenotazioni
 			while(elencoCollege.next()) {
-				coll = new PrenotazioneCollege( elencoCollege.getString("vacanzafk"), elencoCollege.getString("ragazzofk"), elencoCollege.getString("collegefk"),  elencoCollege.getString("tipostanza"), elencoCollege.getString("pagamento"), true, elencoCollege.getString("codice"));
-				vac = new Vacanza(elencoCollege.getString("vacanzafk"), elencoCollege.getString("città"), elencoCollege.getString("datadipartenza"), elencoCollege.getString("durata"),  elencoCollege.getString("lingua"));
-
-
-				prenotazioniCollege.add(coll);
-				vacanze.add(vac);
-
-				coll = null;
-				vac = null;
+				Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(elencoCollege.getString("datadipartenza")); 
+				
+				if(date1.before(date2)) {
+					coll = new PrenotazioneCollege( elencoCollege.getString("vacanzafk"), elencoCollege.getString("ragazzofk"), elencoCollege.getString("collegefk"),  elencoCollege.getString("tipostanza"), elencoCollege.getString("pagamento"), true, elencoCollege.getString("codice"));
+					vac = new Vacanza(elencoCollege.getString("vacanzafk"), elencoCollege.getString("città"), elencoCollege.getString("datadipartenza"), elencoCollege.getString("durata"),  elencoCollege.getString("lingua"));
+				
+	
+					prenotazioniCollege.add(coll);
+					vacanze.add(vac);
+	
+					coll = null;
+					vac = null;
+				}
 			}
 			//salvo I dati di famiglia e vacanze relative alle prenotazioni
 			while(elencoFamiglia.next()) {
-				fam = new PrenotazioneFam( elencoFamiglia.getString("vacanzafk"), elencoFamiglia.getString("ragazzofk"), elencoFamiglia.getString("famfk"),  elencoFamiglia.getString("nomeamico"), elencoFamiglia.getString("emailamico"), elencoFamiglia.getString("pagamento"), true, elencoFamiglia.getString("codice"));
-				vac = new Vacanza(elencoFamiglia.getString("vacanzafk"), elencoFamiglia.getString("città"), elencoFamiglia.getString("datadipartenza"), elencoFamiglia.getString("durata"),  elencoFamiglia.getString("lingua"));
+				Date date3 = new SimpleDateFormat("dd-MM-yyyy").parse(elencoFamiglia.getString("datadipartenza")); 
+				
+				if(date3.before(date2)) {
+					fam = new PrenotazioneFam( elencoFamiglia.getString("vacanzafk"), elencoFamiglia.getString("ragazzofk"), elencoFamiglia.getString("famfk"),  elencoFamiglia.getString("nomeamico"), elencoFamiglia.getString("emailamico"), elencoFamiglia.getString("pagamento"), true, elencoFamiglia.getString("codice"));
+					vac = new Vacanza(elencoFamiglia.getString("vacanzafk"), elencoFamiglia.getString("città"), elencoFamiglia.getString("datadipartenza"), elencoFamiglia.getString("durata"),  elencoFamiglia.getString("lingua"));
 
 
-				prenotazioniFam.add(fam);
-				vacanze.add(vac);
+					prenotazioniFam.add(fam);
+					vacanze.add(vac);
 
-				fam = null;
-				vac = null;
+					fam = null;
+					vac = null;
+				}
 			}
 
 
@@ -1156,7 +1170,7 @@ public class PostreSQLJDBC {
 
 
 
-			//salvo I dati di collegge e vacanze relative alle prenotazioni
+			//salvo i commenti
 			while(elenco.next()) {
 				s += "\n 		- " + elenco.getString("commento");
 
@@ -1200,7 +1214,7 @@ public class PostreSQLJDBC {
 
 
 
-			//salvo I dati di collegge e vacanze relative alle prenotazioni
+		
 			while(elenco.next()) {
 				if(elenco.getInt("count") > 0) flag = true;
 
@@ -1247,7 +1261,7 @@ public class PostreSQLJDBC {
 
 
 
-			//salvo I dati di collegge e vacanze relative alle prenotazioni
+		
 			while(elenco.next()) {
 				if(elenco.getInt("count") > 0) flag = true;
 

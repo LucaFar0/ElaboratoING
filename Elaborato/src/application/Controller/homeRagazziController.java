@@ -3,9 +3,13 @@ package application.Controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import javax.swing.event.ChangeEvent;
@@ -46,10 +50,7 @@ public class homeRagazziController implements Initializable{
 	@FXML private Button buttFiltroDurata;
 	@FXML private Button buttFiltroCitta;
 	
-	@FXML private ScrollPane scroll;
-	@FXML private AnchorPane ancora;
-	@FXML private TextArea areaVacanze ;
-	
+	@FXML private TextArea areaVacanze;
 	
 	//---------------------	PRENOTAZIONI-------------------------
 	//college
@@ -104,8 +105,6 @@ public class homeRagazziController implements Initializable{
 	@FXML private Button buttMod;
 	@FXML private Button buttSave;
 
-	@FXML private AnchorPane pane;
-
 	@FXML private Tab profilo;
 	
 	
@@ -118,13 +117,15 @@ public class homeRagazziController implements Initializable{
 		
 		
 		choiceQuestionarioVoto.getItems().addAll(voto);
+		
+		setPage();
 	}
 	
 	
 	
 	//--------------------------------------------------------------------------------------------------------VACANZE FUTURE--------------------------------------------------------------------------------------------------------------------------------
 	
-	//metodo per caricare i college corretti nel box della prenotazione
+	//metodo per caricare i college corretti relativi alla vacanza selezionata nel box della prenotazione
 	private void setCollege(ActionEvent e) {
 		choicePrenotaCollege.getItems().clear();
 		String vac = choicePrenotaCollegeVacanza.getValue();
@@ -189,13 +190,18 @@ public class homeRagazziController implements Initializable{
 	
 	
 	// Eseguo la selezione per data
-	public void FiltraData(ActionEvent e) throws IOException {
+	public void FiltraData(ActionEvent e) throws IOException, ParseException {
 		clearBox();
 		out = "";
 		
 		if(college != null) college.clear();
 		if(vacanze != null) vacanze.clear();
 		
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");  
+		LocalDateTime now = LocalDateTime.now();  
+		String o = dtf.format(now);
+		Date oggi = new SimpleDateFormat("dd-MM-yyyy").parse(o); 
 		
 		Window owner = buttFiltroData.getScene().getWindow();
 
@@ -214,13 +220,17 @@ public class homeRagazziController implements Initializable{
 
 		int j = 0;
 		for(Vacanza i: vacanze) {
+			Date datepartenza = new SimpleDateFormat("dd-MM-yyyy").parse(i.getDataPartenza());  
+			
 			if(PostreSQLJDBC.isPrenotata(user.getCF(), i.getCodice()) == false) { // non esiste una prenotazione per la vacanza
-				codVacanze[j] = i.getCodice();// + " | " + i.getCitta();
-				System.out.println(i.toString2());
-				System.out.println(getGite(i.getCodice()));
-				out += separatoreVacanza;
-				out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice()) + getFam(i.getCodice());
-				j++;
+				if(oggi.before(datepartenza)) {
+					codVacanze[j] = i.getCodice();// + " | " + i.getCitta();
+					System.out.println(i.toString2());
+					System.out.println(getGite(i.getCodice()));
+					out += separatoreVacanza;
+					out += i.toString2() + getGite(i.getCodice()) + getCollege(i.getCodice()) + getFam(i.getCodice());
+					j++;
+				}
 			}else {
 				System.out.println(i.toString2());
 				System.out.println(getGite(i.getCodice()));
@@ -650,7 +660,7 @@ public class homeRagazziController implements Initializable{
 	
 
 	//metodo che carica i dati dell'utente nei relativi spazi
-	public void setPage(MouseEvent e) {
+	public void setPage() {
 		textNomeProf.setText(user.getNome());
 		textCognomeProf.setText(user.getCognome());
 		textCFProf.setText(user.getCF());

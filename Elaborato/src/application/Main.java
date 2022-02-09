@@ -2,7 +2,6 @@ package application;
 	
 import java.io.IOException;
 
-import application.Controller.ScreenController;
 import application.Model.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -34,6 +33,7 @@ public class Main extends Application {
 		
 		
 		stage.setScene(scene);
+		stage.setResizable(false);
 		stage.show();
 		
 	}

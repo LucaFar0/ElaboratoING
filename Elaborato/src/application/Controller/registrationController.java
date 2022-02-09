@@ -52,6 +52,7 @@ public class registrationController {
 	@FXML private Button butAddGen;
 	
 	@FXML private Button butSaveRegistration;
+	@FXML private Button btnAnnulla;
 	
 	
 	private ArrayList <Allergene> A = new ArrayList<Allergene>();
@@ -213,6 +214,12 @@ public class registrationController {
 		}
 		
 	}
+	
+	public void Annulla(ActionEvent e) throws IOException {
+		Main.changeScene("View/Accesso.fxml");
+	}
+	
+	
 	
 	private void resetAllergeneFields(){
 		textRegNomeAllergene.setText("");

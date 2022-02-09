@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.text.*?>
@@ -22,6 +23,11 @@
                   <Separator layoutX="166.0" layoutY="291.0" prefHeight="6.0" prefWidth="668.0" />
                   <Label layoutX="316.0" layoutY="346.0" text="Non Sei registrato?" />
                   <Button fx:id="logIscrivi" layoutX="467.0" layoutY="342.0" mnemonicParsing="false" onAction="#iscrizione" text="Iscriviti" />
+                  <Label layoutX="293.0" layoutY="42.0" prefHeight="68.0" prefWidth="339.0" text="AGENZIA VACANZE STUDIO">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
          </top>
