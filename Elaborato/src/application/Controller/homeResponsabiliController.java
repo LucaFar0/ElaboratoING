@@ -74,7 +74,6 @@ public class homeResponsabiliController implements Initializable{
 
 
 	//--------------------- ATTIVITA' COLLEGE -----------------------
-	@FXML private TextField textCodiceVacanzaCollege_A;
 	@FXML private TextField textNomeCollege_A;
 	@FXML private TextField textNomeAttivita;
 	@FXML private TextField textDescrizioneAttivita;
@@ -82,7 +81,6 @@ public class homeResponsabiliController implements Initializable{
 
 
 	public void resetFieldsAttivita() {
-		textCodiceVacanzaCollege_A.setText(null);
 		textNomeCollege_A.setText(null);
 		textNomeAttivita.setText(null);
 		textDescrizioneAttivita.setText(null);
@@ -269,24 +267,25 @@ public class homeResponsabiliController implements Initializable{
 
 	//--------------------- ATTIVITA' COLLEGE -----------------------
 	public void salvaAttivita(ActionEvent e) {
-		Window owner = buttSalvaAttivita.getScene().getWindow();
-	
+		Window owner = textNomeAttivita.getScene().getWindow();
+
+		//controllo che i campi siano stati compilati correttamente 
+
 		if (textNomeCollege_A.getText().isEmpty()) {
-			showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire il nome del reltivo college");
+			showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire un College valido");
 			return;
 		}
 		if (textNomeAttivita.getText().isEmpty()) {
-			showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire il Nome dell'attività");
+			showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserireil nome dell'attività");
 			return;
 		}
 		if (textDescrizioneAttivita.getText().isEmpty()) {
-			showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire la  descrizione dell'attività");
+			showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Inserire una descrizione");
 			return;
 		}
 		
-		
-		Attivita attivita = new Attivita(textNomeCollege_A.getText(), textNomeAttivita.getText(), textDescrizioneAttivita.getText());
-		
+		Attivita attivita = new Attivita(textNomeAttivita.getText(), textDescrizioneAttivita.getText(), textNomeCollege_A.getText());
+		resetFieldsAttivita();
 		//chiamata insert del jdbc
 		
 		try {
@@ -295,7 +294,7 @@ public class homeResponsabiliController implements Initializable{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		resetFieldsAttivita();
+		//if(textNomeAttivita.getText() != null) 
 	}
 
 

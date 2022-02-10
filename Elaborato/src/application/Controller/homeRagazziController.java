@@ -388,13 +388,13 @@ public class homeRagazziController implements Initializable{
 	
 	//genero la stringa con tutti i college della vacanza inserita
 	public String getCollege(String codice) {
-		String g = "\n		--------------------College---------------------------------";
+		String g = "";
 		try {
 			 college = PostreSQLJDBC.getCollegeVacanza(codice);
 			
 		
 			for(College i: college) {
-				
+				g = "\n		--------------------College---------------------------------";
 				g += i.toString2();
 				g += "\n 			------------------------Attività---------------------------   " + getAttivita(i.getCodice());
 				

@@ -25,6 +25,7 @@ public class PostreSQLJDBC {
 	private static  String QUERY_GetVacanzeCitta = "SELECT * FROM Vacanza WHERE vacanza.città = ? ORDER BY codice";
 	private static  String QUERY_GetGita = "SELECT * FROM Gita WHERE Gita.vacanzafk = ? ";
 	private static  String QUERY_GetCollege = "SELECT * FROM College WHERE College.vacanzafk = ? ";
+	private static  String QUERY_GetCollegeID = "SELECT Codice FROM College WHERE College.Nome = ?";
 	private static  String QUERY_GetAttivitaCollege = "SELECT * FROM Attivita WHERE Attivita.collegefk = ? ";
 	private static  String QUERY_GetCapoFam = "SELECT * FROM (Persona INNER JOIN Famiglia On Persona.cf = Famiglia.famfk) WHERE Famiglia.vacanzafk = ? ";
 	private static  String QUERY_GetPrenotazioneCollege = "SELECT * FROM (PrenotazioneCollege INNER JOIN Vacanza On PrenotazioneCollege.vacanzafk = Vacanza.codice AND PrenotazioneCollege.ragazzofk = ?);";
@@ -432,18 +433,56 @@ public class PostreSQLJDBC {
 			System.exit(0);
 		}System.out.println("Opened database successfully");
 	}
+	
+	public static String getCollegeId(String nome) {
+		String codice = null;
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
+			PreparedStatement id = c.prepareStatement(QUERY_GetCollegeID);
+
+			id.clearParameters();
+
+			id.setString(1, nome);
+
+
+			System.out.println(id);
+			ResultSet elenco = id.executeQuery();
+
+
+
+			//salvo I dati del Ragazzo se le credenziali inserite sono di un ragazzo
+			while(elenco.next()) {
+				codice = elenco.getString("codice");
+				
+			}
+
+			elenco.close();
+			id.close();
+			c.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}System.out.println("Opened database successfully");
+		return codice;
+	}
+	
+	
+	
 
 	public static void addAttivita(Attivita attivita) throws SQLException{
+		String codice = getCollegeId(attivita.getCollege());
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection(DB_URL, DB_User, DB_Password);
 			PreparedStatement att = c.prepareStatement(INSERT_Attivita);
-
+			
 			att.clearParameters();
 
 			att.setString(1, attivita.getNome());
 			att.setString(2, attivita.getDescrizione());
-			att.setString(3, attivita.getCollege());
+			att.setString(3, codice);
 
 
 			System.out.println(att);
